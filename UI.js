@@ -85,6 +85,7 @@ function UI(){
     this.currentParing = false
   }
 
+  //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
     console.log("start to save data for module: ", _this.currentModule)
@@ -98,25 +99,25 @@ function UI(){
     temp.E = _this.E_slider.value()
     temp.gearSize = _this.currentGearSize //number 1~4
 
-      switch (_this.currentModule) {
-        case 1: //OpenClose
-          temp.module = 1
-          temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
-          break;
-        case 2: //Flapping
-          temp.module = 2
-          temp.F = _this.F_slider.value()
-          temp.X = _this.X_slider.value()
-          temp.Y = _this.Y_slider.value()
-          temp.mirroring = _this.currentMirroring// True/False
-          temp.driveGear = _this.currentDrivingGear// 1:left or 2:right
-          break;
-        case 3: //PlanetaryGear
-          temp.module = 3
-          temp.F = _this.F_slider.value()
-          temp.pairing = _this.currentParing// True/False
-          break;
-        default:
+    switch (_this.currentModule) {
+      case 1: //OpenClose
+        temp.module = 1
+        temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
+        break;
+      case 2: //Flapping
+        temp.module = 2
+        temp.F = _this.F_slider.value()
+        temp.X = _this.X_slider.value()
+        temp.Y = _this.Y_slider.value()
+        temp.mirroring = _this.currentMirroring// True/False
+        temp.driveGear = _this.currentDrivingGear// 1:left or 2:right
+        break;
+      case 3: //PlanetaryGear
+        temp.module = 3
+        temp.F = _this.F_slider.value()
+        temp.pairing = _this.currentParing// True/False
+        break;
+      default:
       } // end of switch - case
 
       mySavedSketch.push(temp)
