@@ -20,15 +20,15 @@ function UI(){
   this.currentServoAngle   = 1 // 1:180, 2:continue
   this.currentDrivingGear  = "LEFT"
   this.currentMirroring    = false
-  this.currentParing       = true
+  this.currentParing       = 1
 
   this.menu_OP  = createButton('OPEN & CLOSE')
   this.menu_W   = createButton('FLAPPING')
   this.menu_P   = createButton('PLANETARY GEARS')
   this.menu_My  = createButton('MY SKETCHBOOK')
 
-  this.Pl_Pair_Y = createButton('Apply')
-  this.Pl_Pair_N = createButton('Cancel')
+  this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
+//  this.Pl_Pair_N = createButton('Cancel').mousePressed(setParingCancel)
   this.OP_mtr180 = createButton('180°').mousePressed(setServo180)
   this.OP_mtr360 = createButton('Continuous').mousePressed(setServoCnt)
   this.Mech_show = createButton ('Show Mechanism')
@@ -59,16 +59,27 @@ function UI(){
 
   //individual mouse mapping functions --> possibly can map to one listener functions
   //need to look up caller entity identification function
+  function toggleParing(){
+    _this.currentParing = 1 - _this.currentParing //toggle btw true(1) - false(0)
+    console.log("current paring status: ", _this.currentParing)
 
+    if(!_this.currentParing) //if applied state
+      _this.pl_paring_toggle.html('Apply')
+    else
+      _this.pl_paring_toggle.html('Cancel')
+
+  }
+  // function setParingCancel(){
+  //   this.currentParing = false
+  // }
   function setGearSize1(){
-    this.currentGearSize = 1
+    _this.currentGearSize = 1
   }
   function setGearSize2(){
     _this.currentGearSize = 2
   }
   function setGearSize3(){
     _this.currentGearSize = 3
-    console.log("current gear size: ", this.currentGearSize)
   }
   function setGearSize4(){
     _this.currentGearSize = 4
@@ -159,8 +170,9 @@ function UI(){
     //   this.button_front_created = true
     // }
 
-    this.Pl_Pair_Y.hide()
-    this.Pl_Pair_N.hide()
+    // this.Pl_Pair_Y.hide()
+    // this.Pl_Pair_N.hide()
+    this.pl_paring_toggle.hide()
     this.OP_mtr180.hide()
     this.OP_mtr360.hide()
     this.Btn_plt.hide()
@@ -226,8 +238,9 @@ function UI(){
 
     this.BtnStatus_mtr_A.hide()
     this.BtnStatus_mtr_B.hide()
-    this.Pl_Pair_Y.hide()
-    this.Pl_Pair_N.hide()
+    // this.Pl_Pair_Y.hide()
+    // this.Pl_Pair_N.hide()
+    this.pl_paring_toggle.hide()
     this.menu_OP.hide()
     this.menu_W.hide()
     this.menu_P.hide()
@@ -275,8 +288,9 @@ function UI(){
     this.menu_P.hide()
     this.menu_My.hide()
 
-    this.Pl_Pair_Y.hide()
-    this.Pl_Pair_N.hide()
+    // this.Pl_Pair_Y.hide()
+    // this.Pl_Pair_N.hide()
+    this.pl_paring_toggle.hide()
     this.menu_OP.hide()
     this.menu_W.hide()
     this.menu_P.hide()
@@ -293,8 +307,10 @@ function UI(){
 this.button_Planetary = function(){
 
   // if(this.button_Planetary_created == false){
-    this.Pl_Pair_Y = createButton('Apply').position(160, 390)
-    this.Pl_Pair_N = createButton('Cancel').position(160, 390)
+    // this.Pl_Pair_Y = createButton('Apply').position(110, 390)
+    // this.Pl_Pair_N = createButton('Cancel').position(160, 390)
+
+    this.pl_paring_toggle.position(160, 390).show()
 
     this.Btn_plt.show().size(150,20).position(60,520)
     this.Btn_net.show().size(150,20).position(60,545)
@@ -353,8 +369,9 @@ this.button_My = function(){
     posX += 200
   }); //end of foreach
 
-  this.Pl_Pair_Y.hide()
-  this.Pl_Pair_N.hide()
+  // this.Pl_Pair_Y.hide()
+  // this.Pl_Pair_N.hide()
+  this.pl_paring_toggle.hide()
   this.OP_mtr180.hide()
   this.OP_mtr360.hide()
   this.BtnStatus_mtr_A.hide()
