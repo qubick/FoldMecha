@@ -16,16 +16,16 @@ function UI(){
     ,currentModule = 0 // 1 OpenClose
                         // 2 Bird
                         // 3 PlanetaryGear
-    ,currentGearSize     = 2 //default
-    ,currentServoAngle   = 1 // 1:180, 2:continue
-    ,currentDrivingGear  = 1 // 1:A, 2:B
-    ,currentMirroring    = false
-    ,currentParing       = true
+  this.currentGearSize     = 2 //default
+  this.currentServoAngle   = 1 // 1:180, 2:continue
+  this.currentDrivingGear  = "LEFT"
+  this.currentMirroring    = false
+  this.currentParing       = true
 
-  this.menu_OP = createButton('OPEN & CLOSE')
-  this.menu_W = createButton('FLAPPING')
-  this.menu_P = createButton('PLANETARY GEARS')
-  this.menu_My = createButton('MY SKETCHBOOK')
+  this.menu_OP  = createButton('OPEN & CLOSE')
+  this.menu_W   = createButton('FLAPPING')
+  this.menu_P   = createButton('PLANETARY GEARS')
+  this.menu_My  = createButton('MY SKETCHBOOK')
 
   this.Pl_Pair_Y = createButton('Apply')
   this.Pl_Pair_N = createButton('Cancel')
@@ -37,8 +37,8 @@ function UI(){
   this.Btn_net = createButton ('View the Folding Net')
   this.Btn_my = createButton ('Go to My Sketch')//.mousePressed()
   this.Btn_home = createButton ('Go to Home')//.mousePressed()
-  this.pair_apply = createButton('Apply').mousePressed(setParingApply)
-  this.pair_cancel = createButton('Cancel').mousePressed(setParingCancel)
+  this.mirr_apply = createButton('Apply').mousePressed(setMirroringApply)
+  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroringCancel)
   this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGearL)
   this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGearR)
 
@@ -79,17 +79,17 @@ function UI(){
   function setServoCnt(){
     _this.currentServoAngle = 2
   }
-  function setParingApply(){
+  function setMirroringApply(){
     _this.currentParing = true
   }
-  function setParingCancel(){
+  function setMirroringCancel(){
     _this.currentParing = false
   }
   function setDrivingGearL(){
-    _this.currentDrivingGear = 1
+    _this.currentDrivingGear = "LEFT"
   }
   function setDrivingGearR(){
-    _this.currentDrivingGear = 2
+    _this.currentDrivingGear = "RIGHT"
   }
 
   //this is for saving module data which will be available in my sketch
@@ -119,7 +119,7 @@ function UI(){
         temp.Y = _this.Y_slider.value()
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
         temp.mirroring = _this.currentMirroring// True/False
-        temp.driveGear = _this.currentDrivingGear// 1:left or 2:right
+        temp.driveGear = _this.currentDrivingGear
         break;
       case 3: //PlanetaryGear
         temp.module = 3
@@ -173,8 +173,8 @@ function UI(){
     this.size_2.hide()
     this.size_3.hide()
     this.size_4.hide()
-    this.pair_apply.hide()
-    this.pair_cancel.hide()
+    this.mirr_apply.hide()
+    this.mirr_cancel.hide()
     this.Mech_show.hide()
     this.Mech_hide.hide()
 
@@ -199,8 +199,8 @@ function UI(){
   this.button_OpenClose = function(){
 
     // if(this.button_OP_created == false){
-      this.pair_apply.show().position(138,315)
-      this.pair_cancel.show().position(190,315)
+      this.mirr_apply.show().position(138,315)
+      this.mirr_cancel.show().position(190,315)
 
       this.size_1.show().position(115,405)
       this.size_2.show().position(150,405)
@@ -249,8 +249,8 @@ function UI(){
 
     // if(this.button_Wings_created == false){
 
-      this.pair_apply.show().position(138,315)
-      this.pair_cancel.show().position(190,315)
+      this.mirr_apply.show().position(138,315)
+      this.mirr_cancel.show().position(190,315)
 
       this.BtnStatus_mtr_A.show().position(150, 375)
       this.BtnStatus_mtr_B.show().position(200, 375)
@@ -317,8 +317,8 @@ this.button_Planetary = function(){
   this.OP_mtr180.hide()
   this.OP_mtr360.hide()
   this.menu_My.hide()
-  this.pair_apply.hide()
-  this.pair_cancel.hide()
+  this.mirr_apply.hide()
+  this.mirr_cancel.hide()
   this.size_1.hide()
   this.size_2.hide()
   this.size_3.hide()
@@ -369,8 +369,8 @@ this.button_My = function(){
   this.size_2.hide()
   this.size_3.hide()
   this.size_4.hide()
-  this.pair_apply.hide()
-  this.pair_cancel.hide()
+  this.mirr_apply.hide()
+  this.mirr_cancel.hide()
 
   this.A_slider.hide()
   this.B_slider.hide()
