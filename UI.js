@@ -57,6 +57,9 @@ function UI(){
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
+  //individual mouse mapping functions --> possibly can map to one listener functions
+  //need to look up caller entity identification function
+
   function setGearSize1(){
     this.currentGearSize = 1
   }
