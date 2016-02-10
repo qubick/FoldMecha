@@ -12,15 +12,15 @@ function UI(){
 
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
-  var mySavedSketch = [{}]
-  var currentModule = 0 // 1 OpenClose
+    ,mySavedSketch = [{}]
+    ,currentModule = 0 // 1 OpenClose
                         // 2 Bird
                         // 3 PlanetaryGear
-     ,currentGearSize = 2 //default
-     ,currentServoAngle = 1 // 1:180, 2:continue
-     ,currentDrivingGear = 1 // 1:A, 2:B
-     ,currentMirroring = false
-     ,currentParing = true
+    ,currentGearSize     = 2 //default
+    ,currentServoAngle   = 1 // 1:180, 2:continue
+    ,currentDrivingGear  = 1 // 1:A, 2:B
+    ,currentMirroring    = false
+    ,currentParing       = true
 
   this.menu_OP = createButton('OPEN & CLOSE')
   this.menu_W = createButton('FLAPPING')
@@ -29,18 +29,18 @@ function UI(){
 
   this.Pl_Pair_Y = createButton('Apply')
   this.Pl_Pair_N = createButton('Cancel')
-  this.OP_mtr180 = createButton('180°').mousePressed(setCurrentServo180)
-  this.OP_mtr360 = createButton('Continuous').mousePressed(setCurrentServoCnt)
+  this.OP_mtr180 = createButton('180°').mousePressed(setServo180)
+  this.OP_mtr360 = createButton('Continuous').mousePressed(setServoCnt)
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net')
   this.Btn_my = createButton ('Go to My Sketch')//.mousePressed()
   this.Btn_home = createButton ('Go to Home')//.mousePressed()
-  this.pair_apply = createButton('Apply').mousePressed(setCurrentParingApply)
-  this.pair_cancel = createButton('Cancel').mousePressed(setCurrentParingCancel)
-  this.BtnStatus_mtr_A = createButton('L')
-  this.BtnStatus_mtr_B = createButton('R')
+  this.pair_apply = createButton('Apply').mousePressed(setParingApply)
+  this.pair_cancel = createButton('Cancel').mousePressed(setParingCancel)
+  this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGearL)
+  this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGearR)
 
   this.size_1 = createButton('1').mousePressed(setGearSize1)
   this.size_2 = createButton('2').mousePressed(setGearSize2)
@@ -64,40 +64,48 @@ function UI(){
     this.currentGearSize = 1
   }
   function setGearSize2(){
-    this.currentGearSize = 2
+    _this.currentGearSize = 2
   }
   function setGearSize3(){
-    this.currentGearSize = 3
+    _this.currentGearSize = 3
+    console.log("current gear size: ", this.currentGearSize)
   }
   function setGearSize4(){
-    this.currentGearSize = 4
+    _this.currentGearSize = 4
   }
-  function setCurrentServo180(){
-    this.currentServoAngle = 1
+  function setServo180(){
+    _this.currentServoAngle = 1
   }
-  function setCurrentServoCnt(){
-    this.currentServoAngle = 2
+  function setServoCnt(){
+    _this.currentServoAngle = 2
   }
-  function setCurrentParingApply(){
-    this.currentParing = true
+  function setParingApply(){
+    _this.currentParing = true
   }
-  function setCurrentParingCancel(){
-    this.currentParing = false
+  function setParingCancel(){
+    _this.currentParing = false
+  }
+  function setDrivingGearL(){
+    _this.currentDrivingGear = 1
+  }
+  function setDrivingGearR(){
+    _this.currentDrivingGear = 2
   }
 
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
     console.log("start to save data for module: ", _this.currentModule)
-    var temp = [{}] //empty json
 
-    //this is common for all three modules. We will add only unique
-    temp.A = _this.A_slider.value()
-    temp.B = _this.B_slider.value()
-    temp.C = _this.C_slider.value()
-    temp.D = _this.D_slider.value()
-    temp.E = _this.E_slider.value()
-    temp.gearSize = _this.currentGearSize //number 1~4
+    //this is common for all three modules. We will add only unique data per module
+    var temp = {
+      A: _this.A_slider.value()
+      ,B: _this.B_slider.value()
+      ,C: _this.C_slider.value()
+      ,D: _this.D_slider.value()
+      ,E: _this.E_slider.value()
+      ,gearSize: _this.currentGearSize //number 1~4
+    }
 
     switch (_this.currentModule) {
       case 1: //OpenClose
@@ -109,6 +117,7 @@ function UI(){
         temp.F = _this.F_slider.value()
         temp.X = _this.X_slider.value()
         temp.Y = _this.Y_slider.value()
+        temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
         temp.mirroring = _this.currentMirroring// True/False
         temp.driveGear = _this.currentDrivingGear// 1:left or 2:right
         break;
@@ -476,11 +485,11 @@ this.button_My = function(){
       //delete stdSliderValue.openclose
     }
 
-    this.A_slider.changed(sliderAUpdate)
-    this.B_slider.changed(sliderBUpdate)
-    this.C_slider.changed(sliderCUpdate)
-    this.D_slider.changed(sliderDUpdate)
-    this.E_slider.changed(sliderEUpdate)
+    this.A_slider.changed(this.sliderAUpdate)
+    this.B_slider.changed(this.sliderBUpdate)
+    this.C_slider.changed(this.sliderCUpdate)
+    this.D_slider.changed(this.sliderDUpdate)
+    this.E_slider.changed(this.sliderEUpdate)
 
     console.log("current Module #:", this.currentModule)
   }
@@ -546,18 +555,18 @@ this.button_My = function(){
   }
 
   this.sliderAUpdate = function() {
+
+    //update slider min/max range in common
       Bird1.setA(_this.A_slider.value())
+      _this.A_slider.attribute('min', Bird1.dist_aMin)
+                    .attribute('max', Bird1.dist_aMax)
 
       switch (_this.currentModule) {
         case 1: // OpenClose Flower
-          //_this.A_slider.value(_this.calcSliderPos2(Flower3.aMin, Flower3.aMax, Flower3.getA()))
+          //_this.A_slider.attribute('value', _this.calcSliderPos2(Flower3.aMin, Flower3.aMax, Flower3.getA()))
           break
         case 2: // Flagppig Bird
-          //disable slider movement based upon min, max
-          _this.A_slider.attribute('min', Bird1.dist_aMin)
-                        .attribute('max', Bird1.dist_aMax)
-                        .attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
-                        //.size(Bird1.dist_aMax - Bird1.dist_aMin)
+          _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           break
         case 3:
             //do something for planetary
@@ -568,14 +577,15 @@ this.button_My = function(){
 
   this.sliderBUpdate = function() {
     Bird1.setB(_this.B_slider.value())
+    _this.B_slider.attribute('min', Bird1.dist_bMin)
+                  .attribute('max', Bird1.dist_bMax)
+
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.B_slider.value(_this.calcSliderPos2(Flower3.bMin, Flower3.bMax, Flower3.getB()))
         break
       case 2: // Flagppig Bird
-        _this.B_slider.attribute('min', Bird1.dist_bMin)
-                      .attribute('max', Bird1.dist_bMax)
-                      .attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         break
       case 3:
           //do something for planetary
@@ -586,14 +596,15 @@ this.button_My = function(){
 
   this.sliderCUpdate = function() {
     Bird1.setC(_this.C_slider.value())
+    _this.C_slider.attribute('min', Bird1.dist_cMin)
+                  .attribute('max', Bird1.dist_cMax)
+
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.C_slider.value(_this.calcSliderPos2(Flower3.cMin, Flower3.cMax, Flower3.getC()))
         break
       case 2: // Flagppig Bird
-        _this.C_slider.attribute('min', Bird1.dist_cMin)
-                      .attribute('max', Bird1.dist_cMax)
-                      .attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         break
       case 3:
           //do something for planetary
@@ -604,14 +615,15 @@ this.button_My = function(){
 
   this.sliderDUpdate = function() {
     Bird1.setD(_this.D_slider.value())
+    _this.D_slider.attribute('min', Bird1.dist_dMin)
+                  .attribute('max', Bird1.dist_dMax)
+
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.D_slider.value(_this.calcSliderPos2(Flower3.dMin, Flower3.dMax, Flower3.getD()))
         break
       case 2: // Flagppig Bird
-        _this.D_slider.attribute('min', Bird1.dist_dMin)
-                      .attribute('max', Bird1.dist_dMax)
-                      .attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         break
       case 3:
           //do something for planetary
