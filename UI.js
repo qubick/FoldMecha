@@ -10,6 +10,7 @@ function UI(){
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
 
+  this.btn = [] //button array for my sketch
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
@@ -125,7 +126,6 @@ function UI(){
         break;
       case 2: //Flapping
         temp.module = 2
-
         temp.F = _this.F_slider.value()
         temp.X = _this.X_slider.value()
         temp.Y = _this.Y_slider.value()
@@ -357,21 +357,26 @@ this.button_My = function(){
   this.Btn_net.show().size(150,20).position(60,590)
   this.Btn_home.show().size(150,20).position(60,615)
 
+  var index = 0
   mySavedSketch.forEach(function(design){
-    var title = ""
-        ,posX = 150
+    if(design.A != undefined){ //only when valid object
+      var title = ""
 
-    if(design.module == 1){
-      title = "flower"
-    } else if(design.module == 2){
-      title = "flapping"
-    } else if(design.moduel == 3){
-      title = "planetary"
+      if(design.module == 1){
+        title = "flower"
+      } else if(design.module == 2){
+        title = "flapping"
+      } else if(design.module == 3){
+        title = "planetary"
+      }
+
+      _this.btn[index++] = createButton(title).position(150*index, 300)
     }
-
-    var btn = createButton(title).show(150,150).position(posX, 200)
-    posX += 200
   }); //end of foreach
+
+  (_this.btn).forEach(function(b){
+    b.show()
+  });
 
   // this.Pl_Pair_Y.hide()
   // this.Pl_Pair_N.hide()
