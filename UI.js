@@ -370,7 +370,7 @@ this.button_My = function(){
         title = "planetary"
       }
 
-      _this.btn[index++] = createButton(title).position(150*index, 300)
+      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 300)
     }
   }); //end of foreach
 
