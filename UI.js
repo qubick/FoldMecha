@@ -115,27 +115,31 @@ function UI(){
       ,C: _this.C_slider.value()
       ,D: _this.D_slider.value()
       ,E: _this.E_slider.value()
-      ,gearSize: _this.currentGearSize //number 1~4
     }
 
     switch (_this.currentModule) {
       case 1: //OpenClose
-        temp.module = 1
+        temp.module     = 1
+        temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
         break;
       case 2: //Flapping
         temp.module = 2
+
         temp.F = _this.F_slider.value()
         temp.X = _this.X_slider.value()
         temp.Y = _this.Y_slider.value()
+
+        temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
-        temp.mirroring = _this.currentMirroring// True/False
-        temp.driveGear = _this.currentDrivingGear
+        temp.mirroring  = _this.currentMirroring// True/False
+        temp.driveGear  = _this.currentDrivingGear
         break;
       case 3: //PlanetaryGear
-        temp.module = 3
-        temp.F = _this.F_slider.value()
-        temp.pairing = _this.currentParing// True/False
+        temp.module   = 3
+
+        temp.F        = _this.F_slider.value()
+        temp.pairing  = _this.currentParing// True/False
         break;
       default:
       } // end of switch - case
