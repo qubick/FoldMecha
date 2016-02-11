@@ -100,8 +100,6 @@ function UI(){
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
-    console.log("start to save data for module: ", _this.currentModule)
-
     //this is common for all three modules. We will add only unique data per module
     var temp = {
       A: _this.A_slider.value()
@@ -194,35 +192,35 @@ function UI(){
 
   this.button_OpenClose = function(){
 
-    this.mirr_apply.show().position(138,315)
-    this.mirr_cancel.show().position(190,315)
+    _this.mirr_apply.show().position(138,315)
+    _this.mirr_cancel.show().position(190,315)
 
-    this.size_1.show().position(115,405)
-    this.size_2.show().position(150,405)
-    this.size_3.show().position(185,405)
-    this.size_4.show().position(220,405)
+    _this.size_1.show().position(115,405)
+    _this.size_2.show().position(150,405)
+    _this.size_3.show().position(185,405)
+    _this.size_4.show().position(220,405)
 
-    this.OP_mtr180.show().position(50, 460)
-    this.OP_mtr360.show().position(140, 460)
+    _this.OP_mtr180.show().position(50, 460)
+    _this.OP_mtr360.show().position(140, 460)
 
-    this.Btn_plt.show().size(150,20).position(60,520)
-    this.Btn_net.show().size(150,20).position(60,545)
-    this.Btn_my.show().size(150,20).position(60,590)
-    this.Btn_home.show().size(150,20).position(60,615)
+    _this.Btn_plt.show().size(150,20).position(60,520)
+    _this.Btn_net.show().size(150,20).position(60,545)
+    _this.Btn_my.show().size(150,20).position(60,590)
+    _this.Btn_home.show().size(150,20).position(60,615)
 
-    this.BtnStatus_mtr_A.hide()
-    this.BtnStatus_mtr_B.hide()
-    this.pl_paring_toggle.hide()
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
+    _this.BtnStatus_mtr_A.hide()
+    _this.BtnStatus_mtr_B.hide()
+    _this.pl_paring_toggle.hide()
+    _this.menu_OP.hide()
+    _this.menu_W.hide()
+    _this.menu_P.hide()
+    _this.menu_My.hide()
 
-    this.F_slider.hide()
-    this.X_slider.hide()
-    this.Y_slider.hide()
+    _this.F_slider.hide()
+    _this.X_slider.hide()
+    _this.Y_slider.hide()
 
-    this.currentModule = 1
+    _this.currentModule = 1
 }// end of function btn_openClose()
 
   this.button_Wings = function(){
@@ -308,12 +306,10 @@ this.button_My = function(){
   }); //end of foreach
 
   (_this.btn).forEach(function(b){
-    b.show().mousePressed(_this.putUI)
-    //console.log("button title: ", b.elt.innerHTML)
+    b.show().mousePressed(_this.putText_My)
   });
   this.done = true
 }
-
     this.pl_paring_toggle.hide()
     this.OP_mtr180.hide()
     this.OP_mtr360.hide()
@@ -349,7 +345,7 @@ this.button_My = function(){
     console.log("caller: ", this.elt.innerHTML)
 
     if(this.elt.innerHTML == "flower"){
-      _this.putText_OpenClose() //this is not calling yet
+      _this.putText_OpenClose() //this should able to change pagemode to 1
     }else if(this.elt.innerHTML == "flapping")
       _this.putText_Wings()
     else if(this.elt.innerHTML == "Planetary")
@@ -357,6 +353,7 @@ this.button_My = function(){
   }
 
   this.putText_OpenClose = function(){
+
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
@@ -409,11 +406,18 @@ this.button_My = function(){
   }
 
   this.putText_My = function(){
-    fill(this.bgcolor2)
-    rect(0,35,270,this.temp_windowHeight-160)
+    //this: caller button, _this: UI
+    fill(_this.bgcolor2)
+    rect(0,35,270, _this.temp_windowHeight-160)
     noStroke()
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
+
+   if(this.elt.innerHTML == "flower"){
+     //console.log("in if statement, element value: ", this.elt.innerHTML, "_this: ", _this)
+     _this.putText_OpenClose()
+     _this.button_OpenClose()
+   }
   }
   this.Front = function(){
     background(bgcolor2)
