@@ -1,5 +1,6 @@
 function UI(){
 
+  this.done = false
   // this.UI_created = false
   // this.button_front_created = false
   // this.button_OP_created = false
@@ -357,6 +358,8 @@ this.button_My = function(){
   this.Btn_net.show().size(150,20).position(60,590)
   this.Btn_home.show().size(150,20).position(60,615)
 
+  if(!this.done){
+  //button creation - show is called every moment - might be overflowing
   var index = 0
   mySavedSketch.forEach(function(design){
     if(design.A != undefined){ //only when valid object
@@ -370,14 +373,16 @@ this.button_My = function(){
         title = "planetary"
       }
 
-      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 300)
+      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 50)
     }
   }); //end of foreach
 
   (_this.btn).forEach(function(b){
-    b.show()
+    b.show().mousePressed(_this.putUI)
+    //console.log("button title: ", b.elt.innerHTML)
   });
-
+  this.done = true
+}
   // this.Pl_Pair_Y.hide()
   // this.Pl_Pair_N.hide()
   this.pl_paring_toggle.hide()
@@ -412,10 +417,23 @@ this.button_My = function(){
   this.button_Wings_created = false
   this.button_Planetary_created = false
 */
-  this.currentModule = 9
-}
+    this.currentModule = 9
+  }
+
+  this.putUI = function(){
+    console.log("mouse binding function: ", this) //this is caller button
+    console.log("caller: ", this.elt.innerHTML)
+
+    if(this.elt.innerHTML == "flower"){
+      _this.putText_OpenClose() //this is not calling yet
+    }else if(this.elt.innerHTML == "flapping")
+      _this.putText_Wings()
+    else if(this.elt.innerHTML == "Planetary")
+      _this.putText_Planetary()
+  }
 
   this.putText_OpenClose = function(){
+    console.log("called")
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
