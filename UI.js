@@ -210,11 +210,6 @@ function UI(){
     this.Btn_my.show().size(150,20).position(60,590)
     this.Btn_home.show().size(150,20).position(60,615)
 
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
-
     this.BtnStatus_mtr_A.hide()
     this.BtnStatus_mtr_B.hide()
     this.pl_paring_toggle.hide()
@@ -251,11 +246,6 @@ function UI(){
     this.Btn_my.show().size(150,20).position(60,590)
     this.Btn_home.show().size(150,20).position(60,615)
 
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
-
     this.pl_paring_toggle.hide()
     this.menu_OP.hide()
     this.menu_W.hide()
@@ -281,12 +271,8 @@ this.button_Planetary = function(){
 
   this.BtnStatus_mtr_A.hide()
   this.BtnStatus_mtr_B.hide()
-  this.menu_OP.hide()
-  this.menu_W.hide()
-  this.menu_P.hide()
   this.OP_mtr180.hide()
   this.OP_mtr360.hide()
-  this.menu_My.hide()
   this.mirr_apply.hide()
   this.mirr_cancel.hide()
   this.size_1.hide()
