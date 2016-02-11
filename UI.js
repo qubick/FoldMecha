@@ -1,12 +1,6 @@
 function UI(){
 
   this.done = false
-  // this.UI_created = false
-  // this.button_front_created = false
-  // this.button_OP_created = false
-  // this.button_Wings_created = false
-  // this.button_Planetary_created = false
-  // this.button_My_created = false
   this.lengthGap = 10
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
@@ -58,9 +52,8 @@ function UI(){
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
-  //individual button event functions
-  //_this : this object
-  //this : caller button element
+  // individual button event functions
+  // _this: this object, this : caller button element
   function toggleParing(){
     _this.currentParing = 1 - _this.currentParing //toggle btw true(1) - false(0)
     console.log("current paring status: ", _this.currentParing)
@@ -159,23 +152,15 @@ function UI(){
     //checkbox
     fill(255)
     rect(20,35,230,150)
-
-    // if(this.UI_created == false){
-    //     this.UI_created = true
-    // }
   } // end of function initUI()
 
   this.button_front = function(){
-    // if(this.button_front_created == false){
-      this.menu_OP.size(100,100).position(250,100).show()
-      this.menu_W.size(100,100).position(400,100).show()
-      this.menu_P.size(100,100).position(550,100).show()
-      this.menu_My.size(100,100).position(100,400).show()
-    //   this.button_front_created = true
-    // }
 
-    // this.Pl_Pair_Y.hide()
-    // this.Pl_Pair_N.hide()
+    this.menu_OP.size(100,100).position(250,100).show()
+    this.menu_W.size(100,100).position(400,100).show()
+    this.menu_P.size(100,100).position(550,100).show()
+    this.menu_My.size(100,100).position(100,400).show()
+
     this.pl_paring_toggle.hide()
     this.OP_mtr180.hide()
     this.OP_mtr360.hide()
@@ -203,37 +188,27 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    // this.button_OP_created = false
-    // this.button_Wings_created = false
-    // this.button_Planetary_created = false
-    // this.button_My_created = false
-
     this.currentModule = 0
 
   }// end of function btn_front
 
   this.button_OpenClose = function(){
 
-    // if(this.button_OP_created == false){
-      this.mirr_apply.show().position(138,315)
-      this.mirr_cancel.show().position(190,315)
+    this.mirr_apply.show().position(138,315)
+    this.mirr_cancel.show().position(190,315)
 
-      this.size_1.show().position(115,405)
-      this.size_2.show().position(150,405)
-      this.size_3.show().position(185,405)
-      this.size_4.show().position(220,405)
+    this.size_1.show().position(115,405)
+    this.size_2.show().position(150,405)
+    this.size_3.show().position(185,405)
+    this.size_4.show().position(220,405)
 
-      this.OP_mtr180.show().position(50, 460)
-      this.OP_mtr360.show().position(140, 460)
+    this.OP_mtr180.show().position(50, 460)
+    this.OP_mtr360.show().position(140, 460)
 
-      this.Btn_plt.show().size(150,20).position(60,520)
-      this.Btn_net.show().size(150,20).position(60,545)
-      this.Btn_my.show().size(150,20).position(60,590)
-      this.Btn_home.show().size(150,20).position(60,615)
-
-    //   this.button_OP_created = true
-    //
-    // }
+    this.Btn_plt.show().size(150,20).position(60,520)
+    this.Btn_net.show().size(150,20).position(60,545)
+    this.Btn_my.show().size(150,20).position(60,590)
+    this.Btn_home.show().size(150,20).position(60,615)
 
     this.menu_OP.hide()
     this.menu_W.hide()
@@ -242,8 +217,6 @@ function UI(){
 
     this.BtnStatus_mtr_A.hide()
     this.BtnStatus_mtr_B.hide()
-    // this.Pl_Pair_Y.hide()
-    // this.Pl_Pair_N.hide()
     this.pl_paring_toggle.hide()
     this.menu_OP.hide()
     this.menu_W.hide()
@@ -254,75 +227,52 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    // this.button_Wings_created = false
-    // this.button_Planetary_created = false
-    // this.button_My_created = false
-    // this.button_front_created = false
-
     this.currentModule = 1
 }// end of function btn_openClose()
 
   this.button_Wings = function(){
 
-    // if(this.button_Wings_created == false){
+    this.mirr_apply.show().position(138,315)
+    this.mirr_cancel.show().position(190,315)
 
-      this.mirr_apply.show().position(138,315)
-      this.mirr_cancel.show().position(190,315)
+    this.BtnStatus_mtr_A.show().position(150, 375)
+    this.BtnStatus_mtr_B.show().position(200, 375)
 
-      this.BtnStatus_mtr_A.show().position(150, 375)
-      this.BtnStatus_mtr_B.show().position(200, 375)
+    this.size_1.show().position(115,405)
+    this.size_2.show().position(150,405)
+    this.size_3.show().position(185,405)
+    this.size_4.show().position(220,405)
 
-      this.size_1.show().position(115,405)
-      this.size_2.show().position(150,405)
-      this.size_3.show().position(185,405)
-      this.size_4.show().position(220,405)
-
-      this.OP_mtr180.show().position(50, 460)
-      this.OP_mtr360.show().position(140, 460)
-
-      this.Btn_plt.show().size(150,20).position(60,520)
-      this.Btn_net.show().size(150,20).position(60,545)
-      this.Btn_my.show().size(150,20).position(60,590)
-      this.Btn_home.show().size(150,20).position(60,615)
-
-    //   this.button_Wings_created = true
-    // }
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
-
-    // this.Pl_Pair_Y.hide()
-    // this.Pl_Pair_N.hide()
-    this.pl_paring_toggle.hide()
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
-
-    // this.button_OP_created = false
-    // this.button_Planetary_created = false
-    // this.button_My_created = false
-    // this.button_front_created = false
-
-    this.currentModule = 2
-}
-
-this.button_Planetary = function(){
-
-  // if(this.button_Planetary_created == false){
-    // this.Pl_Pair_Y = createButton('Apply').position(110, 390)
-    // this.Pl_Pair_N = createButton('Cancel').position(160, 390)
-
-    this.pl_paring_toggle.position(160, 390).show()
+    this.OP_mtr180.show().position(50, 460)
+    this.OP_mtr360.show().position(140, 460)
 
     this.Btn_plt.show().size(150,20).position(60,520)
     this.Btn_net.show().size(150,20).position(60,545)
     this.Btn_my.show().size(150,20).position(60,590)
     this.Btn_home.show().size(150,20).position(60,615)
 
-  //   this.button_Planetary_created = true
-  // }
+    this.menu_OP.hide()
+    this.menu_W.hide()
+    this.menu_P.hide()
+    this.menu_My.hide()
+
+    this.pl_paring_toggle.hide()
+    this.menu_OP.hide()
+    this.menu_W.hide()
+    this.menu_P.hide()
+    this.menu_My.hide()
+
+    this.currentModule = 2
+}
+
+this.button_Planetary = function(){
+
+  this.pl_paring_toggle.position(160, 390).show()
+
+  this.Btn_plt.show().size(150,20).position(60,520)
+  this.Btn_net.show().size(150,20).position(60,545)
+  this.Btn_my.show().size(150,20).position(60,590)
+  this.Btn_home.show().size(150,20).position(60,615)
 
   this.menu_OP.hide()
   this.menu_W.hide()
@@ -343,11 +293,6 @@ this.button_Planetary = function(){
   this.size_2.hide()
   this.size_3.hide()
   this.size_4.hide()
-
-  // this.button_OP_created = false
-  // this.button_front_created = false
-  // this.button_Wings_created = false
-  // this.button_My_created = false
 
   this.currentModule = 3
 }
@@ -382,40 +327,34 @@ this.button_My = function(){
   });
   this.done = true
 }
-  // this.Pl_Pair_Y.hide()
-  // this.Pl_Pair_N.hide()
-  this.pl_paring_toggle.hide()
-  this.OP_mtr180.hide()
-  this.OP_mtr360.hide()
-  this.BtnStatus_mtr_A.hide()
-  this.BtnStatus_mtr_B.hide()
-  this.menu_OP.hide()
-  this.menu_W.hide()
-  this.menu_P.hide()
-  this.menu_My.hide()
-  this.Btn_plt.hide()
-  this.Btn_my.hide()
-  this.size_1.hide()
-  this.size_2.hide()
-  this.size_3.hide()
-  this.size_4.hide()
-  this.mirr_apply.hide()
-  this.mirr_cancel.hide()
 
-  this.A_slider.hide()
-  this.B_slider.hide()
-  this.C_slider.hide()
-  this.D_slider.hide()
-  this.E_slider.hide()
-  this.F_slider.hide()
-  this.X_slider.hide()
-  this.Y_slider.hide()
-/*
-  this.button_OP_created = false
-  this.button_front_created = false
-  this.button_Wings_created = false
-  this.button_Planetary_created = false
-*/
+    this.pl_paring_toggle.hide()
+    this.OP_mtr180.hide()
+    this.OP_mtr360.hide()
+    this.BtnStatus_mtr_A.hide()
+    this.BtnStatus_mtr_B.hide()
+    this.menu_OP.hide()
+    this.menu_W.hide()
+    this.menu_P.hide()
+    this.menu_My.hide()
+    this.Btn_plt.hide()
+    this.Btn_my.hide()
+    this.size_1.hide()
+    this.size_2.hide()
+    this.size_3.hide()
+    this.size_4.hide()
+    this.mirr_apply.hide()
+    this.mirr_cancel.hide()
+
+    this.A_slider.hide()
+    this.B_slider.hide()
+    this.C_slider.hide()
+    this.D_slider.hide()
+    this.E_slider.hide()
+    this.F_slider.hide()
+    this.X_slider.hide()
+    this.Y_slider.hide()
+
     this.currentModule = 9
   }
 
