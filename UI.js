@@ -30,24 +30,23 @@ function UI(){
   this.menu_My  = createButton('MY SKETCHBOOK')
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
-//  this.Pl_Pair_N = createButton('Cancel').mousePressed(setParingCancel)
-  this.OP_mtr180 = createButton('180°').mousePressed(setServo180)
-  this.OP_mtr360 = createButton('Continuous').mousePressed(setServoCnt)
+  this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
+  this.OP_mtr360 = createButton('Continuous').mousePressed(setServoAngle)
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net')
   this.Btn_my = createButton ('Go to My Sketch')//.mousePressed()
   this.Btn_home = createButton ('Go to Home')//.mousePressed()
-  this.mirr_apply = createButton('Apply').mousePressed(setMirroringApply)
-  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroringCancel)
-  this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGearL)
-  this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGearR)
+  this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
+  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
+  this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGear)
+  this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGear)
 
-  this.size_1 = createButton('1').mousePressed(setGearSize1)
-  this.size_2 = createButton('2').mousePressed(setGearSize2)
-  this.size_3 = createButton('3').mousePressed(setGearSize3)
-  this.size_4 = createButton('4').mousePressed(setGearSize4)
+  this.size_1 = createButton('1').mousePressed(setGearSize) //bind to same function
+  this.size_2 = createButton('2').mousePressed(setGearSize)
+  this.size_3 = createButton('3').mousePressed(setGearSize)
+  this.size_4 = createButton('4').mousePressed(setGearSize)
 
   this.A_slider = createSlider(0, 400, 60).size(100).position(20, 200)
   this.B_slider = createSlider(0, 400, 240).size(100).position(140, 200)
@@ -59,8 +58,9 @@ function UI(){
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
-  //individual mouse mapping functions --> possibly can map to one listener functions
-  //need to look up caller entity identification function
+  //individual button event functions
+  //_this : this object
+  //this : caller button element
   function toggleParing(){
     _this.currentParing = 1 - _this.currentParing //toggle btw true(1) - false(0)
     console.log("current paring status: ", _this.currentParing)
@@ -71,38 +71,37 @@ function UI(){
       _this.pl_paring_toggle.html('Cancel')
 
   }
-  // function setParingCancel(){
-  //   this.currentParing = false
-  // }
-  function setGearSize1(){
-    _this.currentGearSize = 1
+  function setGearSize(){
+    _this.currentGearSize = parseInt(this.elt.innerHTML)
+
+    console.log(_this.currentGearSize)
   }
-  function setGearSize2(){
-    _this.currentGearSize = 2
+
+  function setServoAngle(){
+    if(this.elt.innerHTML == "Continuous")
+      _this.currentServoAngle = 2
+    else
+      _this.currentServoAngle = 1
+
+    console.log(_this.currentServoAngle)
   }
-  function setGearSize3(){
-    _this.currentGearSize = 3
+
+  function setMirroring(){
+    if(this.elt.innerHTML == "Apply")
+      _this.currentMirroring = true
+    else //Cancel
+      _this.currentMirroring = false
+
+    console.log(_this.currentMirroring)
   }
-  function setGearSize4(){
-    _this.currentGearSize = 4
-  }
-  function setServo180(){
-    _this.currentServoAngle = 1
-  }
-  function setServoCnt(){
-    _this.currentServoAngle = 2
-  }
-  function setMirroringApply(){
-    _this.currentParing = true
-  }
-  function setMirroringCancel(){
-    _this.currentParing = false
-  }
-  function setDrivingGearL(){
-    _this.currentDrivingGear = "LEFT"
-  }
-  function setDrivingGearR(){
-    _this.currentDrivingGear = "RIGHT"
+
+  function setDrivingGear(){
+    if(this.elt.innerHTML == 'L')
+      _this.currentDrivingGear = "LEFT"
+    else // R
+      _this.currentDrivingGear = "RIGHT"
+
+    console.log(_this.currentDrivingGear)
   }
 
   //this is for saving module data which will be available in my sketch
@@ -433,7 +432,6 @@ this.button_My = function(){
   }
 
   this.putText_OpenClose = function(){
-    console.log("called")
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
