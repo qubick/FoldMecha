@@ -4,6 +4,7 @@ function UI(){
   this.lengthGap = 10
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
+  this.UI_mode = 1 //default
 
   this.btn = [] //button array for my sketch
   var _this = this
@@ -18,10 +19,10 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-  this.menu_OP  = createButton('OPEN & CLOSE')
-  this.menu_W   = createButton('FLAPPING')
-  this.menu_P   = createButton('PLANETARY GEARS')
-  this.menu_My  = createButton('MY SKETCHBOOK')
+  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(putText_OpenClose)
+  this.menu_W   = createButton('FLAPPING').mousePressed(putText_Wings)
+  this.menu_P   = createButton('PLANETARY GEARS').mousePressed(putText_Planetary)
+  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(putText_My)
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
@@ -139,17 +140,34 @@ function UI(){
       console.log(mySavedSketch)
   }
 
-  this.initUI = function() { //initializer
+  this.initUI = function(){ //initializer
     //GRAY & BLACK background for LEFT PANEL
     noStroke()
-    fill(this.bgcolor2)
-    rect(0,0,270,this.temp_windowHeight)
+    fill(_this.bgcolor2)
+    rect(0,0,270,_this.temp_windowHeight)
     fill(0)
     rect(0,575,270,125)
     rect(0,0,270,35)
     //checkbox
     fill(255)
     rect(20,35,230,150)
+
+    // console.log(this.elt.innerHTML)
+    // if(this.elt.innerHTML == "OPEN &amp; CLOSE"){
+    //   _this.putText_OpenClose()
+    //   button_OpenClose()
+    //   OpenClose()
+    // } else if(this.elt.innerHTML == "FLAPPING"){
+    //   putText_Wings()
+    //   button_Wings()
+    //   Wings()
+    // } else if(this.elt.innerHTML == "PLANETARY GEARS"){
+    //   putText_Planetary()
+    //   button_Planetary()
+    // } else if(this.elt.innerHTML == "MY SKETCHBOOK"){
+    //   putText_My()
+    //   button_My()
+    // }
   } // end of function initUI()
 
   this.button_front = function(){
@@ -190,7 +208,7 @@ function UI(){
 
   }// end of function btn_front
 
-  this.button_OpenClose = function(){
+  function button_OpenClose(){
 
     _this.mirr_apply.show().position(138,315)
     _this.mirr_cancel.show().position(190,315)
@@ -223,68 +241,68 @@ function UI(){
     _this.currentModule = 1
 }// end of function btn_openClose()
 
-  this.button_Wings = function(){
+  function button_Wings(){
 
-    this.mirr_apply.show().position(138,315)
-    this.mirr_cancel.show().position(190,315)
+    _this.mirr_apply.show().position(138,315)
+    _this.mirr_cancel.show().position(190,315)
 
-    this.BtnStatus_mtr_A.show().position(150, 375)
-    this.BtnStatus_mtr_B.show().position(200, 375)
+    _this.BtnStatus_mtr_A.show().position(150, 375)
+    _this.BtnStatus_mtr_B.show().position(200, 375)
 
-    this.size_1.show().position(115,405)
-    this.size_2.show().position(150,405)
-    this.size_3.show().position(185,405)
-    this.size_4.show().position(220,405)
+    _this.size_1.show().position(115,405)
+    _this.size_2.show().position(150,405)
+    _this.size_3.show().position(185,405)
+    _this.size_4.show().position(220,405)
 
-    this.OP_mtr180.show().position(50, 460)
-    this.OP_mtr360.show().position(140, 460)
+    _this.OP_mtr180.show().position(50, 460)
+    _this.OP_mtr360.show().position(140, 460)
 
-    this.Btn_plt.show().size(150,20).position(60,520)
-    this.Btn_net.show().size(150,20).position(60,545)
-    this.Btn_my.show().size(150,20).position(60,590)
-    this.Btn_home.show().size(150,20).position(60,615)
+    _this.Btn_plt.show().size(150,20).position(60,520)
+    _this.Btn_net.show().size(150,20).position(60,545)
+    _this.Btn_my.show().size(150,20).position(60,590)
+    _this.Btn_home.show().size(150,20).position(60,615)
 
-    this.pl_paring_toggle.hide()
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
+    _this.pl_paring_toggle.hide()
+    _this.menu_OP.hide()
+    _this.menu_W.hide()
+    _this.menu_P.hide()
+    _this.menu_My.hide()
 
-    this.currentModule = 2
+    _this.currentModule = 2
 }
 
-this.button_Planetary = function(){
+function button_Planetary(){
 
-  this.pl_paring_toggle.position(160, 390).show()
+  _this.pl_paring_toggle.position(160, 390).show()
 
-  this.Btn_plt.show().size(150,20).position(60,520)
-  this.Btn_net.show().size(150,20).position(60,545)
-  this.Btn_my.show().size(150,20).position(60,590)
-  this.Btn_home.show().size(150,20).position(60,615)
+  _this.Btn_plt.show().size(150,20).position(60,520)
+  _this.Btn_net.show().size(150,20).position(60,545)
+  _this.Btn_my.show().size(150,20).position(60,590)
+  _this.Btn_home.show().size(150,20).position(60,615)
 
-  this.menu_OP.hide()
-  this.menu_W.hide()
-  this.menu_P.hide()
-  this.menu_My.hide()
+  _this.menu_OP.hide()
+  _this.menu_W.hide()
+  _this.menu_P.hide()
+  _this.menu_My.hide()
 
-  this.BtnStatus_mtr_A.hide()
-  this.BtnStatus_mtr_B.hide()
-  this.OP_mtr180.hide()
-  this.OP_mtr360.hide()
-  this.mirr_apply.hide()
-  this.mirr_cancel.hide()
-  this.size_1.hide()
-  this.size_2.hide()
-  this.size_3.hide()
-  this.size_4.hide()
+  _this.BtnStatus_mtr_A.hide()
+  _this.BtnStatus_mtr_B.hide()
+  _this.OP_mtr180.hide()
+  _this.OP_mtr360.hide()
+  _this.mirr_apply.hide()
+  _this.mirr_cancel.hide()
+  _this.size_1.hide()
+  _this.size_2.hide()
+  _this.size_3.hide()
+  _this.size_4.hide()
 
-  this.currentModule = 3
+  _this.currentModule = 3
 }
 
-this.button_My = function(){
+function button_My(){
 
-  this.Btn_net.show().size(150,20).position(60,590)
-  this.Btn_home.show().size(150,20).position(60,615)
+  _this.Btn_net.show().size(150,20).position(60,590)
+  _this.Btn_home.show().size(150,20).position(60,615)
 
   if(!this.done){
   //button creation - show is called every moment - might be overflowing
@@ -301,43 +319,43 @@ this.button_My = function(){
         title = "planetary"
       }
 
-      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 50)
+      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 100)
     }
   }); //end of foreach
 
   (_this.btn).forEach(function(b){
-    b.show().mousePressed(_this.putText_My)
+    b.show().mousePressed(putText_My)
   });
   this.done = true
 }
-    this.pl_paring_toggle.hide()
-    this.OP_mtr180.hide()
-    this.OP_mtr360.hide()
-    this.BtnStatus_mtr_A.hide()
-    this.BtnStatus_mtr_B.hide()
-    this.menu_OP.hide()
-    this.menu_W.hide()
-    this.menu_P.hide()
-    this.menu_My.hide()
-    this.Btn_plt.hide()
-    this.Btn_my.hide()
-    this.size_1.hide()
-    this.size_2.hide()
-    this.size_3.hide()
-    this.size_4.hide()
-    this.mirr_apply.hide()
-    this.mirr_cancel.hide()
+    _this.pl_paring_toggle.hide()
+    _this.OP_mtr180.hide()
+    _this.OP_mtr360.hide()
+    _this.BtnStatus_mtr_A.hide()
+    _this.BtnStatus_mtr_B.hide()
+    _this.menu_OP.hide()
+    _this.menu_W.hide()
+    _this.menu_P.hide()
+    _this.menu_My.hide()
+    _this.Btn_plt.hide()
+    _this.Btn_my.hide()
+    _this.size_1.hide()
+    _this.size_2.hide()
+    _this.size_3.hide()
+    _this.size_4.hide()
+    _this.mirr_apply.hide()
+    _this.mirr_cancel.hide()
 
-    this.A_slider.hide()
-    this.B_slider.hide()
-    this.C_slider.hide()
-    this.D_slider.hide()
-    this.E_slider.hide()
-    this.F_slider.hide()
-    this.X_slider.hide()
-    this.Y_slider.hide()
+    _this.A_slider.hide()
+    _this.B_slider.hide()
+    _this.C_slider.hide()
+    _this.D_slider.hide()
+    _this.E_slider.hide()
+    _this.F_slider.hide()
+    _this.X_slider.hide()
+    _this.Y_slider.hide()
 
-    this.currentModule = 9
+    _this.currentModule = 9
   }
 
   this.putUI = function(){
@@ -345,15 +363,19 @@ this.button_My = function(){
     console.log("caller: ", this.elt.innerHTML)
 
     if(this.elt.innerHTML == "flower"){
-      _this.putText_OpenClose() //this should able to change pagemode to 1
-    }else if(this.elt.innerHTML == "flapping")
-      _this.putText_Wings()
-    else if(this.elt.innerHTML == "Planetary")
-      _this.putText_Planetary()
+      putText_OpenClose() //this should able to change pagemode to 1
+      button_OpenClose()
+      OpenClose()
+    } else if(this.elt.innerHTML == "flapping"){
+      putText_Wings()
+      button_Wings()
+      Wings()
+    } else if(this.elt.innerHTML == "Planetary")
+      putText_Planetary()
   }
 
-  this.putText_OpenClose = function(){
-
+  function putText_OpenClose(){
+    console.log("mouse event bound to text function")
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
@@ -366,9 +388,12 @@ this.button_My = function(){
     text("Model Mirroring :", 20, 330)
     text("Gear Size :", 20, 420)
     text("Servo Rotation Angle :", 20, 450)
+
+    button_OpenClose()
+    OpenClose()
   }
 
-  this.putText_Wings = function(UI_mode){
+  function putText_Wings(){
     noStroke()
     fill(255)
     text("FLAPPING", 100, 25)
@@ -378,20 +403,23 @@ this.button_My = function(){
     text("Gear Size :", 20, 420)
     text("Servo Rotation Angle :", 20, 450)
 
-    if(UI_mode == 1){
+    if(_this.UI_mode == 1){
       text("A", 25, 230)
       text("B", 145, 230)
       text("C", 25, 265)
       text("D", 145, 265)
       text("E", 25, 300)
       text("F", 145, 300)
-    } else if(UI_mode == 2) {
+    } else if(_this.UI_mode == 2) {
       text("X", 25, 230)
       text("Y", 145, 230)
     }
+
+    button_Wings()
+    Wings()
   }
 
-  this.putText_Planetary = function(){
+  function putText_Planetary(){
     noStroke()
     fill(255)
     text("PLANETARY GEARS", 65, 25)
@@ -403,9 +431,11 @@ this.button_My = function(){
     text("E", 25, 300)
     text("F", 145, 300)
     text("Pairng Planet Gear :", 20, 380)
+
+    button_Planetary()
   }
 
-  this.putText_My = function(){
+  function putText_My(){
     //this: caller button, _this: UI
     fill(_this.bgcolor2)
     rect(0,35,270, _this.temp_windowHeight-160)
@@ -413,11 +443,7 @@ this.button_My = function(){
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
 
-   if(this.elt.innerHTML == "flower"){
-     //console.log("in if statement, element value: ", this.elt.innerHTML, "_this: ", _this)
-     _this.putText_OpenClose()
-     _this.button_OpenClose()
-   }
+    button_My()
   }
   this.Front = function(){
     background(bgcolor2)
@@ -434,90 +460,90 @@ this.button_My = function(){
       // set default values
     }
 
-  this.OpenClose = function(){
+  function OpenClose(){
 
-    this.A_slider.show()
-    this.B_slider.show()
-    this.C_slider.show()
-    this.D_slider.show()
-    this.E_slider.show()
+    _this.A_slider.show()
+    _this.B_slider.show()
+    _this.C_slider.show()
+    _this.D_slider.show()
+    _this.E_slider.show()
 
     var sliderObj = [{}] //empty json
 
     if(stdSliderValue.openclose != undefined){
 
-      this.A_slider.value(stdSliderValue.openclose.A)
-      this.B_slider.value(stdSliderValue.openclose.B)
-      this.C_slider.value(stdSliderValue.openclose.C)
-      this.D_slider.value(stdSliderValue.openclose.D)
-      this.E_slider.value(stdSliderValue.openclose.E)
+      _this.A_slider.value(stdSliderValue.openclose.A)
+      _this.B_slider.value(stdSliderValue.openclose.B)
+      _this.C_slider.value(stdSliderValue.openclose.C)
+      _this.D_slider.value(stdSliderValue.openclose.D)
+      _this.E_slider.value(stdSliderValue.openclose.E)
 
       //I don't think this is needed anymore if this is updated
       //delete stdSliderValue.openclose
     }
 
-    this.A_slider.changed(this.sliderAUpdate)
-    this.B_slider.changed(this.sliderBUpdate)
-    this.C_slider.changed(this.sliderCUpdate)
-    this.D_slider.changed(this.sliderDUpdate)
-    this.E_slider.changed(this.sliderEUpdate)
+    _this.A_slider.changed(_this.sliderAUpdate)
+    _this.B_slider.changed(_this.sliderBUpdate)
+    _this.C_slider.changed(_this.sliderCUpdate)
+    _this.D_slider.changed(_this.sliderDUpdate)
+    _this.E_slider.changed(_this.sliderEUpdate)
 
-    console.log("current Module #:", this.currentModule)
+    console.log("current Module #:", _this.currentModule)
   }
 
-  this.Wings = function(UI_mode){
+  function Wings(){
 
     var sliderObj = [{}] //empty json for wing
+    if(_this.UI_mode == 1){
+      console.log("UI mode 1")
+      _this.A_slider.show()
+      _this.B_slider.show()
+      _this.C_slider.show()
+      _this.D_slider.show()
+      _this.E_slider.show()
+      _this.F_slider.show()
 
-    if(UI_mode == 1){
-      this.A_slider.show()
-      this.B_slider.show()
-      this.C_slider.show()
-      this.D_slider.show()
-      this.E_slider.show()
-      this.F_slider.show()
+      _this.X_slider.hide()
+      _this.Y_slider.hide()
 
-      this.X_slider.hide()
-      this.Y_slider.hide()
+    } else if(_this.UI_mode == 2){
+      _this.A_slider.hide()
+      _this.B_slider.hide()
+      _this.C_slider.hide()
+      _this.D_slider.hide()
+      _this.E_slider.hide()
+      _this.F_slider.hide()
 
-    } else if(UI_mode == 2){
-      this.A_slider.hide()
-      this.B_slider.hide()
-      this.C_slider.hide()
-      this.D_slider.hide()
-      this.E_slider.hide()
-      this.F_slider.hide()
-
-      this.X_slider.show()
-      this.Y_slider.show()
+      _this.X_slider.show()
+      _this.Y_slider.show()
     }
 
     if(stdSliderValue.wings != undefined){ //once this module is opened, so that previous information is set up
 
-      this.A_slider.value(stdSliderValue.wings.A) //restore values from json obejct storage
-      this.B_slider.value(stdSliderValue.wings.B)
-      this.C_slider.value(stdSliderValue.wings.C)
-      this.D_slider.value(stdSliderValue.wings.D)
-      this.E_slider.value(stdSliderValue.wings.E)
-      this.F_slider.value(stdSliderValue.wings.F)
+      _this.A_slider.value(stdSliderValue.wings.A) //restore values from json obejct storage
+      _this.B_slider.value(stdSliderValue.wings.B)
+      _this.C_slider.value(stdSliderValue.wings.C)
+      _this.D_slider.value(stdSliderValue.wings.D)
+      _this.E_slider.value(stdSliderValue.wings.E)
+      _this.F_slider.value(stdSliderValue.wings.F)
 
-      this.X_slider.value(stdSliderValue.wings.X)
-      this.Y_slider.value(stdSliderValue.wings.Y)
+      _this.X_slider.value(stdSliderValue.wings.X)
+      _this.Y_slider.value(stdSliderValue.wings.Y)
 
       //delete stdSliderValue.wings
     }
 
-    this.A_slider.changed(this.sliderAUpdate) //calling several times since it is adjusted by system
-    this.B_slider.changed(this.sliderBUpdate) //how to differetiate user change vs. system update?
-    this.C_slider.changed(this.sliderCUpdate)
-    this.D_slider.changed(this.sliderDUpdate)
-    this.E_slider.changed(this.sliderEUpdate)
-    this.F_slider.changed(this.sliderFUpdate)
+    _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
+    _this.B_slider.changed(_this.sliderBUpdate) //how to differetiate user change vs. system update?
+    _this.C_slider.changed(_this.sliderCUpdate)
+    _this.D_slider.changed(_this.sliderDUpdate)
+    _this.E_slider.changed(_this.sliderEUpdate)
+    _this.F_slider.changed(_this.sliderFUpdate)
 
-    this.X_slider.changed(this.sliderXUpdate)
-    this.Y_slider.changed(this.sliderYUpdate)
+    _this.X_slider.changed(_this.sliderXUpdate)
+    _this.Y_slider.changed(_this.sliderYUpdate)
 
-    console.log("current Module #:", this.currentModule)
+    console.log("current Module #:", _this.currentModule)
   }
 
   /* from here: flower sliders */
