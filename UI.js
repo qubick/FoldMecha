@@ -14,8 +14,8 @@ function UI(){
                         // 2 Bird
                         // 3 PlanetaryGear
   this.currentGearSize     = 2 //default
-  this.currentServoAngle   = 1 // 1:180, 2:continue
-  this.currentDrivingGear  = "LEFT"
+  this.currentServoAngle   = 180 // 180 or 360
+  this.currentDrivingGear  = 0 // 0:left, 1:right
   this.currentMirroring    = false
   this.currentParing       = 1
 
@@ -31,8 +31,8 @@ function UI(){
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net')
-  this.Btn_my = createButton ('Go to My Sketch')//.mousePressed()
-  this.Btn_home = createButton ('Go to Home')//.mousePressed()
+  this.Btn_my = createButton ('Go to My Sketch').mousePressed(putText_My)
+  this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
   this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGear)
@@ -73,9 +73,9 @@ function UI(){
 
   function setServoAngle(){
     if(this.elt.innerHTML == "Continuous")
-      _this.currentServoAngle = 2
+      _this.currentServoAngle = 360
     else
-      _this.currentServoAngle = 1
+      _this.currentServoAngle = 180
 
     console.log(_this.currentServoAngle)
   }
@@ -152,22 +152,6 @@ function UI(){
     fill(255)
     rect(20,35,230,150)
 
-    // console.log(this.elt.innerHTML)
-    // if(this.elt.innerHTML == "OPEN &amp; CLOSE"){
-    //   _this.putText_OpenClose()
-    //   button_OpenClose()
-    //   OpenClose()
-    // } else if(this.elt.innerHTML == "FLAPPING"){
-    //   putText_Wings()
-    //   button_Wings()
-    //   Wings()
-    // } else if(this.elt.innerHTML == "PLANETARY GEARS"){
-    //   putText_Planetary()
-    //   button_Planetary()
-    // } else if(this.elt.innerHTML == "MY SKETCHBOOK"){
-    //   putText_My()
-    //   button_My()
-    // }
   } // end of function initUI()
 
   this.button_front = function(){
@@ -358,24 +342,8 @@ function button_My(){
     _this.currentModule = 9
   }
 
-  this.putUI = function(){
-    console.log("mouse binding function: ", this) //this is caller button
-    console.log("caller: ", this.elt.innerHTML)
-
-    if(this.elt.innerHTML == "flower"){
-      putText_OpenClose() //this should able to change pagemode to 1
-      button_OpenClose()
-      OpenClose()
-    } else if(this.elt.innerHTML == "flapping"){
-      putText_Wings()
-      button_Wings()
-      Wings()
-    } else if(this.elt.innerHTML == "Planetary")
-      putText_Planetary()
-  }
-
   function putText_OpenClose(){
-    console.log("mouse event bound to text function")
+    console.log("came into putText_OpenClose")
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
@@ -394,6 +362,7 @@ function button_My(){
   }
 
   function putText_Wings(){
+
     noStroke()
     fill(255)
     text("FLAPPING", 100, 25)
@@ -450,6 +419,8 @@ function button_My(){
     noStroke()
     fill(0)
     text("HELLO WORLD!",100,70)
+
+    //button_front()
   }
 
 /*   from here:   slider section */
