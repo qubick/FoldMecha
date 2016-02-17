@@ -6,7 +6,7 @@ function UI(){
   this.temp_windowHeight = 660
   this.UI_mode = 1 //default
 
-  this.btn = [] //button array for my sketch
+  this.myBtnList = [] //button array for my sketch
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
@@ -22,7 +22,7 @@ function UI(){
   this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(putText_OpenClose)
   this.menu_W   = createButton('FLAPPING').mousePressed(putText_Wings)
   this.menu_P   = createButton('PLANETARY GEARS').mousePressed(putText_Planetary)
-  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(putText_My)
+  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(button_My)
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
@@ -188,6 +188,10 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
+    this.myBtnList.forEach(function(btn){
+      btn.hide()
+    });
+
     this.currentModule = 0
 
   }// end of function btn_front
@@ -303,7 +307,7 @@ function button_My(){
         title = "planetary"
       }
 
-      _this.btn[index++] = createButton(title).size(100,100).position(100+150*index, 100)
+      _this.myBtnList[index++] = createButton(title).size(100,100).position(100+150*index, 100)
     }
   }); //end of foreach
 
