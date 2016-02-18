@@ -82,18 +82,17 @@ function draw() {
     Panel.initUI()
 
     var galleryMode = Panel.findDrawingFunc()
-
+    //var savedDesign = Panel.findSavedDesign()
     galleryMode.forEach(function(mode){
-    // //all case is independent
 
+      //all case is independent
       if(mode == 1){
-        Flower3.opencloseUI()
         Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
       }
 
       if(mode == 2){
+        //pass param based on returned savedDesign
         Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
-        Bird1.flappingUI()
       }
 
       if(mode == 3){
@@ -238,4 +237,5 @@ function mousePressed(){ //map mouse release position to function
        motorType_Pl = 360
     }
   }
+
 }

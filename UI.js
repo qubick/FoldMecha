@@ -101,17 +101,18 @@ function UI(){
     console.log(_this.currentDrivingGear)
   }
 
-  /*function defineDrawingFunc(){
+  function constructPanel(){
     console.log(this.elt.innerHTML) //caller gallery btn
 
     if(this.elt.innerHTML == "Flower"){
-      _this.mode = 1
+      console.log("flower panel construction")
+      button_OpenClose()
     } else if(this.elt.innerHTML == "Flapping"){
-      _this.mode = 2
+      button_Wings()
     } else if(this.elt.innerHTML == "Planetary"){
-      _this.mode = 3
+      button_Planetary()
     }
-  }*/
+  }
 
   this.findDrawingFunc = function(){
     //return _this.mode
@@ -330,8 +331,8 @@ function button_My(){
 
       _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
       _this.myBtnList[index++] = createButton(title).size(100,100)
-                                      .position(100+150*index, 100)
-                                      //.mousePressed(defineDrawingFunc)
+                                      .position(100+150*index, 20)
+                                      .mousePressed(constructPanel)
     }
   }); //end of foreach
 
@@ -410,7 +411,6 @@ function button_My(){
       text("X", 25, 230)
       text("Y", 145, 230)
     }
-
   }
 
   this.putText_Planetary = function(){
