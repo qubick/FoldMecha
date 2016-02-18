@@ -34,7 +34,7 @@ function UI(){
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net')
-  this.Btn_my = createButton ('Go to My Sketch').mousePressed(putText_My)
+  this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
@@ -105,11 +105,13 @@ function UI(){
     console.log(this.elt.innerHTML) //caller gallery btn
 
     if(this.elt.innerHTML == "Flower"){
-      console.log("flower panel construction")
+      console.log("flower left panel construction")
       button_OpenClose()
     } else if(this.elt.innerHTML == "Flapping"){
+      console.log("Wings left panel construction")
       button_Wings()
     } else if(this.elt.innerHTML == "Planetary"){
+      console.log("Planetary left panel construction")
       button_Planetary()
     }
   }
@@ -337,7 +339,7 @@ function button_My(){
   }); //end of foreach
 
   (_this.myBtnList).forEach(function(btn){
-    btn.show().mousePressed(putText_My)
+    btn.show()//.mousePressed(button_My) //this must be binded to drawing each module?
   });
   this.done = true
 }
@@ -429,7 +431,7 @@ function button_My(){
 
   }
 
-  function putText_My(){
+  this.putText_My = function(){
     //this: caller button, _this: UI
     fill(_this.bgcolor2)
     rect(0,35,270, _this.temp_windowHeight-160)
@@ -437,7 +439,7 @@ function button_My(){
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
 
-    button_My()
+    //button_My()
   }
   this.Front = function(){
     background(bgcolor2)

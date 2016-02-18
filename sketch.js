@@ -80,7 +80,8 @@ function draw() {
   }else if (pageMode==my_sketch){ //mode 9
 
     Panel.initUI()
-
+    Panel.putText_My()
+    
     var galleryMode = Panel.findDrawingFunc()
     //var savedDesign = Panel.findSavedDesign()
     galleryMode.forEach(function(mode){
@@ -100,7 +101,6 @@ function draw() {
       }
     })
 
-    // //Panel.putText_My()
     // Panel.button_My() //creating gallery buttons upon save data
   }
 }
