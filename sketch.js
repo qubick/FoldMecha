@@ -51,7 +51,7 @@ function draw() {
 
   else if (pageMode==open_close){ //mode 1
      Panel.initUI()
-     //Panel.putText_OpenClose()
+     Panel.putText_OpenClose()
      //Panel.button_OpenClose()
      //Panel.OpenClose()
 
@@ -64,7 +64,7 @@ function draw() {
     Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
 
     Panel.initUI()
-    // Panel.putText_Wings(UI_wing)
+    Panel.putText_Wings(UI_wing)
     // Panel.button_Wings()
     // Panel.Wings(UI_wing)
 
@@ -72,7 +72,7 @@ function draw() {
 
   }else if (pageMode==planetary){ //mode 3
     Panel.initUI()
-    // Panel.putText_Planetary()
+    Panel.putText_Planetary()
     // Panel.button_Planetary()
 
     Planet1.compGears(planet_pair,motorType_Pl)
@@ -80,6 +80,27 @@ function draw() {
   }else if (pageMode==my_sketch){ //mode 9
 
     Panel.initUI()
+
+    var galleryMode = Panel.findDrawingFunc()
+
+    galleryMode.forEach(function(mode){
+    // //all case is independent
+
+      if(mode == 1){
+        Flower3.opencloseUI()
+        Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
+      }
+
+      if(mode == 2){
+        Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
+        Bird1.flappingUI()
+      }
+
+      if(mode == 3){
+        Planet1.compGears(planet_pair,motorType_Pl)
+      }
+    })
+
     // //Panel.putText_My()
     // Panel.button_My() //creating gallery buttons upon save data
   }

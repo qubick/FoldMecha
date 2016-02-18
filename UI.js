@@ -4,9 +4,12 @@ function UI(){
   this.lengthGap = 10
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
-  this.UI_mode = 1 //default
+  //this.UI_mode = 1 //default
+  this.mode = 0 //default
 
   this.myBtnList = [] //button array for my sketch
+  this.myBtnNames = []
+
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
@@ -98,6 +101,22 @@ function UI(){
     console.log(_this.currentDrivingGear)
   }
 
+  /*function defineDrawingFunc(){
+    console.log(this.elt.innerHTML) //caller gallery btn
+
+    if(this.elt.innerHTML == "Flower"){
+      _this.mode = 1
+    } else if(this.elt.innerHTML == "Flapping"){
+      _this.mode = 2
+    } else if(this.elt.innerHTML == "Planetary"){
+      _this.mode = 3
+    }
+  }*/
+
+  this.findDrawingFunc = function(){
+    //return _this.mode
+    return _this.myBtnNames
+  }
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
@@ -309,11 +328,14 @@ function button_My(){
         title = "Planetary"
       }
 
-      _this.myBtnList[index++] = createButton(title).size(100,100).position(100+150*index, 100)
+      _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
+      _this.myBtnList[index++] = createButton(title).size(100,100)
+                                      .position(100+150*index, 100)
+                                      //.mousePressed(defineDrawingFunc)
     }
   }); //end of foreach
 
-  (_this.btn).forEach(function(btn){
+  (_this.myBtnList).forEach(function(btn){
     btn.show().mousePressed(putText_My)
   });
   this.done = true
@@ -348,6 +370,7 @@ function button_My(){
     _this.currentModule = 9
   }
 
+  //*********** UI Panel texts
   this.putText_OpenClose = function(){
 
     noStroke()
