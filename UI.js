@@ -19,9 +19,9 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(putText_OpenClose)
-  this.menu_W   = createButton('FLAPPING').mousePressed(putText_Wings)
-  this.menu_P   = createButton('PLANETARY GEARS').mousePressed(putText_Planetary)
+  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(button_OpenClose)
+  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
+  this.menu_P   = createButton('PLANETARY GEARS').mousePressed(button_Planetary)
   this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(button_My)
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
@@ -226,6 +226,7 @@ function UI(){
     _this.X_slider.hide()
     _this.Y_slider.hide()
 
+    OpenClose()
     _this.currentModule = 1
 }// end of function btn_openClose()
 
@@ -256,6 +257,7 @@ function UI(){
     _this.menu_P.hide()
     _this.menu_My.hide()
 
+    Wings()
     _this.currentModule = 2
 }
 
@@ -300,19 +302,19 @@ function button_My(){
       var title = ""
 
       if(design.module == 1){
-        title = "flower"
+        title = "Flower"
       } else if(design.module == 2){
-        title = "flapping"
+        title = "Flapping"
       } else if(design.module == 3){
-        title = "planetary"
+        title = "Planetary"
       }
 
       _this.myBtnList[index++] = createButton(title).size(100,100).position(100+150*index, 100)
     }
   }); //end of foreach
 
-  (_this.btn).forEach(function(b){
-    b.show().mousePressed(putText_My)
+  (_this.btn).forEach(function(btn){
+    btn.show().mousePressed(putText_My)
   });
   this.done = true
 }
@@ -346,8 +348,8 @@ function button_My(){
     _this.currentModule = 9
   }
 
-  function putText_OpenClose(){
-    console.log("came into putText_OpenClose")
+  this.putText_OpenClose = function(){
+
     noStroke()
     fill(255)
     text("OPEN & CLOSE", 80, 25)
@@ -361,11 +363,9 @@ function button_My(){
     text("Gear Size :", 20, 420)
     text("Servo Rotation Angle :", 20, 450)
 
-    button_OpenClose()
-    OpenClose()
   }
 
-  function putText_Wings(){
+  this.putText_Wings = function(){
 
     noStroke()
     fill(255)
@@ -388,11 +388,10 @@ function button_My(){
       text("Y", 145, 230)
     }
 
-    button_Wings()
-    Wings()
   }
 
-  function putText_Planetary(){
+  this.putText_Planetary = function(){
+
     noStroke()
     fill(255)
     text("PLANETARY GEARS", 65, 25)
@@ -405,7 +404,6 @@ function button_My(){
     text("F", 145, 300)
     text("Pairng Planet Gear :", 20, 380)
 
-    button_Planetary()
   }
 
   function putText_My(){
