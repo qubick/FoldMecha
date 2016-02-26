@@ -50,10 +50,10 @@ function draw() {
   }
 
   else if (pageMode==open_close){ //mode 1
-     Panel.initUI()
-     Panel.putText_OpenClose()
-     //Panel.button_OpenClose()
-     //Panel.OpenClose()
+   Panel.initUI()
+   Panel.putText_OpenClose()
+   //Panel.button_OpenClose()
+   //Panel.OpenClose()
 
   //  Flower3.compOpenclose_UP(pair_petal,gearSize_petal)
     Flower3.opencloseUI()
@@ -61,14 +61,13 @@ function draw() {
 
   }else if (pageMode==flapping){ //mode 2
 
-    Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
-
     Panel.initUI()
     Panel.putText_Wings(UI_wing)
     // Panel.button_Wings()
     // Panel.Wings(UI_wing)
 
     Bird1.flappingUI(UI_wing) //draw things
+    Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
 
   }else if (pageMode==planetary){ //mode 3
     Panel.initUI()
@@ -81,7 +80,7 @@ function draw() {
 
     Panel.initUI()
     Panel.putText_My()
-    
+
     var galleryMode = Panel.findDrawingFunc()
     //var savedDesign = Panel.findSavedDesign()
     galleryMode.forEach(function(mode){

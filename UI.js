@@ -4,7 +4,7 @@ function UI(){
   this.lengthGap = 10
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
-  //this.UI_mode = 1 //default
+  this.UI_mode = 1 //default
   this.mode = 0 //default
 
   this.myBtnList = [] //button array for my sketch
@@ -391,7 +391,9 @@ function button_My(){
 
   }
 
-  this.putText_Wings = function(){
+  this.putText_Wings = function(UI_wing){
+    _this.UI_mode = UI_wing
+    console.log("current UI mode ", _this.UI_mode)
 
     noStroke()
     fill(255)
@@ -403,6 +405,7 @@ function button_My(){
     text("Servo Rotation Angle :", 20, 450)
 
     if(_this.UI_mode == 1){
+    //if(UI_wing == 1){
       text("A", 25, 230)
       text("B", 145, 230)
       text("C", 25, 265)
@@ -410,9 +413,11 @@ function button_My(){
       text("E", 25, 300)
       text("F", 145, 300)
     } else if(_this.UI_mode == 2) {
+    //} else if(UI_wing == 2){
       text("X", 25, 230)
       text("Y", 145, 230)
     }
+    button_Wings()
   }
 
   this.putText_Planetary = function(){
@@ -490,9 +495,11 @@ function button_My(){
   }
 
   function Wings(){
-
     var sliderObj = [{}] //empty json for wing
+    console.log("check current ui_mode", _this.UI_mode)
+
     if(_this.UI_mode == 1){
+    //if(UI_mode == 1){
       console.log("UI mode 1")
       _this.A_slider.show()
       _this.B_slider.show()
@@ -505,6 +512,8 @@ function button_My(){
       _this.Y_slider.hide()
 
     } else if(_this.UI_mode == 2){
+    //} else if(UI_mode == 2){
+    console.log("UI_mode was changed", _this.UI_mode)
       _this.A_slider.hide()
       _this.B_slider.hide()
       _this.C_slider.hide()
