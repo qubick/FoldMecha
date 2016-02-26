@@ -316,7 +316,6 @@ function button_My(){
   _this.Btn_net.show().size(150,20).position(60,590)
   _this.Btn_home.show().size(150,20).position(60,615)
 
-  if(!this.done){
   //button creation - show is called every moment - might be overflowing
   var index = 0
   mySavedSketch.forEach(function(design){
@@ -341,8 +340,7 @@ function button_My(){
   (_this.myBtnList).forEach(function(btn){
     btn.show()//.mousePressed(button_My) //this must be binded to drawing each module?
   });
-  this.done = true
-}
+
     _this.pl_paring_toggle.hide()
     _this.OP_mtr180.hide()
     _this.OP_mtr360.hide()
@@ -393,7 +391,6 @@ function button_My(){
 
   this.putText_Wings = function(UI_wing){
     _this.UI_mode = UI_wing
-    console.log("current UI mode ", _this.UI_mode)
 
     noStroke()
     fill(255)
@@ -405,7 +402,6 @@ function button_My(){
     text("Servo Rotation Angle :", 20, 450)
 
     if(_this.UI_mode == 1){
-    //if(UI_wing == 1){
       text("A", 25, 230)
       text("B", 145, 230)
       text("C", 25, 265)
@@ -413,7 +409,6 @@ function button_My(){
       text("E", 25, 300)
       text("F", 145, 300)
     } else if(_this.UI_mode == 2) {
-    //} else if(UI_wing == 2){
       text("X", 25, 230)
       text("Y", 145, 230)
     }
