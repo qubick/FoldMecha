@@ -276,7 +276,7 @@ function UI(){
   //  _this.menu_My.hide()
 
     Wings()
-    _this.currentModule = 3
+    _this.currentModule = 2
 }
 
 function button_folding_net(){
