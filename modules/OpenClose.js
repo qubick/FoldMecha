@@ -186,7 +186,6 @@ function OpenClose(){
     this.centerPositionX_pinion = temp_windowWidth/2+200
 
     this.drawPinionGear(this.radius, this.centerPositionX_pinion, this.centerPositionY_rack,motorType)
-
 }
 
   this.drawRackGear = function(radius, centerPositionX_rack,centerPositionY_rack,motorType){
@@ -224,11 +223,10 @@ function OpenClose(){
     this.drawOP_X = -3*this.teethWidth/4-this.teethWidth
     this.drawOP_Y = -this.RlineY+this.teethHeight+this.rack_X_size/2
 
-    noStroke()
-    fill(255,0,0)
-    ellipse(this.drawOP_X, this.drawOP_Y,8,8)
-    // point F1
+    fill(255,0,255)
+    ellipse((-3*this.teethWidth/4)-this.teethWidth, -this.RlineY+this.teethHeight+this.rack_X_size/2,15,15)
     pop()
+
 
     if (motorType == 180){
       if(this.change_direction == 1){
@@ -265,6 +263,8 @@ function OpenClose(){
     }
     this.rack_Y = this.rack_Y-this.rack_change_apply
 
+    this.drawOpenClose(centerPositionX_rack-this.drawOP_X, this.rack_Y+this.drawOP_Y/2,1)
+    //draw OPEN & CLOSE
   }
 
   this.drawPinionGear = function(radius, centerPositionX, centerPositionY,motorType){
@@ -356,15 +356,15 @@ function OpenClose(){
     this.dist_d = 150
     this.dist_e = 250
     this.centerwidth = 15  // base length
-    this.dist_aMin = 0
+    this.dist_aMin = 50
     this.dist_aMax = 400
-    this.dist_bMin = 0
+    this.dist_bMin = 50
     this.dist_bMax = 400
-    this.dist_cMin = 0
+    this.dist_cMin = 50
     this.dist_cMax = 400
-    this.dist_dMin = 0
+    this.dist_dMin = 50
     this.dist_dMax = 400
-    this.dist_eMin = 0
+    this.dist_eMin = 50
     this.dist_eMax = 400
 
   }
@@ -448,8 +448,36 @@ function OpenClose(){
     this.step3_cd = acos(this.angle_cosine_cd)
     this.angle_cd = degrees(this.step3_cd)
 
+
+    this.t1.penup()      // Position the drawing starting point.
+    this.t1.forward(height/2-tempY)
+    this.t1.left(90)
+    this.t1.forward(width/2-tempX)
+
+    this.ef_x = this.t1.x
+    this.ef_y = this.t1.y
+
+//   console.log("F: "+this.dist_f)
+    // Move turtle to point DE.
+/*    this.t1.left(this.angle_d)
+    this.t1.forward(this.dist_e)
+
+    this.de_x = this.t1.x
+    this.de_y = this.t1.y
+
+    this.t1.back(this.dist_e)
+    this.t1.right(this.angle_d)*/
+
+    this.t1.back(width/2-tempX)
+    this.t1.right(90)
+    this.t1.back(height/2-tempY)
+
+    noStroke()
     fill(255,0,0)
-    rect(tempX,tempY,30,30)
+//    ellipse(this.ef_x,this.ef_y,10,10)
+//    ellipse(this.ef_x,115,10,10)
+
+   //console.log(this.)
   }
 
 }

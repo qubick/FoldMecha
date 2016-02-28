@@ -22,18 +22,19 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(button_OpenClose)
-  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
-  this.menu_P   = createButton('PLANETARY GEARS').mousePressed(button_Planetary)
-  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(button_My)
+//  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(button_OpenClose)
+//  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
+//  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(button_My)
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
   this.OP_mtr360 = createButton('Continuous').mousePressed(setServoAngle)
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
+  this.Btn_reset = createButton ('Reset all')
+  this.Btn_pdf = createButton ('Download PDF')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
-  this.Btn_net = createButton ('View the Folding Net')
+  this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
@@ -110,9 +111,6 @@ function UI(){
     } else if(this.elt.innerHTML == "Flapping"){
       console.log("Wings left panel construction")
       button_Wings()
-    } else if(this.elt.innerHTML == "Planetary"){
-      console.log("Planetary left panel construction")
-      button_Planetary()
     }
   }
 
@@ -149,12 +147,6 @@ function UI(){
         temp.mirroring  = _this.currentMirroring// True/False
         temp.driveGear  = _this.currentDrivingGear
         break;
-      case 3: //PlanetaryGear
-        temp.module   = 3
-
-        temp.F        = _this.F_slider.value()
-        temp.pairing  = _this.currentParing// True/False
-        break;
       default:
       } // end of switch - case
 
@@ -178,14 +170,16 @@ function UI(){
 
   this.button_front = function(){
 
-    this.menu_OP.size(100,100).position(250,100).show()
-    this.menu_W.size(100,100).position(400,100).show()
-    this.menu_P.size(100,100).position(550,100).show()
-    this.menu_My.size(100,100).position(100,400).show()
+//    this.menu_OP.size(200,200).position(250,150).show()
+//    this.menu_W.size(200,200).position(500,150).show()
+//    this.menu_My.size(200,200).position(750,150).show()
 
+//    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
     this.OP_mtr180.hide()
     this.OP_mtr360.hide()
+    this.Btn_reset.hide()
+    this.Btn_pdf.hide()
     this.Btn_plt.hide()
     this.Btn_net.hide()
     this.Btn_my.hide()
@@ -218,19 +212,20 @@ function UI(){
 
   }// end of function btn_front
 
-  function button_OpenClose(){
+  this.button_OpenClose = function(){
 
     _this.mirr_apply.show().position(138,315)
     _this.mirr_cancel.show().position(190,315)
 
-    _this.size_1.show().position(115,405)
-    _this.size_2.show().position(150,405)
-    _this.size_3.show().position(185,405)
-    _this.size_4.show().position(220,405)
+    _this.size_1.show().position(115,375)
+    _this.size_2.show().position(150,375)
+    _this.size_3.show().position(185,375)
+    _this.size_4.show().position(220,375)
 
-    _this.OP_mtr180.show().position(50, 460)
-    _this.OP_mtr360.show().position(140, 460)
+    _this.OP_mtr180.show().position(50, 430)
+    _this.OP_mtr360.show().position(140, 430)
 
+    _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
     _this.Btn_net.show().size(150,20).position(60,545)
     _this.Btn_my.show().size(150,20).position(60,590)
@@ -239,10 +234,10 @@ function UI(){
     _this.BtnStatus_mtr_A.hide()
     _this.BtnStatus_mtr_B.hide()
     _this.pl_paring_toggle.hide()
-    _this.menu_OP.hide()
-    _this.menu_W.hide()
-    _this.menu_P.hide()
-    _this.menu_My.hide()
+    _this.Btn_pdf.hide()
+  //  _this.menu_OP.hide()
+  //  _this.menu_W.hide()
+  //  _this.menu_My.hide()
 
     _this.F_slider.hide()
     _this.X_slider.hide()
@@ -252,63 +247,68 @@ function UI(){
     _this.currentModule = 1
 }// end of function btn_openClose()
 
-  function button_Wings(){
+  this.button_Wings = function(){
 
     _this.mirr_apply.show().position(138,315)
     _this.mirr_cancel.show().position(190,315)
 
-    _this.BtnStatus_mtr_A.show().position(150, 375)
-    _this.BtnStatus_mtr_B.show().position(200, 375)
+    _this.BtnStatus_mtr_A.show().position(150, 345)
+    _this.BtnStatus_mtr_B.show().position(200, 345)
 
-    _this.size_1.show().position(115,405)
-    _this.size_2.show().position(150,405)
-    _this.size_3.show().position(185,405)
-    _this.size_4.show().position(220,405)
+    _this.size_1.show().position(115,375)
+    _this.size_2.show().position(150,375)
+    _this.size_3.show().position(185,375)
+    _this.size_4.show().position(220,375)
 
-    _this.OP_mtr180.show().position(50, 460)
-    _this.OP_mtr360.show().position(140, 460)
+    _this.OP_mtr180.show().position(50, 430)
+    _this.OP_mtr360.show().position(140, 430)
 
+    _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
     _this.Btn_net.show().size(150,20).position(60,545)
     _this.Btn_my.show().size(150,20).position(60,590)
     _this.Btn_home.show().size(150,20).position(60,615)
 
     _this.pl_paring_toggle.hide()
-    _this.menu_OP.hide()
-    _this.menu_W.hide()
-    _this.menu_P.hide()
-    _this.menu_My.hide()
+    _this.Btn_pdf.hide()
+  //  _this.menu_OP.hide()
+  //  _this.menu_W.hide()
+  //  _this.menu_My.hide()
 
     Wings()
-    _this.currentModule = 2
+    _this.currentModule = 3
 }
 
-function button_Planetary(){
-
-  _this.pl_paring_toggle.position(160, 390).show()
-
-  _this.Btn_plt.show().size(150,20).position(60,520)
-  _this.Btn_net.show().size(150,20).position(60,545)
-  _this.Btn_my.show().size(150,20).position(60,590)
-  _this.Btn_home.show().size(150,20).position(60,615)
-
-  _this.menu_OP.hide()
-  _this.menu_W.hide()
-  _this.menu_P.hide()
-  _this.menu_My.hide()
-
-  _this.BtnStatus_mtr_A.hide()
-  _this.BtnStatus_mtr_B.hide()
+function button_folding_net(){
+  _this.pl_paring_toggle.hide()
   _this.OP_mtr180.hide()
   _this.OP_mtr360.hide()
-  _this.mirr_apply.hide()
-  _this.mirr_cancel.hide()
+  _this.BtnStatus_mtr_A.hide()
+  _this.BtnStatus_mtr_B.hide()
+//    _this.menu_OP.hide()
+//    _this.menu_W.hide()
+//    _this.menu_My.hide()
+  _this.Btn_reset.hide()
+  _this.Btn_plt.hide()
+  _this.Btn_my.hide()
   _this.size_1.hide()
   _this.size_2.hide()
   _this.size_3.hide()
   _this.size_4.hide()
+  _this.mirr_apply.hide()
+  _this.mirr_cancel.hide()
 
-  _this.currentModule = 3
+  _this.A_slider.hide()
+  _this.B_slider.hide()
+  _this.C_slider.hide()
+  _this.D_slider.hide()
+  _this.E_slider.hide()
+  _this.F_slider.hide()
+  _this.X_slider.hide()
+  _this.Y_slider.hide()
+
+  _this.Btn_net.hide()
+  _this.Btn_pdf.show().size(150,20).position(60,590)
 }
 
 function button_My(){
@@ -326,8 +326,6 @@ function button_My(){
         title = "Flower"
       } else if(design.module == 2){
         title = "Flapping"
-      } else if(design.module == 3){
-        title = "Planetary"
       }
 
       _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
@@ -346,10 +344,11 @@ function button_My(){
     _this.OP_mtr360.hide()
     _this.BtnStatus_mtr_A.hide()
     _this.BtnStatus_mtr_B.hide()
-    _this.menu_OP.hide()
-    _this.menu_W.hide()
-    _this.menu_P.hide()
-    _this.menu_My.hide()
+//    _this.menu_OP.hide()
+//    _this.menu_W.hide()
+//    _this.menu_My.hide()
+    _this.Btn_reset.hide()
+    _this.Btn_pdf.hide()
     _this.Btn_plt.hide()
     _this.Btn_my.hide()
     _this.size_1.hide()
@@ -384,8 +383,20 @@ function button_My(){
     text("D", 145, 265)
     text("E", 25, 300)
     text("Model Mirroring :", 20, 330)
-    text("Gear Size :", 20, 420)
-    text("Servo Rotation Angle :", 20, 450)
+    text("Gear Size :", 20, 390)
+    text("Servo Rotation Angle :", 20, 420)
+
+  }
+
+  this.putText_OpenClose_net = function(){
+
+    noStroke()
+    fill(255)
+    text("FOLDING NET  :  OPEN & CLOSE", 22, 25)
+    fill(_this.bgcolor2)
+    rect(0,35,270, _this.temp_windowHeight-160)
+    fill(0)
+    text("Assembly Instruction", 60, 55)
 
   }
 
@@ -397,9 +408,9 @@ function button_My(){
     text("FLAPPING", 100, 25)
     fill(0)
     text("Model Mirroring :", 20, 330)
-    text("Driver Gear :", 20, 390)
-    text("Gear Size :", 20, 420)
-    text("Servo Rotation Angle :", 20, 450)
+    text("Driver Gear :", 20, 360)
+    text("Gear Size :", 20, 390)
+    text("Servo Rotation Angle :", 20, 420)
 
     if(_this.UI_mode == 1){
       text("A", 25, 230)
@@ -412,22 +423,19 @@ function button_My(){
       text("X", 25, 230)
       text("Y", 145, 230)
     }
-    button_Wings()
+  //  button_Wings()
   }
 
-  this.putText_Planetary = function(){
+
+  this.putText_Flapping_net = function(){
 
     noStroke()
     fill(255)
-    text("PLANETARY GEARS", 65, 25)
+    text("FOLDING NET  :  FLAPPING", 37, 25)
+    fill(_this.bgcolor2)
+    rect(0,35,270, _this.temp_windowHeight-160)
     fill(0)
-    text("A", 25, 230)
-    text("B", 145, 230)
-    text("C", 25, 265)
-    text("D", 145, 265)
-    text("E", 25, 300)
-    text("F", 145, 300)
-    text("Pairng Planet Gear :", 20, 380)
+    text("Assembly Instruction", 60, 55)
 
   }
 
@@ -445,7 +453,11 @@ function button_My(){
     background(bgcolor2)
     noStroke()
     fill(0)
-    text("HELLO WORLD!",100,70)
+    textSize(28)
+    text("FoldMecha",550,70)
+    textSize(15)
+    text("design your own mechanical movement and download the folding net to bulid",360,100)
+
 
     //button_front()
   }
@@ -495,7 +507,6 @@ function button_My(){
 
     if(_this.UI_mode == 1){
     //if(UI_mode == 1){
-      console.log("UI mode 1")
       _this.A_slider.show()
       _this.B_slider.show()
       _this.C_slider.show()
@@ -567,9 +578,7 @@ function button_My(){
         case 2: // Flagppig Bird
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           break
-        case 3:
-            //do something for planetary
-          break
+
         default:
       }
   }
@@ -586,9 +595,7 @@ function button_My(){
       case 2: // Flagppig Bird
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         break
-      case 3:
-          //do something for planetary
-        break
+
       default:
     }
   }
@@ -605,9 +612,7 @@ function button_My(){
       case 2: // Flagppig Bird
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         break
-      case 3:
-          //do something for planetary
-        break
+
       default:
     }
   }
@@ -624,9 +629,6 @@ function button_My(){
       case 2: // Flagppig Bird
         _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         break
-      case 3:
-          //do something for planetary
-        break
       default:
     }
   }
@@ -639,9 +641,6 @@ function button_My(){
         break
       case 2: // Flagppig Bird
         //_this.E_slider.value(_this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
-        break
-      case 3:
-          //do something for planetary
         break
       default:
     }
@@ -664,11 +663,6 @@ function button_My(){
   this.calcSliderPos3 = function(min, max, value) { // Wings
     return map(value,0,400,min,max)
   }
-  // this.calcSliderPos4 = function(min, max, value) { // Wings
-  //   return map(value,0,100,min,max) //
-  // }
-  // this.calcSliderPos5 = function(min, max, value) { // Wings
-  //   return map(value,0,200,min,max) //
-  // }
+
 
 }
