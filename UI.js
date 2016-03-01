@@ -121,6 +121,7 @@ function UI(){
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
+    console.log("saved Design function called")
     //this is common for all three modules. We will add only unique data per module
     var temp = {
       A: _this.A_slider.value()
@@ -136,8 +137,8 @@ function UI(){
         temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
         break;
-      case 2: //Flapping
-        temp.module = 2
+      case 3: //Flapping
+        temp.module = 3
         temp.F = _this.F_slider.value()
         temp.X = _this.X_slider.value()
         temp.Y = _this.Y_slider.value()
@@ -276,7 +277,7 @@ function UI(){
   //  _this.menu_My.hide()
 
     Wings()
-    _this.currentModule = 2
+    _this.currentModule = 3
 }
 
 function button_folding_net(){
@@ -324,7 +325,7 @@ function button_My(){
 
       if(design.module == 1){
         title = "Flower"
-      } else if(design.module == 2){
+      } else if(design.module == 3){
         title = "Flapping"
       }
 
@@ -458,7 +459,6 @@ function button_My(){
     textSize(15)
     text("design your own mechanical movement and download the folding net to bulid",360,100)
 
-
     //button_front()
   }
 
@@ -503,7 +503,6 @@ function button_My(){
 
   function Wings(){
     var sliderObj = [{}] //empty json for wing
-    console.log("check current ui_mode", _this.UI_mode)
 
     if(_this.UI_mode == 1){
     //if(UI_mode == 1){
@@ -519,7 +518,7 @@ function button_My(){
 
     } else if(_this.UI_mode == 2){
     //} else if(UI_mode == 2){
-    console.log("UI_mode was changed", _this.UI_mode)
+    console.log("UI_mode was changed for X, Y", _this.UI_mode)
       _this.A_slider.hide()
       _this.B_slider.hide()
       _this.C_slider.hide()
@@ -575,7 +574,7 @@ function button_My(){
         case 1: // OpenClose Flower
           //_this.A_slider.attribute('value', _this.calcSliderPos2(Flower3.aMin, Flower3.aMax, Flower3.getA()))
           break
-        case 2: // Flagppig Bird
+        case 3: // Flagppig Bird
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           break
 
@@ -592,7 +591,7 @@ function button_My(){
       case 1: // OpenClose Flower
         //_this.B_slider.value(_this.calcSliderPos2(Flower3.bMin, Flower3.bMax, Flower3.getB()))
         break
-      case 2: // Flagppig Bird
+      case 3: // Flagppig Bird
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         break
 
@@ -609,7 +608,7 @@ function button_My(){
       case 1: // OpenClose Flower
         //_this.C_slider.value(_this.calcSliderPos2(Flower3.cMin, Flower3.cMax, Flower3.getC()))
         break
-      case 2: // Flagppig Bird
+      case 3: // Flagppig Bird
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         break
 
@@ -626,7 +625,7 @@ function button_My(){
       case 1: // OpenClose Flower
         //_this.D_slider.value(_this.calcSliderPos2(Flower3.dMin, Flower3.dMax, Flower3.getD()))
         break
-      case 2: // Flagppig Bird
+      case 3: // Flagppig Bird
         _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         break
       default:
@@ -639,7 +638,7 @@ function button_My(){
       case 1: // OpenClose Flower
         //_this.E_slider.value(_this.calcSliderPos2(Flower3.eMin, Flower3.eMax, Flower3.getE()))
         break
-      case 2: // Flagppig Bird
+      case 3: // Flagppig Bird
         //_this.E_slider.value(_this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         break
       default:
