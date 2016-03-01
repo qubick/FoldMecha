@@ -14,8 +14,8 @@ function UI(){
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
     ,currentModule = 0 // 1 OpenClose
-                        // 2 Bird
-                        // 3 PlanetaryGear
+                        // 3 Wings
+                        // 9 MySketch
   this.currentGearSize     = 2 //default
   this.currentServoAngle   = 180 // 180 or 360
   this.currentDrivingGear  = 0 // 0:left, 1:right
@@ -480,7 +480,7 @@ function button_My(){
 
     var sliderObj = [{}] //empty json
 
-    if(stdSliderValue.openclose != undefined){
+    if(stdSliderValue.openclose != undefined){ // have defined by opening this module at least once
 
       _this.A_slider.value(stdSliderValue.openclose.A)
       _this.B_slider.value(stdSliderValue.openclose.B)
@@ -489,7 +489,9 @@ function button_My(){
       _this.E_slider.value(stdSliderValue.openclose.E)
 
       //I don't think this is needed anymore if this is updated
-      //delete stdSliderValue.openclose
+      delete stdSliderValue.openclose
+    } else {
+      //save current value to empty sliderObj
     }
 
     _this.A_slider.changed(_this.sliderAUpdate)
@@ -530,7 +532,7 @@ function button_My(){
       _this.Y_slider.show()
     }
 
-    if(stdSliderValue.wings != undefined){ //once this module is opened, so that previous information is set up
+    if(stdSliderValue.wings != undefined){ // this module has been opened at least once, previous information is saved
 
       _this.A_slider.value(stdSliderValue.wings.A) //restore values from json obejct storage
       _this.B_slider.value(stdSliderValue.wings.B)
@@ -542,7 +544,9 @@ function button_My(){
       _this.X_slider.value(stdSliderValue.wings.X)
       _this.Y_slider.value(stdSliderValue.wings.Y)
 
-      //delete stdSliderValue.wings
+      delete stdSliderValue.wings
+    } else {
+      //save current slider information into empty json
     }
 
     _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
