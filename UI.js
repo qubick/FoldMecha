@@ -480,7 +480,7 @@ function button_My(){
 
     var sliderObj = [{}] //empty json
 
-    if(stdSliderValue.openclose != undefined){ // have defined by opening this module at least once
+    if(stdSliderValue.openclose != undefined){ // have defined by opening this module at least once, so revert previous information
 
       _this.A_slider.value(stdSliderValue.openclose.A)
       _this.B_slider.value(stdSliderValue.openclose.B)
@@ -492,6 +492,14 @@ function button_My(){
       delete stdSliderValue.openclose
     } else {
       //save current value to empty sliderObj
+      sliderObj.A = _this.A_slider.value()
+      sliderObj.B = _this.B_slider.value()
+      sliderObj.C = _this.C_slider.value()
+      sliderObj.D = _this.D_slider.value()
+      sliderObj.E = _this.E_slider.value()
+
+      stdSliderValue.openclose = sliderObj
+      console.log(stdSliderValue.openclose)
     }
 
     _this.A_slider.changed(_this.sliderAUpdate)
@@ -547,6 +555,18 @@ function button_My(){
       delete stdSliderValue.wings
     } else {
       //save current slider information into empty json
+      sliderObj.A = _this.A_slider.value()
+      sliderObj.B = _this.B_slider.value()
+      sliderObj.C = _this.C_slider.value()
+      sliderObj.D = _this.D_slider.value()
+      sliderObj.E = _this.E_slider.value()
+      sliderObj.F = _this.F_slider.value()
+
+      sliderObj.X = _this.X_slider.value()
+      sliderObj.Y = _this.Y_slider.value()
+
+      stdSliderValue.wings = sliderObj
+      console.log(stdSliderValue.wings)
     }
 
     _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
