@@ -116,7 +116,7 @@ function UI(){
 
   this.findDrawingFunc = function(){
     //return _this.mode
-    return _this.myBtnNames
+    return mySavedSketch
   }
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
@@ -137,7 +137,6 @@ function UI(){
         temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
 
-        temp.flowerCnt  = _this.flowerCnt++
         break;
       case 3: //Flapping
         temp.module = 3
@@ -150,7 +149,6 @@ function UI(){
         temp.mirroring  = _this.currentMirroring// True/False
         temp.driveGear  = _this.currentDrivingGear
 
-        temp.wingCnt    = _this.wingCnt++
         break;
       default:
       } // end of switch - case

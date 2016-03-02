@@ -92,21 +92,28 @@ function draw() {
     Panel.putText_My()
     Panel.callButton_MY()
 
-    var galleryMode = Panel.findDrawingFunc()
+    var mySavedModule = Panel.findDrawingFunc()
     //var savedDesign = Panel.findSavedDesign()
-    galleryMode.forEach(function(mode, i){
+    mySavedModule.forEach(function(entity, i){
       //all case is independent
-      if(mode == 1){
+      if(entity.module == 1){
         push()
-        translate(i*100, i*100)
+        translate(i*100, i*100) //move based on my_sketch setting
+        //pair_petal = entity.paring?
+        gearSize_petal = entity.gearSize
+        motorType_petal = entity.servoAngle
         Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
         pop()
       }
 
-      if(mode == 3){
+      if(entity.module == 3){
         //pass param based on returned savedDesign
         push()
-        translate(i*100, i*100)
+        translate(i*100, i*100) //move based on my_sketch setting
+        pair_wing = entity.mirroring
+        //gearType_wing = entity.
+        gearSize_wing = entity.gearSize
+        motorType_wing = entity.servoAngle
         Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
         pop()
       }
