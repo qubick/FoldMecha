@@ -98,7 +98,7 @@ function draw() {
       //all case is independent
       if(entity.module == 1){
         push()
-        translate(i*100, i*100) //move based on my_sketch setting
+        translate(i*50, i*50) //move based on my_sketch setting
         //pair_petal = entity.paring?
         gearSize_petal = entity.gearSize
         motorType_petal = entity.servoAngle
@@ -109,12 +109,12 @@ function draw() {
       if(entity.module == 3){
         //pass param based on returned savedDesign
         push()
-        translate(i*100, i*100) //move based on my_sketch setting
+        translate(i*50, i*50) //move based on my_sketch setting
         pair_wing = entity.mirroring
         //gearType_wing = entity.
         gearSize_wing = entity.gearSize
         motorType_wing = entity.servoAngle
-        Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
+        Bird1.compBird(pair_wing, gearType_wing, gearSize_wing, motorType_wing)
         pop()
       }
     })

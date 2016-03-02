@@ -326,28 +326,28 @@ function button_My(){
 
   //button creation - show is called every moment - might be overflowing
   var index = 0
-  mySavedSketch.forEach(function(design){
-    if(design.A != undefined){ //only when valid object
-      var title = ""
-
-      if(design.module == 1){
-        title = "Flower"
-      } else if(design.module == 3){
-        title = "Flapping"
-      }
-
-      _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
-
-      //maybe creating button is not needed..
-      _this.myBtnList[index++] = createButton(title).size(100,100)
-                                      .position(100+150*index, 20)
-                                      .mousePressed(constructPanel)
-    }
-  }); //end of foreach(mySavedSketch)
-
-  (_this.myBtnList).forEach(function(btn){
-    btn.hide()//.mousePressed(button_My) //this must be binded to drawing each module?
-  });
+  // mySavedSketch.forEach(function(design){
+  //   if(design.A != undefined){ //only when valid object
+  //     var title = ""
+  //
+  //     if(design.module == 1){
+  //       title = "Flower"
+  //     } else if(design.module == 3){
+  //       title = "Flapping"
+  //     }
+  //
+  //     _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
+  //
+  //     //maybe creating button is not needed..
+  //     _this.myBtnList[index++] = createButton(title).size(100,100)
+  //                                     .position(100+150*index, 20)
+  //                                     .mousePressed(constructPanel)
+  //   }
+  // }); //end of foreach(mySavedSketch)
+  //
+  // (_this.myBtnList).forEach(function(btn){
+  //   btn.hide()//.mousePressed(button_My) //this must be binded to drawing each module?
+  // });
 
     _this.pl_paring_toggle.hide()
     _this.OP_mtr180.hide()
