@@ -13,6 +13,8 @@ var pair_petal, gearSize_petal, motorType_petal
 var pair_wing, gearType_wing, gearSize_wing, motorType_wing, UI_wing
 var planet_pair,motorType_Pl
 
+var flowerCnt = 0
+
 function setup() {
   createCanvas(temp_windowWidth, temp_windowHeight)
   bgcolor1 = color(255)
@@ -84,7 +86,7 @@ function draw() {
     Panel.initUI()
     Panel.putText_Flapping_net()
 
-  }else if (pageMode==my_sketch){ //mode 9
+  }else if (pageMode == my_sketch){ //mode 9
 
     Panel.initUI()
     Panel.putText_My()
@@ -92,18 +94,22 @@ function draw() {
 
     var galleryMode = Panel.findDrawingFunc()
     //var savedDesign = Panel.findSavedDesign()
-    galleryMode.forEach(function(mode){
-
+    galleryMode.forEach(function(mode, i){
       //all case is independent
       if(mode == 1){
+        push()
+        translate(i*100, i*100)
         Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
+        pop()
       }
 
       if(mode == 3){
         //pass param based on returned savedDesign
+        push()
+        translate(i*100, i*100)
         Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
+        pop()
       }
-
     })
 
     // Panel.button_My() //creating gallery buttons upon save data

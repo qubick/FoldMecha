@@ -10,8 +10,6 @@ function UI(){
   this.myBtnList = [] //button array for my sketch
   this.myBtnNames = []
 
-  this.openCloseOpened = false
-
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
@@ -138,6 +136,8 @@ function UI(){
         temp.module     = 1
         temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
+
+        temp.flowerCnt  = _this.flowerCnt++
         break;
       case 3: //Flapping
         temp.module = 3
@@ -149,6 +149,8 @@ function UI(){
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
         temp.mirroring  = _this.currentMirroring// True/False
         temp.driveGear  = _this.currentDrivingGear
+
+        temp.wingCnt    = _this.wingCnt++
         break;
       default:
       } // end of switch - case
@@ -175,8 +177,9 @@ function UI(){
 
 //    this.menu_OP.size(200,200).position(250,150).show()
 //    this.menu_W.size(200,200).position(500,150).show()
-//    this.menu_My.size(200,200).position(750,150)
-//                .attribute('opacity',0).show()
+    // this.menu_My.size(200,200).position(750,150)
+    //             .attribute('background-color','white').show()
+    //             //.attribute('style.opacity','0').show()
 
 //    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
@@ -336,14 +339,16 @@ function button_My(){
       }
 
       _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
+
+      //maybe creating button is not needed..
       _this.myBtnList[index++] = createButton(title).size(100,100)
                                       .position(100+150*index, 20)
                                       .mousePressed(constructPanel)
     }
-  }); //end of foreach
+  }); //end of foreach(mySavedSketch)
 
   (_this.myBtnList).forEach(function(btn){
-    btn.show()//.mousePressed(button_My) //this must be binded to drawing each module?
+    btn.hide()//.mousePressed(button_My) //this must be binded to drawing each module?
   });
 
     _this.pl_paring_toggle.hide()
@@ -693,6 +698,5 @@ function button_My(){
   this.calcSliderPos3 = function(min, max, value) { // Wings
     return map(value,0,400,min,max)
   }
-
 
 }
