@@ -10,6 +10,8 @@ function UI(){
   this.myBtnList = [] //button array for my sketch
   this.myBtnNames = []
 
+  this.openCloseOpened = false
+
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
     ,mySavedSketch = [{}]
@@ -22,9 +24,9 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-//  this.menu_OP  = createButton('OPEN & CLOSE').mousePressed(button_OpenClose)
+//  this.menu_OP  = createButton('OPEN & CLOSE')//.mousePressed(_this.button_OpenClose)
 //  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
-//  this.menu_My  = createButton('MY SKETCHBOOK').mousePressed(button_My)
+//  this.menu_My  = createButton('').mousePressed(button_My) // MY SKETCHBOOK
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
@@ -173,7 +175,8 @@ function UI(){
 
 //    this.menu_OP.size(200,200).position(250,150).show()
 //    this.menu_W.size(200,200).position(500,150).show()
-//    this.menu_My.size(200,200).position(750,150).show()
+//    this.menu_My.size(200,200).position(750,150)
+//                .attribute('opacity',0).show()
 
 //    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
@@ -312,6 +315,9 @@ function button_folding_net(){
   _this.Btn_pdf.show().size(150,20).position(60,590)
 }
 
+this.callButton_MY = function(){
+  button_My()
+}
 function button_My(){
 
   _this.Btn_net.show().size(150,20).position(60,590)
@@ -489,7 +495,8 @@ function button_My(){
       _this.E_slider.value(stdSliderValue.openclose.E)
 
       //I don't think this is needed anymore if this is updated
-      delete stdSliderValue.openclose
+      if( delete stdSliderValue.openclose)
+        console.log('succeed')
     } else {
       //save current value to empty sliderObj
       sliderObj.A = _this.A_slider.value()

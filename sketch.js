@@ -45,18 +45,18 @@ function setup() {
 function draw() {
   background(bgcolor1)
 
-  if (pageMode==front){ //mode 0
+  if (pageMode == front){ //mode 0
     Panel.Front()
     Panel.button_front()
 
     IntroM1.button_back()
-    IntroM1.OpenClose(1,.5,-10,220)
-    IntroM1.OpenClose(-1,.5,-10,220)
+    IntroM1.OpenClose(1, .5, -10, 220) //left petal
+    IntroM1.OpenClose(-1, .5, -10, 220) //right petal
     IntroM1.compFlapping()
     IntroM1.button_font()
   }
 
-  else if (pageMode==open_close){ //mode 1
+  else if (pageMode == open_close){ //mode 1
     Panel.initUI()
     Panel.putText_OpenClose()
     Panel.button_OpenClose()
@@ -65,11 +65,11 @@ function draw() {
     Flower3.opencloseUI()
     Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
 
-  }else if (pageMode==open_close_net){ //mode 2
+  }else if (pageMode == open_close_net){ //mode 2
     Panel.initUI()
     Panel.putText_OpenClose_net()
 
-  }else if (pageMode==flapping){ //mode 3
+  }else if (pageMode == flapping){ //mode 3
 
     Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
 
@@ -88,6 +88,7 @@ function draw() {
 
     Panel.initUI()
     Panel.putText_My()
+    Panel.callButton_MY()
 
     var galleryMode = Panel.findDrawingFunc()
     //var savedDesign = Panel.findSavedDesign()
@@ -109,7 +110,7 @@ function draw() {
   }
 }
 
-function mousePressed(){ //map mouse release position to function
+function mousePressed(){ //map mouse pressed position to function
 
 //Universal -> go to HOME
     if (mouseX>60 && mouseX<210 && mouseY>615 && mouseY<635){ // Go to Home
