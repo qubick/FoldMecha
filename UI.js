@@ -24,7 +24,8 @@ function UI(){
 
 //  this.menu_OP  = createButton('OPEN & CLOSE')//.mousePressed(_this.button_OpenClose)
 //  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
-//  this.menu_My  = createButton('').mousePressed(button_My) // MY SKETCHBOOK
+  // this.menu_My  = createButton('')
+  //                 .attribute('src','assets/OpenClose.gif')//.mousePressed(button_My) // MY SKETCHBOOK
 
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
@@ -175,9 +176,8 @@ function UI(){
 
 //    this.menu_OP.size(200,200).position(250,150).show()
 //    this.menu_W.size(200,200).position(500,150).show()
-    // this.menu_My.size(200,200).position(750,150)
-    //             .attribute('background-color','white').show()
-    //             //.attribute('style.opacity','0').show()
+    //  this.menu_My.size(200,200).position(750,150)
+    //              .attribute('style.opacity','0').show()
 
 //    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
@@ -697,4 +697,30 @@ function button_My(){
     return map(value,0,400,min,max)
   }
 
+
+  this.mySketch_ModuleText = function(module, index){
+    var y = (index)*150
+
+    if(module == 1){
+      //left panel consist of flower
+      fill(0)
+      text("Position: ",  25, y)
+      text("Scale: ",     25, y+30)
+      text("Rotation: ",  25, y+60)
+      text("Parent: ",    25, y+90)
+      text("Servo Rotation Angle: ", 25, y+120)
+
+      //buttons
+      //toggle button 180 or continuous
+      // toggle button hide/show or delete
+    }
+    if(module == 3){
+      //left paner consist of wing
+      fill(0)
+      text("Position: ",  25, y)
+      text("Scale: ",     25, y+30)
+      text("Rotation: ",  25, y+60)
+      text("Parent: ",    25, y+90)
+    }
+  }
 }
