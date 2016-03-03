@@ -703,6 +703,11 @@ function button_My(){
 
     if(module == 1){
       //left panel consist of flower
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height)
+      fill(255)
+      text("Module"+index, 25, y-30)
+
       fill(0)
       text("Position: ",  25, y)
       text("Scale: ",     25, y+30)
@@ -716,6 +721,11 @@ function button_My(){
     }
     if(module == 3){
       //left paner consist of wing
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height)
+      fill(255)
+      text("Module"+index, 25, y-30)
+      
       fill(0)
       text("Position: ",  25, y)
       text("Scale: ",     25, y+30)

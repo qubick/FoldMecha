@@ -118,6 +118,8 @@ function draw() {
         pop()
       }
 
+      //should pass separate json of entity?
+      //can passed 'i' entify which entity?
       Panel.mySketch_ModuleText(entity.module, i)
     })
 
