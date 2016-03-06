@@ -699,7 +699,10 @@ function button_My(){
 
 
   this.mySketch_ModuleText = function(module, index){
-    var y = (index)*150
+    if(index < 2)
+      var y = 85
+    else
+      var y = (index)*150
 
     if(module == 1){
       //left panel consist of flower
@@ -725,7 +728,7 @@ function button_My(){
       rect(0,y-50, 270,30) //(x,y,width,height)
       fill(255)
       text("Module"+index, 25, y-30)
-      
+
       fill(0)
       text("Position: ",  25, y)
       text("Scale: ",     25, y+30)
