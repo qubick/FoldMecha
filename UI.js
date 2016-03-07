@@ -58,6 +58,28 @@ function UI(){
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
+  this.selectPartent = [] //array
+  this.btn180 = []
+  this.btnContd = []
+
+  for(var i=0; i<4; i++){ //up to saved model numbers
+    var sel = createSelect().hide()
+    sel.option('None')
+    sel.option('Module1') //option should be redefined upon relationship btw modules
+    sel.option('Module2')
+    sel.option('Module3')
+
+    var btn180 = createButton("180°").hide()
+    var btn360 = createButton("Continuous").hide()
+    this.selectPartent.push(sel)
+    this.btn180.push(btn180)
+    this.btnContd.push(btn360)
+  }
+
+  this.button_hide = createButton("Hide").hide()
+  this.button_show = createButton("show").hide()
+  this.button_Delete = createButton("Deleete").hide()
+
   // individual button event functions
   // _this: this object, this : caller button element
   function toggleParing(){
@@ -705,65 +727,50 @@ function button_My(){
     else
       var y = (index)*150
 
-    if(entity.module == 1){
-      //left panel consist of flower
-      fill(50)
-      rect(0,y-50, 270,30) //(x,y,width,height)
-      fill(255)
-      text("Module"+index, 25, y-30)
+    //these are common
+    fill(50)
+    rect(0,y-50, 270,30) //(x,y,width,height)
+    fill(255)
+    text("Module"+index, 25, y-30)
 
-      fill(0)
-      text("Position: ",  25, y)
-      text("Scale: ",     25, y+30)
-      text("Rotation: ",  25, y+60)
-      text("Parent: ",    25, y+90)
+    fill(0)
+    text("Position: ",  25, y)
+    text("Scale: ",     25, y+30)
+    text("Rotation: ",  25, y+60)
+    text("Parent: ",    25, y+90)
+
+    //informations
+    text("XX YY",       100, y) //position
+    text("100",         100, y+30) //scale
+    text("360",         100, y+60) //rotate
+
+    _this.selectPartent[index].changed(mySelectedEvent)
+                      .position(100, y+75)
+                      .show()
+
+    //toggle button hide/show or delete
+    /*
+    btnHide.show()
+    btnShow.show()
+    btnDelete.show()
+    */
+
+    //module specific interface
+    if(entity.module == 1){
+
       text("Servo Rotation Angle: ", 25, y+120)
 
-      //informations
-      text("XX YY",       100, y) //position
-      text("100",         100, y+30) //scale
-      text(entity.servoAngle, 100, y+60)
-
-      var sel = createSelect()
-      sel.option('None')
-      sel.option('Module1') //number && kinds of options should be decided later
-      sel.option('Module2')
-      sel.option('Module3')
-      sel.changed(mySelectedEvent)
-          .position(100, y+75)
-          .show()
       //toggle button 180 or continuous
-      //toggle button hide/show or delete
+      this.btn180[index-1].position(50, y+135).show()
+      this.btnContd[index-1].position(150, y+135).show()
+
     }
 
     if(entity.module == 3){
-      //left paner consist of wing
-      fill(50)
-      rect(0,y-50, 270,30) //(x,y,width,height)
-      fill(255)
-      text("Module"+index, 25, y-30)
 
-      fill(0)
-      text("Position: ",  25, y)
-      text("Scale: ",     25, y+30)
-      text("Rotation: ",  25, y+60)
-      text("Parent: ",    25, y+90)
-
-      //informations
-      text("XX YY",       100, y) //position
-      text("100",         100, y+30) //scale
-      text(entity.servoAngle, 100, y+60)
-
-      var sel = createSelect()
-      sel.option('None')
-      sel.option('Module1') //number && kinds of options should be decided later
-      sel.option('Module2')
-      sel.option('Module3')
-      sel.changed(mySelectedEvent)
-          .position(100, y+75)
-          .show()
     }
   }
+
   function mySelectedEvent(){ //anonymous function to deal with selection event
 
   }
