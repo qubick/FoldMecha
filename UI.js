@@ -231,6 +231,16 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
+    this.selectPartent.forEach(function(entity){
+      entity.hide()
+    });
+    this.btn180.forEach(function(entity){
+      entity.hide()
+    })
+    this.btnContd.forEach(function(entity){
+      entity.hide()
+    })
+
     this.myBtnList.forEach(function(btn){
       btn.hide()
     });
@@ -307,34 +317,36 @@ function UI(){
 }
 
 function button_folding_net(){
-  _this.pl_paring_toggle.hide()
-  _this.OP_mtr180.hide()
-  _this.OP_mtr360.hide()
-  _this.BtnStatus_mtr_A.hide()
-  _this.BtnStatus_mtr_B.hide()
-//    _this.menu_OP.hide()
-//    _this.menu_W.hide()
-//    _this.menu_My.hide()
-  _this.Btn_reset.hide()
-  _this.Btn_plt.hide()
-  _this.Btn_my.hide()
-  _this.size_1.hide()
-  _this.size_2.hide()
-  _this.size_3.hide()
-  _this.size_4.hide()
-  _this.mirr_apply.hide()
-  _this.mirr_cancel.hide()
 
-  _this.A_slider.hide()
-  _this.B_slider.hide()
-  _this.C_slider.hide()
-  _this.D_slider.hide()
-  _this.E_slider.hide()
-  _this.F_slider.hide()
-  _this.X_slider.hide()
-  _this.Y_slider.hide()
-
-  _this.Btn_net.hide()
+  //******** these all might be not needed if other modules is *always* connected from front
+//   _this.pl_paring_toggle.hide()
+//   _this.OP_mtr180.hide()
+//   _this.OP_mtr360.hide()
+//   _this.BtnStatus_mtr_A.hide()
+//   _this.BtnStatus_mtr_B.hide()
+// //    _this.menu_OP.hide()
+// //    _this.menu_W.hide()
+// //    _this.menu_My.hide()
+//   _this.Btn_reset.hide()
+//   _this.Btn_plt.hide()
+//   _this.Btn_my.hide()
+//   _this.size_1.hide()
+//   _this.size_2.hide()
+//   _this.size_3.hide()
+//   _this.size_4.hide()
+//   _this.mirr_apply.hide()
+//   _this.mirr_cancel.hide()
+//
+//   _this.A_slider.hide()
+//   _this.B_slider.hide()
+//   _this.C_slider.hide()
+//   _this.D_slider.hide()
+//   _this.E_slider.hide()
+//   _this.F_slider.hide()
+//   _this.X_slider.hide()
+//   _this.Y_slider.hide()
+//
+//   _this.Btn_net.hide()
   _this.Btn_pdf.show().size(150,20).position(60,590)
 }
 
@@ -757,7 +769,6 @@ function button_My(){
 
     //module specific interface
     if(entity.module == 1){
-
       text("Servo Rotation Angle: ", 25, y+120)
 
       //toggle button 180 or continuous
