@@ -698,13 +698,14 @@ function button_My(){
   }
 
 
-  this.mySketch_ModuleText = function(module, index){
+  this.mySketch_ModuleText = function(entity, index){
+
     if(index < 2)
       var y = 85
     else
       var y = (index)*150
 
-    if(module == 1){
+    if(entity.module == 1){
       //left panel consist of flower
       fill(50)
       rect(0,y-50, 270,30) //(x,y,width,height)
@@ -718,11 +719,24 @@ function button_My(){
       text("Parent: ",    25, y+90)
       text("Servo Rotation Angle: ", 25, y+120)
 
-      //buttons
+      //informations
+      text("XX YY",       100, y) //position
+      text("100",         100, y+30) //scale
+      text(entity.servoAngle, 100, y+60)
+
+      var sel = createSelect()
+      sel.option('None')
+      sel.option('Module1') //number && kinds of options should be decided later
+      sel.option('Module2')
+      sel.option('Module3')
+      sel.changed(mySelectedEvent)
+          .position(100, y+75)
+          .show()
       //toggle button 180 or continuous
-      // toggle button hide/show or delete
+      //toggle button hide/show or delete
     }
-    if(module == 3){
+
+    if(entity.module == 3){
       //left paner consist of wing
       fill(50)
       rect(0,y-50, 270,30) //(x,y,width,height)
@@ -734,6 +748,23 @@ function button_My(){
       text("Scale: ",     25, y+30)
       text("Rotation: ",  25, y+60)
       text("Parent: ",    25, y+90)
+
+      //informations
+      text("XX YY",       100, y) //position
+      text("100",         100, y+30) //scale
+      text(entity.servoAngle, 100, y+60)
+
+      var sel = createSelect()
+      sel.option('None')
+      sel.option('Module1') //number && kinds of options should be decided later
+      sel.option('Module2')
+      sel.option('Module3')
+      sel.changed(mySelectedEvent)
+          .position(100, y+75)
+          .show()
     }
+  }
+  function mySelectedEvent(){ //anonymous function to deal with selection event
+
   }
 }

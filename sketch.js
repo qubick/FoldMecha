@@ -120,7 +120,7 @@ function draw() {
 
       //should pass separate json of entity?
       //can passed 'i' entify which entity?
-      Panel.mySketch_ModuleText(entity.module, i)
+      Panel.mySketch_ModuleText(entity, i)
     })
 
     // Panel.button_My() //creating gallery buttons upon save data
