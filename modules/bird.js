@@ -276,17 +276,27 @@ this.UI1_created = false
     }
     ellipse(0, 0, 2*(-this.lineY+this.teethHeight), 2*(-this.lineY+this.teethHeight)) //gear flesh
 
-    if(gear_status == this.driverM){ //left gear center
+    if (pair_wing == 0){
       stroke(color(tempC))
       strokeWeight(5)
       fill(0)
       ellipse(0,0,20,20)
 
-    }else if(gear_status == this.drivenM){ //right gear center
-      noStroke()
-      fill(0)
-      ellipse(0,0,15,15)
+    }else if (pair_wing == 1){
+      if(gear_status == this.driverM){ //left gear center
+        stroke(color(tempC))
+        strokeWeight(5)
+        fill(0)
+        ellipse(0,0,20,20)
+
+      }else if(gear_status == this.drivenM){ //right gear center
+        noStroke()
+        fill(0)
+        ellipse(0,0,15,15)
+      }
     }
+
+
 
     pop()
 
@@ -397,6 +407,78 @@ this.UI1_created = false
     }
   }
 
+  this.drawNet = function(pair_wing,gearSize_wing){
+
+    var radiusN = 8*(5+gearSize_wing)
+
+    this.teethHeight=0.25*radiusN
+    this.numberOfTeeth=radiusN/4
+    this.teethAngle=TWO_PI/this.numberOfTeeth
+    this.teethWidth=sin(this.teethAngle/2)*radiusN
+    this.lineY=cos(this.teethAngle/2)*radiusN+this.teethHeight
+
+    var gear_x0 = (-3*this.teethWidth/4)-2.5  // extend
+    var gear_y0 = -this.lineY+this.teethHeight+1  // extend
+    var gear_x1 = (-3*this.teethWidth/4)+2 // drawing teeth
+    var gear_y1 = -this.lineY+this.teethHeight // drawing teeth
+    var gear_x2 = -this.teethWidth/2 // drawing teeth
+    var gear_y2 = -this.lineY // drawing teeth
+    var gear_x3 = (this.teethWidth/4)+2 // drawing teeth
+    var gear_y3 = -this.lineY // drawing teeth
+    var gear_x4 = this.teethWidth/2 // drawing teeth
+    var gear_y4 = -this.lineY+this.teethHeight // drawing teeth
+    var gear_x5 = (3*this.teethWidth/4)+2.5  // extend
+    var gear_y5 = -this.lineY+this.teethHeight+1  // extend
+
+    stroke(0)
+    fill(255)
+
+    if(pair_wing == 0){
+      push()
+      translate(100, 100)
+
+      for (var i=0; i<this.numberOfTeeth; i++){
+        rotate(this.teethAngle)
+        line (gear_x0, gear_y0, gear_x1, gear_y1) // extend
+        line (gear_x1, gear_y1, gear_x2, gear_y2) // drawing teeth
+        line (gear_x2, gear_y2, gear_x3, gear_y3) // drawing teeth
+        line (gear_x3, gear_y3, gear_x4, gear_y4) // drawing teeth
+        line (gear_x4, gear_y4, gear_x5, gear_y5) // extend
+      }
+      ellipse(0, 0, 20, 20) //gear center
+      pop()
+
+    } else if(pair_wing == 1){
+      push()
+      translate(100, 100)
+      for (var i=0; i<this.numberOfTeeth; i++)
+      {
+        rotate(this.teethAngle)
+        line (gear_x0, gear_y0, gear_x1, gear_y1) // extend
+        line (gear_x1, gear_y1, gear_x2, gear_y2) // drawing teeth
+        line (gear_x2, gear_y2, gear_x3, gear_y3) // drawing teeth
+        line (gear_x3, gear_y3, gear_x4, gear_y4) // drawing teeth
+        line (gear_x4, gear_y4, gear_x5, gear_y5) // extend
+      }
+      ellipse(0, 0, 20, 20) // Left gear center
+
+      // ONE MORE GEAR on Right
+      translate(radiusN*3, 0)
+      for (var i=0; i<this.numberOfTeeth; i++){
+        rotate(this.teethAngle)
+        line (gear_x0, gear_y0, gear_x1, gear_y1) // extend
+        line (gear_x1, gear_y1, gear_x2, gear_y2) // drawing teeth
+        line (gear_x2, gear_y2, gear_x3, gear_y3) // drawing teeth
+        line (gear_x3, gear_y3, gear_x4, gear_y4) // drawing teeth
+        line (gear_x4, gear_y4, gear_x5, gear_y5) // extend
+    }
+      ellipse(0, 0, 20, 20) //Right gear center
+      pop()
+
+    }
+//    console.log("radius: "+radiusN)
+  }
+
   // get functions
   this.getA = function(){return this.dist_a;}
   this.getB = function(){return this.dist_b;}
@@ -404,7 +486,6 @@ this.UI1_created = false
   this.getD = function(){return this.dist_d;}
   this.getE = function(){return this.dist_e;}
   this.getF = function(){return this.dist_f;}
-
   this.getX = function(){return this.x;}
   this.getY = function(){return this.y;}
 

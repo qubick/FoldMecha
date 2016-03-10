@@ -4,6 +4,8 @@ const open_close = 1
 const open_close_net = 2
 const flapping = 3
 const flapping_net = 4
+const walking = 5
+const walking_net = 6
 const my_sketch = 9
 
 var bgcolor1, bgcolor2
@@ -20,6 +22,8 @@ function setup() {
   bgcolor1 = color(255)
   bgcolor2 = color(200)
   tempC = color(0,120,230)
+  blue = color(70,150,255)
+  white = color(255)
   Flower3 = new OpenClose()
   Flower3.init()
   Bird1 = new Bird()
@@ -55,6 +59,8 @@ function draw() {
     IntroM1.OpenClose(1, .5, -10, 220) //left petal
     IntroM1.OpenClose(-1, .5, -10, 220) //right petal
     IntroM1.compFlapping()
+    IntroM1.walking()
+
     IntroM1.button_font()
   }
 
@@ -68,8 +74,10 @@ function draw() {
     Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
 
   }else if (pageMode == open_close_net){ //mode 2
-    Panel.initUI()
+    Panel.initUI_net()
     Panel.putText_OpenClose_net()
+
+    Flower3.drawNet( gearSize_petal, motorType_petal)
 
   }else if (pageMode == flapping){ //mode 3
 
@@ -77,14 +85,16 @@ function draw() {
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)
-    Panel.button_Wings()
+    Panel.button_Wings(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
     // Panel.Wings(UI_wing)
 
     Bird1.flappingUI(UI_wing) //draw things
 
   }else if (pageMode==flapping_net){ //mode 4
-    Panel.initUI()
-    Panel.putText_Flapping_net()
+    Panel.initUI_net()
+    Panel.putText_Flapping_net(pair_wing)
+
+    Bird1.drawNet(pair_wing,gearSize_wing)
 
   }else if (pageMode == my_sketch){ //mode 9
 
@@ -120,7 +130,7 @@ function draw() {
 
       //should pass separate json of entity?
       //can passed 'i' entify which entity?
-      Panel.mySketch_ModuleText(entity, i)
+      Panel.mySketch_ModuleText(entity.module, i)
     })
 
     // Panel.button_My() //creating gallery buttons upon save data
@@ -149,11 +159,10 @@ function mousePressed(){ //map mouse pressed position to function
     }else if (mouseX>500 && mouseX<700 && mouseY>150 && mouseY<350){
     // temp Flapping Mode
       pageMode = 3
-    }else if (mouseX>750 && mouseX<950 && mouseY>150 && mouseY<350){
-    // temp Planetary gear Mode
+    }else if (mouseX>250 && mouseX<450 && mouseY>400 && mouseY<430){
+    // temp My SKETCHBOOK
       pageMode = 9
     }
-
   } else if (pageMode == 1){ //flower menu
     if (mouseX>138 && mouseX<182 && mouseY>315 && mouseY<335){
     // add another petal for open & close
@@ -225,12 +234,17 @@ function mousePressed(){ //map mouse pressed position to function
     // two wings
        pair_wing = 0
     }
-    if (mouseX>150 && mouseX<175 && mouseY>345 && mouseY<365){
-    // button A : Gear Type
-       gearType_wing = 1
-    }else if (mouseX>200 && mouseX<225 && mouseY>345 && mouseY<365){
-    // button B : Gear Type
-       gearType_wing = 0
+
+    if (pair_wing == 1){
+      if (mouseX>150 && mouseX<175 && mouseY>345 && mouseY<365){
+      // button L : Gear Type
+         gearType_wing = 1
+      }else if (mouseX>200 && mouseX<225 && mouseY>345 && mouseY<365){
+      // button R : Gear Type
+         gearType_wing = 0
+      }
+    }else if (pair_wing == 0){
+         gearType_wing = 1
     }
 
     if (mouseX>115 && mouseX<135 && mouseY>375 && mouseY<395){
@@ -271,6 +285,20 @@ function mousePressed(){ //map mouse pressed position to function
        console.log(" FOLDING NET ENTERED")
     }
 
+  }
+
+  if (pageMode == 2){
+    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+    // back to the simulation
+       pageMode = 1;
+    }
+  }
+
+  if (pageMode == 4){
+    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+    // back to the simulation
+       pageMode = 3;
+    }
   }
 
 

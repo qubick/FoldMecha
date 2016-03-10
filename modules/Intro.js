@@ -64,10 +64,37 @@ function Intro(){
       rect(750,320,200,30)
     }
 
+    if(mouseX>=250 && mouseX<=450 && mouseY>=400 && mouseY<=430){
+      fill(0)
+      rect(250,400,200,30)
+    }else{
+      fill(120)
+      rect(250,400,200,30)
+    }
+
+    if(mouseX>=500 && mouseX<=700 && mouseY>=400 && mouseY<=430){
+      fill(0)
+      rect(500,400,200,30)
+    }else{
+      fill(120)
+      rect(500,400,200,30)
+    }
+
+    if(mouseX>=750 && mouseX<=950 && mouseY>=400 && mouseY<=430){
+      fill(0)
+      rect(750,400,200,30)
+    }else{
+      fill(120)
+      rect(750,400,200,30)
+    }
+
     fill(255)
     text("OPENING & CLOSING",275,340)
     text("FLAPPING",565,340)
-    text("MY SKETCHBOOK",785,340)
+    text("WALKING",815,340)
+    text("MY SKETCHBOOK",285,420)
+    text("GALLERY",567,420)
+    text("ABOUT",823,420)
   }
   this.OpenClose = function(side,mul,tempX,tempY){
 
@@ -329,6 +356,27 @@ function Intro(){
     noStroke()
     fill(color(tempC))
     triangle(this.a_x, this.a_y, this.b_x, this.b_y, this.c_x, this.c_y) //side a,b,c
+  }
+
+  this.walking = function(){
+    this.t5 = new Turtle()
+    this.t6 = new Turtle()
+
+    this.t5.penup()
+    this.t5.forward(height/2-220)
+    this.t5.right(90)
+    this.t5.forward(850-width/2)
+
+    this.w_center_x = this.t5.x
+    this.w_center_y = this.t5.y
+
+    this.t5.back(850-width/2)
+    this.t5.left(90)
+    this.t5.back(height/2-220)
+
+    ellipse(this.w_center_x,this.w_center_y,5,5)
+
+
 
   }
 

@@ -223,10 +223,17 @@ function OpenClose(){
     this.drawOP_X = -3*this.teethWidth/4-this.teethWidth
     this.drawOP_Y = -this.RlineY+this.teethHeight+this.rack_X_size/2
 
-    fill(255,0,255)
-    ellipse((-3*this.teethWidth/4)-this.teethWidth, -this.RlineY+this.teethHeight+this.rack_X_size/2,15,15)
-    pop()
+    // here making the purple dots
+    this.fx = (-3*this.teethWidth/4)-this.teethWidth
+    this.fy = -this.RlineY+this.teethHeight+this.rack_X_size/2
 
+//    fill(255,0,255)
+//    ellipse(this.fx,this.fy,15,15)
+
+
+    pop()
+//   console.log("Y: "+centerPositionX_rack) this.fx-centerPositionX_rack
+    this.drawOpenClose(650,this.fy-this.rack_Y, 1)
 
     if (motorType == 180){
       if(this.change_direction == 1){
@@ -261,10 +268,13 @@ function OpenClose(){
         }
       }
     }
+//centerPositionX_rack,this.rack_Y+this.teethWidth
+
+//  this.drawOpenClose(this.fx-centerPositionX_rack,this.fy-this.rack_Y), 1)
+    //draw OPEN & CLOSE
+
     this.rack_Y = this.rack_Y-this.rack_change_apply
 
-    this.drawOpenClose(centerPositionX_rack-this.drawOP_X, this.rack_Y+this.drawOP_Y/2,1)
-    //draw OPEN & CLOSE
   }
 
   this.drawPinionGear = function(radius, centerPositionX, centerPositionY,motorType){
@@ -472,12 +482,73 @@ function OpenClose(){
     this.t1.right(90)
     this.t1.back(height/2-tempY)
 
-    noStroke()
-    fill(255,0,0)
+    fill(255,0,255)
+    ellipse(tempX,-tempY,15,15)
+
 //    ellipse(this.ef_x,this.ef_y,10,10)
 //    ellipse(this.ef_x,115,10,10)
 
-   //console.log(this.)
+
+  }
+
+  this.drawNet = function(gearSize,motor_status){
+
+    var radiusN = 8*(5+gearSize)
+
+    this.teethHeight=0.25*radiusN
+    this.numberOfTeeth=radiusN/4
+    this.teethAngle=TWO_PI/this.numberOfTeeth
+    this.teethWidth=sin(this.teethAngle/2)*radiusN
+    this.lineY=cos(this.teethAngle/2)*radiusN+this.teethHeight
+
+    var gear_x0 = (-3*this.teethWidth/4)-2.5  // extend
+    var gear_y0 = -this.lineY+this.teethHeight+1  // extend
+    var gear_x1 = (-3*this.teethWidth/4)+2 // drawing teeth
+    var gear_y1 = -this.lineY+this.teethHeight // drawing teeth
+    var gear_x2 = -this.teethWidth/2 // drawing teeth
+    var gear_y2 = -this.lineY // drawing teeth
+    var gear_x3 = (this.teethWidth/4)+2 // drawing teeth
+    var gear_y3 = -this.lineY // drawing teeth
+    var gear_x4 = this.teethWidth/2 // drawing teeth
+    var gear_y4 = -this.lineY+this.teethHeight // drawing teeth
+    var gear_x5 = (3*this.teethWidth/4)+2.5  // extend
+    var gear_y5 = -this.lineY+this.teethHeight+1  // extend
+
+    stroke(0)
+    fill(255)
+
+      push()
+      translate(100, 100)
+
+      for (var i=0; i<this.numberOfTeeth; i++){
+        rotate(this.teethAngle)
+        line (gear_x0, gear_y0, gear_x1, gear_y1) // extend
+        line (gear_x1, gear_y1, gear_x2, gear_y2) // drawing teeth
+        line (gear_x2, gear_y2, gear_x3, gear_y3) // drawing teeth
+        line (gear_x3, gear_y3, gear_x4, gear_y4) // drawing teeth
+        line (gear_x4, gear_y4, gear_x5, gear_y5) // extend
+      }
+      ellipse(0, 0, 20, 20) //gear center
+
+      translate(radiusN*5/2,radiusN/2)
+
+      this.numberOfTeethR = 15
+        for (var i=0; i<this.numberOfTeethR; i++){
+          triangle((-3*this.teethWidth/4)+this.teethWidth*2*i-this.teethWidth, -this.RlineY+this.teethHeight, this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY+this.teethHeight, -this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY)
+          triangle((this.teethWidth/4)+this.teethWidth*2*i-this.teethWidth, -this.RlineY, -this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY, this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY+this.teethHeight)
+          line(-this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY, this.teethWidth/2+this.teethWidth*2*i-this.teethWidth, -this.RlineY+this.teethHeight)
+        }
+
+        this.rack_X_size = 70
+        rect((-3*this.teethWidth/4)-this.teethWidth*3/2, -this.RlineY+this.teethHeight,this.rack_Y_size, this.rack_X_size)
+
+
+      pop()
+
+/////////////
+
+
+
   }
 
 }

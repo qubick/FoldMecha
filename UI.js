@@ -22,11 +22,6 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-//  this.menu_OP  = createButton('OPEN & CLOSE')//.mousePressed(_this.button_OpenClose)
-//  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
-  // this.menu_My  = createButton('')
-  //                 .attribute('src','assets/OpenClose.gif')//.mousePressed(button_My) // MY SKETCHBOOK
-
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
   this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
   this.OP_mtr360 = createButton('Continuous').mousePressed(setServoAngle)
@@ -34,12 +29,15 @@ function UI(){
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_reset = createButton ('Reset all')
   this.Btn_pdf = createButton ('Download PDF')
-  this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
+  this.Btn_back = createButton ('Back to Simulation')
+  this.Btn_plt = createButton ('Save in My Sketch').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
+
+
   this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGear)
   this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGear)
 
@@ -57,28 +55,6 @@ function UI(){
 
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
-
-  this.selectPartent = [] //array
-  this.btn180 = []
-  this.btnContd = []
-
-  for(var i=0; i<4; i++){ //up to saved model numbers
-    var sel = createSelect().hide()
-    sel.option('None')
-    sel.option('Module1') //option should be redefined upon relationship btw modules
-    sel.option('Module2')
-    sel.option('Module3')
-
-    var btn180 = createButton("180°").hide()
-    var btn360 = createButton("Continuous").hide()
-    this.selectPartent.push(sel)
-    this.btn180.push(btn180)
-    this.btnContd.push(btn360)
-  }
-
-  this.button_hide = createButton("Hide").hide()
-  this.button_show = createButton("show").hide()
-  this.button_Delete = createButton("Deleete").hide()
 
   // individual button event functions
   // _this: this object, this : caller button element
@@ -194,14 +170,23 @@ function UI(){
 
   } // end of function initUI()
 
+  this.initUI_net = function(){ //initializer
+    //GRAY & BLACK background for LEFT PANEL
+    noStroke()
+    fill(_this.bgcolor2)
+    rect(0,500,270,_this.temp_windowHeight-500)
+    fill(0)
+    rect(0,575,270,125)
+    rect(0,500,270,35)
+
+    //checkbox
+    fill(255)
+    rect(20,35,230,150)
+
+  } // end of function initUI()
+
   this.button_front = function(){
 
-//    this.menu_OP.size(200,200).position(250,150).show()
-//    this.menu_W.size(200,200).position(500,150).show()
-    //  this.menu_My.size(200,200).position(750,150)
-    //              .attribute('style.opacity','0').show()
-
-//    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
     this.OP_mtr180.hide()
     this.OP_mtr360.hide()
@@ -209,6 +194,7 @@ function UI(){
     this.Btn_pdf.hide()
     this.Btn_plt.hide()
     this.Btn_net.hide()
+    this.Btn_back.hide()
     this.Btn_my.hide()
     this.Btn_home.hide()
     this.BtnStatus_mtr_A.hide()
@@ -231,16 +217,6 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    this.selectPartent.forEach(function(entity){
-      entity.hide()
-    });
-    this.btn180.forEach(function(entity){
-      entity.hide()
-    })
-    this.btnContd.forEach(function(entity){
-      entity.hide()
-    })
-
     this.myBtnList.forEach(function(btn){
       btn.hide()
     });
@@ -258,7 +234,6 @@ function UI(){
     _this.size_2.show().position(150,375)
     _this.size_3.show().position(185,375)
     _this.size_4.show().position(220,375)
-
     _this.OP_mtr180.show().position(50, 430)
     _this.OP_mtr360.show().position(140, 430)
 
@@ -272,9 +247,7 @@ function UI(){
     _this.BtnStatus_mtr_B.hide()
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
-  //  _this.menu_OP.hide()
-  //  _this.menu_W.hide()
-  //  _this.menu_My.hide()
+    _this.Btn_back.hide()
 
     _this.F_slider.hide()
     _this.X_slider.hide()
@@ -284,21 +257,61 @@ function UI(){
     _this.currentModule = 1
 }// end of function btn_openClose()
 
-  this.button_Wings = function(){
+  this.button_Wings = function(pair_wing,gearType,gearSize,motor_Type){
 
-    _this.mirr_apply.show().position(138,315)
-    _this.mirr_cancel.show().position(190,315)
+    if(pair_wing == 0){ // cancel pairing
+      _this.mirr_apply.show().position(138,315).style("background-color",white)
+      _this.mirr_cancel.show().position(190,315).style("background-color",blue)
 
-    _this.BtnStatus_mtr_A.show().position(150, 345)
-    _this.BtnStatus_mtr_B.show().position(200, 345)
+      _this.BtnStatus_mtr_A.hide()
+      _this.BtnStatus_mtr_B.hide()
 
-    _this.size_1.show().position(115,375)
-    _this.size_2.show().position(150,375)
-    _this.size_3.show().position(185,375)
-    _this.size_4.show().position(220,375)
+    }else if(pair_wing == 1){  // paired!
 
-    _this.OP_mtr180.show().position(50, 430)
-    _this.OP_mtr360.show().position(140, 430)
+      text("Driver Gear :", 20, 360)
+      _this.mirr_apply.show().position(138,315).style("background-color",blue)
+      _this.mirr_cancel.show().position(190,315).style("background-color",white)
+
+      if(gearType == 0){
+        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",white)
+        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",blue)
+      }else if(gearType == 1){
+        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",blue)
+        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",white)
+      }
+    }
+
+
+
+    if(gearSize == 1){
+      _this.size_1.show().position(115,375).style("background-color",blue)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 2){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",blue)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 3){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",blue)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 4){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",blue)
+    }
+
+    if (motor_Type == 180){
+      _this.OP_mtr180.show().position(50, 430).style("background-color",blue)
+      _this.OP_mtr360.show().position(140, 430).style("background-color",white)
+    }else if (motor_Type == 360){
+      _this.OP_mtr180.show().position(50, 430).style("background-color",white)
+      _this.OP_mtr360.show().position(140, 430).style("background-color",blue)
+    }
 
     _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
@@ -308,46 +321,40 @@ function UI(){
 
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
-  //  _this.menu_OP.hide()
-  //  _this.menu_W.hide()
-  //  _this.menu_My.hide()
+    _this.Btn_back.hide()
 
     Wings()
     _this.currentModule = 3
 }
 
 function button_folding_net(){
+  _this.pl_paring_toggle.hide()
+  _this.OP_mtr180.hide()
+  _this.OP_mtr360.hide()
+  _this.BtnStatus_mtr_A.hide()
+  _this.BtnStatus_mtr_B.hide()
+  _this.Btn_reset.hide()
+  _this.Btn_plt.hide()
+  _this.Btn_my.hide()
+  _this.size_1.hide()
+  _this.size_2.hide()
+  _this.size_3.hide()
+  _this.size_4.hide()
+  _this.mirr_apply.hide()
+  _this.mirr_cancel.hide()
 
-  //******** these all might be not needed if other modules is *always* connected from front
-//   _this.pl_paring_toggle.hide()
-//   _this.OP_mtr180.hide()
-//   _this.OP_mtr360.hide()
-//   _this.BtnStatus_mtr_A.hide()
-//   _this.BtnStatus_mtr_B.hide()
-// //    _this.menu_OP.hide()
-// //    _this.menu_W.hide()
-// //    _this.menu_My.hide()
-//   _this.Btn_reset.hide()
-//   _this.Btn_plt.hide()
-//   _this.Btn_my.hide()
-//   _this.size_1.hide()
-//   _this.size_2.hide()
-//   _this.size_3.hide()
-//   _this.size_4.hide()
-//   _this.mirr_apply.hide()
-//   _this.mirr_cancel.hide()
-//
-//   _this.A_slider.hide()
-//   _this.B_slider.hide()
-//   _this.C_slider.hide()
-//   _this.D_slider.hide()
-//   _this.E_slider.hide()
-//   _this.F_slider.hide()
-//   _this.X_slider.hide()
-//   _this.Y_slider.hide()
-//
-//   _this.Btn_net.hide()
-  _this.Btn_pdf.show().size(150,20).position(60,590)
+  _this.A_slider.hide()
+  _this.B_slider.hide()
+  _this.C_slider.hide()
+  _this.D_slider.hide()
+  _this.E_slider.hide()
+  _this.F_slider.hide()
+  _this.X_slider.hide()
+  _this.Y_slider.hide()
+
+  _this.Btn_net.hide()
+  _this.Btn_pdf.show().size(150,20).position(60,545)
+  _this.Btn_back.show().size(150,20).position(60,590)
 }
 
 this.callButton_MY = function(){
@@ -358,61 +365,37 @@ function button_My(){
   _this.Btn_net.show().size(150,20).position(60,590)
   _this.Btn_home.show().size(150,20).position(60,615)
 
-  //button creation - show is called every moment - might be overflowing
+//button creation - show is called every moment - might be overflowing
   var index = 0
-  // mySavedSketch.forEach(function(design){
-  //   if(design.A != undefined){ //only when valid object
-  //     var title = ""
-  //
-  //     if(design.module == 1){
-  //       title = "Flower"
-  //     } else if(design.module == 3){
-  //       title = "Flapping"
-  //     }
-  //
-  //     _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
-  //
-  //     //maybe creating button is not needed..
-  //     _this.myBtnList[index++] = createButton(title).size(100,100)
-  //                                     .position(100+150*index, 20)
-  //                                     .mousePressed(constructPanel)
-  //   }
-  // }); //end of foreach(mySavedSketch)
-  //
-  // (_this.myBtnList).forEach(function(btn){
-  //   btn.hide()//.mousePressed(button_My) //this must be binded to drawing each module?
-  // });
 
-    _this.pl_paring_toggle.hide()
-    _this.OP_mtr180.hide()
-    _this.OP_mtr360.hide()
-    _this.BtnStatus_mtr_A.hide()
-    _this.BtnStatus_mtr_B.hide()
-//    _this.menu_OP.hide()
-//    _this.menu_W.hide()
-//    _this.menu_My.hide()
-    _this.Btn_reset.hide()
-    _this.Btn_pdf.hide()
-    _this.Btn_plt.hide()
-    _this.Btn_my.hide()
-    _this.size_1.hide()
-    _this.size_2.hide()
-    _this.size_3.hide()
-    _this.size_4.hide()
-    _this.mirr_apply.hide()
-    _this.mirr_cancel.hide()
+  _this.pl_paring_toggle.hide()
+  _this.OP_mtr180.hide()
+  _this.OP_mtr360.hide()
+  _this.BtnStatus_mtr_A.hide()
+  _this.BtnStatus_mtr_B.hide()
+  _this.Btn_reset.hide()
+  _this.Btn_pdf.hide()
+  _this.Btn_plt.hide()
+  _this.Btn_back.hide()
+  _this.Btn_my.hide()
+  _this.size_1.hide()
+  _this.size_2.hide()
+  _this.size_3.hide()
+  _this.size_4.hide()
+  _this.mirr_apply.hide()
+  _this.mirr_cancel.hide()
 
-    _this.A_slider.hide()
-    _this.B_slider.hide()
-    _this.C_slider.hide()
-    _this.D_slider.hide()
-    _this.E_slider.hide()
-    _this.F_slider.hide()
-    _this.X_slider.hide()
-    _this.Y_slider.hide()
+  _this.A_slider.hide()
+  _this.B_slider.hide()
+  _this.C_slider.hide()
+  _this.D_slider.hide()
+  _this.E_slider.hide()
+  _this.F_slider.hide()
+  _this.X_slider.hide()
+  _this.Y_slider.hide()
 
-    _this.currentModule = 9
-  }
+  _this.currentModule = 9
+}
 
   //*********** UI Panel texts
   this.putText_OpenClose = function(){
@@ -431,20 +414,16 @@ function button_My(){
     text("Servo Rotation Angle :", 20, 420)
 
   }
-
   this.putText_OpenClose_net = function(){
 
     noStroke()
     fill(255)
-    text("FOLDING NET  :  OPEN & CLOSE", 22, 25)
+    text("FOLDING NET  :  OPEN & CLOSE", 22, 525)
     fill(_this.bgcolor2)
-    rect(0,35,270, _this.temp_windowHeight-160)
-    fill(0)
-    text("Assembly Instruction", 60, 55)
+  //  rect(0,35,270, _this.temp_windowHeight-160)
 
   }
-
-  this.putText_Wings = function(UI_wing){
+  this.putText_Wings = function(UI_wing,pair_wing){
     _this.UI_mode = UI_wing
 
     noStroke()
@@ -452,9 +431,9 @@ function button_My(){
     text("FLAPPING", 100, 25)
     fill(0)
     text("Model Mirroring :", 20, 330)
-    text("Driver Gear :", 20, 360)
     text("Gear Size :", 20, 390)
     text("Servo Rotation Angle :", 20, 420)
+
 
     if(_this.UI_mode == 1){
       text("A", 25, 230)
@@ -469,20 +448,15 @@ function button_My(){
     }
   //  button_Wings()
   }
-
-
   this.putText_Flapping_net = function(){
 
     noStroke()
     fill(255)
-    text("FOLDING NET  :  FLAPPING", 37, 25)
+    text("FOLDING NET  :  FLAPPING", 37, 525)
     fill(_this.bgcolor2)
-    rect(0,35,270, _this.temp_windowHeight-160)
-    fill(0)
-    text("Assembly Instruction", 60, 55)
+  //  rect(0,35,270, _this.temp_windowHeight-160)
 
   }
-
   this.putText_My = function(){
     //this: caller button, _this: UI
     fill(_this.bgcolor2)
@@ -491,7 +465,6 @@ function button_My(){
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
 
-    //button_My()
   }
   this.Front = function(){
     background(bgcolor2)
@@ -502,8 +475,7 @@ function button_My(){
     textSize(15)
     text("design your own mechanical movement and download the folding net to bulid",360,100)
 
-    //button_front()
-  }
+ }
 
 /*   from here:   slider section */
   this.UI_OpenClose_init = function(){
@@ -552,7 +524,7 @@ function button_My(){
     _this.D_slider.changed(_this.sliderDUpdate)
     _this.E_slider.changed(_this.sliderEUpdate)
 
-    console.log("current Module #:", _this.currentModule)
+  //  console.log("current Module #:", _this.currentModule)
   }
 
   function Wings(){
@@ -732,57 +704,39 @@ function button_My(){
   }
 
 
-  this.mySketch_ModuleText = function(entity, index){
+  this.mySketch_ModuleText = function(module, index){
+    var y = (index)*150
 
-    if(index < 2)
-      var y = 85
-    else
-      var y = (index)*150
+    if(module == 1){
+      //left panel consist of flower
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height)
+      fill(255)
+      text("Module"+index, 25, y-30)
 
-    //these are common
-    fill(50)
-    rect(0,y-50, 270,30) //(x,y,width,height)
-    fill(255)
-    text("Module"+index, 25, y-30)
-
-    fill(0)
-    text("Position: ",  25, y)
-    text("Scale: ",     25, y+30)
-    text("Rotation: ",  25, y+60)
-    text("Parent: ",    25, y+90)
-
-    //informations
-    text("XX YY",       100, y) //position
-    text("100",         100, y+30) //scale
-    text("360",         100, y+60) //rotate
-
-    _this.selectPartent[index].changed(mySelectedEvent)
-                      .position(100, y+75)
-                      .show()
-
-    //toggle button hide/show or delete
-    /*
-    btnHide.show()
-    btnShow.show()
-    btnDelete.show()
-    */
-
-    //module specific interface
-    if(entity.module == 1){
+      fill(0)
+      text("Position: ",  25, y)
+      text("Scale: ",     25, y+30)
+      text("Rotation: ",  25, y+60)
+      text("Parent: ",    25, y+90)
       text("Servo Rotation Angle: ", 25, y+120)
 
+      //buttons
       //toggle button 180 or continuous
-      this.btn180[index-1].position(50, y+135).show()
-      this.btnContd[index-1].position(150, y+135).show()
-
+      // toggle button hide/show or delete
     }
+    if(module == 3){
+      //left paner consist of wing
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height)
+      fill(255)
+      text("Module"+index, 25, y-30)
 
-    if(entity.module == 3){
-
+      fill(0)
+      text("Position: ",  25, y)
+      text("Scale: ",     25, y+30)
+      text("Rotation: ",  25, y+60)
+      text("Parent: ",    25, y+90)
     }
-  }
-
-  function mySelectedEvent(){ //anonymous function to deal with selection event
-
   }
 }
