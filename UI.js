@@ -34,12 +34,14 @@ function UI(){
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_reset = createButton ('Reset all')
   this.Btn_pdf = createButton ('Download PDF')
+  this.Btn_back = createButton ('Back to Simulation')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
+
   this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGear)
   this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGear)
 
@@ -194,6 +196,21 @@ function UI(){
 
   } // end of function initUI()
 
+  this.initUI_net = function(){ //initializer
+    //GRAY & BLACK background for LEFT PANEL
+    noStroke()
+    fill(_this.bgcolor2)
+    rect(0,500,270,_this.temp_windowHeight-500)
+    fill(0)
+    rect(0,575,270,125)
+    rect(0,500,270,35)
+
+    //checkbox
+    fill(255)
+    rect(20,35,230,150)
+
+  } // end of function initUI()
+
   this.button_front = function(){
 
 //    this.menu_OP.size(200,200).position(250,150).show()
@@ -209,6 +226,7 @@ function UI(){
     this.Btn_pdf.hide()
     this.Btn_plt.hide()
     this.Btn_net.hide()
+    this.Btn_back.hide()
     this.Btn_my.hide()
     this.Btn_home.hide()
     this.BtnStatus_mtr_A.hide()
@@ -272,6 +290,7 @@ function UI(){
     _this.BtnStatus_mtr_B.hide()
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
+    _this.Btn_back.hide()
   //  _this.menu_OP.hide()
   //  _this.menu_W.hide()
   //  _this.menu_My.hide()
@@ -284,21 +303,61 @@ function UI(){
     _this.currentModule = 1
 }// end of function btn_openClose()
 
-  this.button_Wings = function(){
+  this.button_Wings = function(pair_wing,gearType,gearSize,motor_Type){
 
-    _this.mirr_apply.show().position(138,315)
-    _this.mirr_cancel.show().position(190,315)
+    if(pair_wing == 0){ // cancel pairing
+      _this.mirr_apply.show().position(138,315).style("background-color",white)
+      _this.mirr_cancel.show().position(190,315).style("background-color",blue)
 
-    _this.BtnStatus_mtr_A.show().position(150, 345)
-    _this.BtnStatus_mtr_B.show().position(200, 345)
+      _this.BtnStatus_mtr_A.hide()
+      _this.BtnStatus_mtr_B.hide()
 
-    _this.size_1.show().position(115,375)
-    _this.size_2.show().position(150,375)
-    _this.size_3.show().position(185,375)
-    _this.size_4.show().position(220,375)
+    }else if(pair_wing == 1){  // paired!
 
-    _this.OP_mtr180.show().position(50, 430)
-    _this.OP_mtr360.show().position(140, 430)
+      text("Driver Gear :", 20, 360)
+      _this.mirr_apply.show().position(138,315).style("background-color",blue)
+      _this.mirr_cancel.show().position(190,315).style("background-color",white)
+
+      if(gearType == 0){
+        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",white)
+        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",blue)
+      }else if(gearType == 1){
+        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",blue)
+        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",white)
+      }
+    }
+
+
+
+    if(gearSize == 1){
+      _this.size_1.show().position(115,375).style("background-color",blue)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 2){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",blue)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 3){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",blue)
+      _this.size_4.show().position(220,375).style("background-color",white)
+    }else if(gearSize == 4){
+      _this.size_1.show().position(115,375).style("background-color",white)
+      _this.size_2.show().position(150,375).style("background-color",white)
+      _this.size_3.show().position(185,375).style("background-color",white)
+      _this.size_4.show().position(220,375).style("background-color",blue)
+    }
+
+    if (motor_Type == 180){
+      _this.OP_mtr180.show().position(50, 430).style("background-color",blue)
+      _this.OP_mtr360.show().position(140, 430).style("background-color",white)
+    }else if (motor_Type == 360){
+      _this.OP_mtr180.show().position(50, 430).style("background-color",white)
+      _this.OP_mtr360.show().position(140, 430).style("background-color",blue)
+    }
 
     _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
@@ -308,6 +367,8 @@ function UI(){
 
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
+    _this.Btn_back.hide()
+
   //  _this.menu_OP.hide()
   //  _this.menu_W.hide()
   //  _this.menu_My.hide()
@@ -347,7 +408,8 @@ function button_folding_net(){
 //   _this.Y_slider.hide()
 //
 //   _this.Btn_net.hide()
-  _this.Btn_pdf.show().size(150,20).position(60,590)
+  _this.Btn_pdf.show().size(150,20).position(60,545)
+  _this.Btn_back.show().size(150,20).position(60,590)
 }
 
 this.callButton_MY = function(){
@@ -394,6 +456,7 @@ function button_My(){
     _this.Btn_reset.hide()
     _this.Btn_pdf.hide()
     _this.Btn_plt.hide()
+    _this.Btn_back.hide()
     _this.Btn_my.hide()
     _this.size_1.hide()
     _this.size_2.hide()

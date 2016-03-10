@@ -74,7 +74,7 @@ function draw() {
     Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
 
   }else if (pageMode == open_close_net){ //mode 2
-    Panel.initUI_net()
+    Panel.initUI()
     Panel.putText_OpenClose_net()
 
     Flower3.drawNet( gearSize_petal, motorType_petal)
@@ -91,8 +91,8 @@ function draw() {
     Bird1.flappingUI(UI_wing) //draw things
 
   }else if (pageMode==flapping_net){ //mode 4
-    Panel.initUI_net()
-    Panel.putText_Flapping_net(pair_wing)
+    Panel.initUI()
+    Panel.putText_Flapping_net()
 
     Bird1.drawNet(pair_wing,gearSize_wing)
 
@@ -130,7 +130,7 @@ function draw() {
 
       //should pass separate json of entity?
       //can passed 'i' entify which entity?
-      Panel.mySketch_ModuleText(entity.module, i)
+      Panel.mySketch_ModuleText(entity, i)
     })
 
     // Panel.button_My() //creating gallery buttons upon save data
@@ -159,10 +159,11 @@ function mousePressed(){ //map mouse pressed position to function
     }else if (mouseX>500 && mouseX<700 && mouseY>150 && mouseY<350){
     // temp Flapping Mode
       pageMode = 3
-    }else if (mouseX>250 && mouseX<450 && mouseY>400 && mouseY<430){
-    // temp My SKETCHBOOK
+    }else if (mouseX>750 && mouseX<950 && mouseY>150 && mouseY<350){
+    // temp Planetary gear Mode
       pageMode = 9
     }
+
   } else if (pageMode == 1){ //flower menu
     if (mouseX>138 && mouseX<182 && mouseY>315 && mouseY<335){
     // add another petal for open & close
@@ -288,18 +289,18 @@ function mousePressed(){ //map mouse pressed position to function
   }
 
   if (pageMode == 2){
-    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
-    // back to the simulation
-       pageMode = 1;
-    }
+  if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+  // back to the simulation
+     pageMode = 1;
   }
+}
 
-  if (pageMode == 4){
-    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
-    // back to the simulation
-       pageMode = 3;
-    }
+if (pageMode == 4){
+  if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+  // back to the simulation
+     pageMode = 3;
   }
+}
 
 
 }
