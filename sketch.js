@@ -81,7 +81,8 @@ function draw() {
 
   }else if (pageMode == flapping){ //mode 3
 
-    Bird1.compBird(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
+    //this must be change by button trigger --> get return current mirroring status
+    Bird1.compBird(pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)

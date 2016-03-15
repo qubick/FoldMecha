@@ -22,7 +22,8 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-  this.mirroring_toggle = createButton('Cancel').mousePressed(toggleMirroring)
+  //default == canceled --> possible action = "apply"
+  this.mirroring_toggle = createButton('Apply').mousePressed(toggleMirroring)
 
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
@@ -33,8 +34,6 @@ function UI(){
   this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
-  //this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
-  //this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
 
   this.mtr_L = createButton('L').mousePressed(setDrivingGear)
   this.mtr_R = createButton('R').mousePressed(setDrivingGear)
@@ -101,9 +100,6 @@ function UI(){
         _this.size_3.style('background-color','white')
         _this.size_4.style('background-color','white')
 
-        // _this.mirr_apply.style('background-color','white')
-        // _this.mirr_cancel.style('background-color','blue') //default is cancel
-
         _this.mtr180.style('background-color','blue')
         _this.mtr360.style('background-color','white')
       } else {
@@ -123,9 +119,6 @@ function UI(){
         _this.size_3.style('background-color','white')
         _this.size_4.style('background-color','white')
 
-        // _this.mirr_apply.style('background-color','white')
-        // _this.mirr_cancel.style('background-color','blue') //default is cancel
-
         _this.mtr180.style('background-color','blue')
         _this.mtr360.style('background-color','white')
 
@@ -139,13 +132,15 @@ function UI(){
   // individual button event functions
   // _this: this object, this : caller button element
   function toggleMirroring(){ //no highlight needed
+
+    if(!_this.currentMirroring) //if applied state
+      _this.mirroring_toggle.html('Cancle')
+    else
+      _this.mirroring_toggle.html('Apply')
+
     _this.currentMirroring = 1 - _this.currentMirroring //toggle btw true(1) - false(0)
     console.log("current paring status: ", _this.currentMirroring)
 
-    if(!_this.currentMirroring) //if applied state
-      _this.mirroring_toggle.html('Apply')
-    else
-      _this.mirroring_toggle.html('Cancel')
   }
 
   function setGearSize(){
@@ -192,20 +187,6 @@ function UI(){
 
     console.log(_this.currentServoAngle)
   }
-
-  // function setMirroring(){
-  //   if(this.elt.innerHTML == "Apply"){
-  //     _this.mirr_apply.style('background-color', 'blue')
-  //     _this.mirr_cancel.style('background-color', 'white')
-  //
-  //     _this.currentMirroring = true
-  //   } else { //Cancel
-  //     _this.mirr_apply.style('background-color', 'white')
-  //     _this.mirr_cancel.style('background-color', 'blue')
-  //
-  //     _this.currentMirroring = false
-  //   }
-  // }
 
   function setDrivingGear(){
     if(this.elt.innerHTML == 'L'){
@@ -323,8 +304,6 @@ function UI(){
     this.size_2.hide()
     this.size_3.hide()
     this.size_4.hide()
-    // this.mirr_apply.hide()
-    // this.mirr_cancel.hide()
     this.Mech_show.hide()
     this.Mech_hide.hide()
 
@@ -389,16 +368,14 @@ function UI(){
 }// end of function btn_openClose()
 
   this.button_Wings = function(){
-    // _this.mirr_apply.show().position(138,315)//.style("background-color",blue)
-    // _this.mirr_cancel.show().position(190,315)//.style("background-color",white)
 
     _this.mirroring_toggle.show().position(164, 315)
 
-    if(pair_wing == 0){ // cancel pairing
+    if(_this.currentMirroring == 0){ // cancel pairing
       _this.mtr_L.hide()
       _this.mtr_R.hide()
 
-    }else if(pair_wing == 1){  // paired!
+    }else if(_this.currentMirroring == 1){  // paired!
       text("Driver Gear :", 20, 360)
 
       _this.mtr_L.show().position(150, 345)
@@ -458,8 +435,6 @@ function button_My(){
     _this.size_2.hide()
     _this.size_3.hide()
     _this.size_4.hide()
-    // _this.mirr_apply.hide()
-    // _this.mirr_cancel.hide()
 
     _this.A_slider.hide()
     _this.B_slider.hide()
@@ -654,11 +629,6 @@ function button_My(){
       _this.X_slider.value(stdSliderValue.wings.X)
       _this.Y_slider.value(stdSliderValue.wings.Y)
 
-       if(stdSliderValue.wings.currentMirroring){
-         setMirroring()
-       } else {
-         //setMirroring()
-       }
       //delete stdSliderValue.wings
     } else {
       //save current slider information into empty json
