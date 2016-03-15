@@ -134,21 +134,31 @@ function UI(){
   }
 
   function setMirroring(){
-    if(this.elt.innerHTML == "Apply")
-      _this.currentMirroring = true
-    else //Cancel
-      _this.currentMirroring = false
+    if(this.elt.innerHTML == "Apply"){
+      _this.mirr_apply.style('background-color', 'blue')
+      _this.mirr_cancel.style('background-color', 'white')
 
-    console.log(_this.currentMirroring)
+      _this.currentMirroring = true
+    } else { //Cancel
+      _this.mirr_apply.style('background-color', 'white')
+      _this.mirr_cancel.style('background-color', 'blue')
+
+      _this.currentMirroring = false
+    }
   }
 
   function setDrivingGear(){
-    if(this.elt.innerHTML == 'L')
-      _this.currentDrivingGear = "LEFT"
-    else // R
-      _this.currentDrivingGear = "RIGHT"
+    if(this.elt.innerHTML == 'L'){
+      _this.BtnStatus_mtr_A.style('background-color', 'blue')
+      _this.BtnStatus_mtr_B.style('background-color', 'white')
 
-    console.log(_this.currentDrivingGear)
+      _this.currentDrivingGear = "LEFT"
+    }else { // R
+      _this.BtnStatus_mtr_A.style('background-color', 'white')
+      _this.BtnStatus_mtr_B.style('background-color', 'blue')
+
+      _this.currentDrivingGear = "RIGHT"
+    }
   }
 
   function constructPanel(){
@@ -330,8 +340,8 @@ function UI(){
   this.button_Wings = function(pair_wing,gearType,gearSize,motor_Type){
 
     if(pair_wing == 0){ // cancel pairing
-      _this.mirr_apply.show().position(138,315).style("background-color",white)
-      _this.mirr_cancel.show().position(190,315).style("background-color",blue)
+      _this.mirr_apply.show().position(138,315)//.style("background-color",white)
+      _this.mirr_cancel.show().position(190,315)//.style("background-color",blue)
 
       _this.BtnStatus_mtr_A.hide()
       _this.BtnStatus_mtr_B.hide()
@@ -342,13 +352,15 @@ function UI(){
       _this.mirr_apply.show().position(138,315).style("background-color",blue)
       _this.mirr_cancel.show().position(190,315).style("background-color",white)
 
-      if(gearType == 0){
-        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",white)
-        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",blue)
-      }else if(gearType == 1){
-        _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",blue)
-        _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",white)
-      }
+      _this.BtnStatus_mtr_A.show().position(150, 345)
+      _this.BtnStatus_mtr_B.show().position(200, 345)
+      // if(gearType == 0){
+      //   _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",white)
+      //   _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",blue)
+      // }else if(gearType == 1){
+      //   _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",blue)
+      //   _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",white)
+      // }
     }
 
      _this.size_1.show().position(115,375)
@@ -685,16 +697,16 @@ function button_My(){
       _this.X_slider.value(stdSliderValue.wings.X)
       _this.Y_slider.value(stdSliderValue.wings.Y)
 
-      if(stdSliderValue.wings.currentMirroring){
-        _this.mirr_apply.style('background-color','blue')
-        _this.mirr_cancel.style('background-color','white')
-      } else {
-        _this.mirr_apply.style('background-color','white')
-        _this.mirr_cancel.style('background-color','blue')
-      }
+       if(stdSliderValue.wings.currentMirroring){
+         setMirroring()
+       } else {
+         //setMirroring()
+       }
       //delete stdSliderValue.wings
     } else {
       //save current slider information into empty json
+      //for the first time, have to create json obj
+      //should saving ahppens everytime it changed?
       sliderObj.A = _this.A_slider.value()
       sliderObj.B = _this.B_slider.value()
       sliderObj.C = _this.C_slider.value()
@@ -741,8 +753,12 @@ function button_My(){
       switch (_this.currentModule) {
         case 1: // OpenClose Flower
           //_this.A_slider.attribute('value', _this.calcSliderPos2(Flower3.aMin, Flower3.aMax, Flower3.getA()))
+
+          //we assume this is only possible when there is already json obj created
+          stdSliderValue.openclose.A = _this.A_slider.value()
           break
         case 3: // Flagppig Bird
+          stdSliderValue.wings.A = _this.A_slider.value()
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           break
 
@@ -758,8 +774,10 @@ function button_My(){
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.B_slider.value(_this.calcSliderPos2(Flower3.bMin, Flower3.bMax, Flower3.getB()))
+        stdSliderValue.openclose.B = _this.B_slider.value()
         break
       case 3: // Flagppig Bird
+        stdSliderValue.wings.B = _this.B_slider.value()
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         break
 
@@ -775,8 +793,10 @@ function button_My(){
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.C_slider.value(_this.calcSliderPos2(Flower3.cMin, Flower3.cMax, Flower3.getC()))
+        stdSliderValue.openclose.C = _this.C_slider.value()
         break
       case 3: // Flagppig Bird
+        stdSliderValue.wings.C = _this.C_slider.value()
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         break
 
@@ -792,9 +812,11 @@ function button_My(){
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.D_slider.value(_this.calcSliderPos2(Flower3.dMin, Flower3.dMax, Flower3.getD()))
+        stdSliderValue.openclose.D = _this.D_slider.value()
         break
       case 3: // Flagppig Bird
         _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        stdSliderValue.wings.D = _this.D_slider.value()
         break
       default:
     }
@@ -805,9 +827,11 @@ function button_My(){
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.E_slider.value(_this.calcSliderPos2(Flower3.eMin, Flower3.eMax, Flower3.getE()))
+        stdSliderValue.openclose.E = _this.E_slider.value()
         break
       case 3: // Flagppig Bird
         //_this.E_slider.value(_this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        stdSliderValue.wings.E = _this.E_slider.value()
         break
       default:
     }
@@ -816,14 +840,17 @@ function button_My(){
   this.sliderFUpdate = function() {
     // no switch case cuz OP module doesn't have slider F
     Bird1.setF(_this.F_slider.value())
+    stdSliderValue.wings.F = _this.F_slider.value()
   }
 
   this.sliderXUpdate = function() {
     Bird1.setX(_this.X_slider.value())
+    stdSliderValue.wings.X = _this.X_slider.value()
   }
 
   this.sliderYUpdate = function() {
     Bird1.setY(_this.Y_slider.value())
+    stdSliderValue.wings.Y = _this.Y_slider.value()
   }
 
   /* from here: wing sliders */
