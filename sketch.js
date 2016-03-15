@@ -85,7 +85,7 @@ function draw() {
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)
-    Panel.button_Wings(pair_wing,gearType_wing,gearSize_wing,motorType_wing)
+    Panel.button_Wings()
     // Panel.Wings(UI_wing)
 
     Bird1.flappingUI(UI_wing) //draw things
@@ -156,9 +156,11 @@ function mousePressed(){ //map mouse pressed position to function
     if (mouseX>250 && mouseX<450 && mouseY>150 && mouseY<350){
     // temp Open & Close Mode
       pageMode = 1
+      Panel.initCurrentSelection(pageMode)
     }else if (mouseX>500 && mouseX<700 && mouseY>150 && mouseY<350){
     // temp Flapping Mode
       pageMode = 3
+      Panel.initCurrentSelection(pageMode)
     }else if (mouseX>750 && mouseX<950 && mouseY>150 && mouseY<350){
     // temp Planetary gear Mode
       pageMode = 9
@@ -289,18 +291,20 @@ function mousePressed(){ //map mouse pressed position to function
   }
 
   if (pageMode == 2){
-  if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
-  // back to the simulation
-     pageMode = 1;
+    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+    // back to the simulation
+       pageMode = 1
+       Panel.initCurrentSelection(pageMode)
+    }
   }
-}
 
-if (pageMode == 4){
-  if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
-  // back to the simulation
-     pageMode = 3;
+  if (pageMode == 4){
+    if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
+    // back to the simulation
+       pageMode = 3
+       Panel.initCurrentSelection(pageMode)
+    }
   }
-}
 
 
 }

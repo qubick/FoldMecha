@@ -36,8 +36,8 @@ function UI(){
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
 
-  this.BtnStatus_mtr_A = createButton('L').mousePressed(setDrivingGear)
-  this.BtnStatus_mtr_B = createButton('R').mousePressed(setDrivingGear)
+  this.mtr_L = createButton('L').mousePressed(setDrivingGear)
+  this.mtr_R = createButton('R').mousePressed(setDrivingGear)
 
   this.size_1 = createButton('1').mousePressed(setGearSize) //bind to same function
   this.size_2 = createButton('2').mousePressed(setGearSize)
@@ -77,8 +77,65 @@ function UI(){
 
   this.button_hide = createButton("Hide").hide()
   this.button_show = createButton("show").hide()
-  this.button_Delete = createButton("Deleete").hide()
+  this.button_Delete = createButton("Delete").hide()
 
+  this.initCurrentSelection = function(pageMode){
+    // this.currentGearSize     = 2 //default
+    // this.currentServoAngle   = 180 // 180 or 360
+    // this.currentDrivingGear  = 0 // 0:left, 1:right
+    // this.currentMirroring    = false
+
+    //reverse slider selection
+
+    console.log("initUI is called")
+
+    if(pageMode == 1) {
+      //take a look at stdSliderValue.openclose
+      if(stdSliderValue.openclose == undefined){
+        this.currentGearSize     = 2 //default
+        this.currentServoAngle   = 180 // 180 or 360
+        this.currentMirroring    = false
+
+        _this.size_1.style('background-color','white')
+        _this.size_2.style('background-color','blue')
+        _this.size_3.style('background-color','white')
+        _this.size_4.style('background-color','white')
+
+        _this.mirr_apply.style('background-color','white')
+        _this.mirr_cancel.style('background-color','blue') //default is cancel
+
+        _this.mtr180.style('background-color','blue')
+        _this.mtr360.style('background-color','white')
+      } else {
+        //invoke saved json obj
+      }
+    } else if(pageMode == 3){
+      //take a look at stdSliderValue.wings
+      if(stdSliderValue.wings == undefined){
+        this.currentGearSize     = 2 //default
+        this.currentServoAngle   = 180 // 180 or 360
+        this.currentMirroring    = false
+        this.currentDrivingGear  = 0 // 0:left, 1:right
+        //this.currentParing       = 1
+
+        _this.size_1.style('background-color','white')
+        _this.size_2.style('background-color','blue')
+        _this.size_3.style('background-color','white')
+        _this.size_4.style('background-color','white')
+
+        _this.mirr_apply.style('background-color','white')
+        _this.mirr_cancel.style('background-color','blue') //default is cancel
+
+        _this.mtr180.style('background-color','blue')
+        _this.mtr360.style('background-color','white')
+
+        _this.mtr_L.style('background-color','blue')
+        _this.mtr_R.style('background-color','white')
+      } else {
+        //invoke saved json obj
+      }
+    }
+  }
   // individual button event functions
   // _this: this object, this : caller button element
   function toggleParing(){
@@ -122,9 +179,15 @@ function UI(){
   }
 
   function setServoAngle(){
-    if(this.elt.innerHTML == "Continuous")
+    if(this.elt.innerHTML == "Continuous"){
+      _this.mtr180.style('background-color','white')
+      _this.mtr360.style('background-color','blue')
+
       _this.currentServoAngle = 360
-    else
+    }else
+      _this.mtr180.style('background','blue')
+      _this.mtr360.style('background-color','white')
+
       _this.currentServoAngle = 180
 
     console.log(_this.currentServoAngle)
@@ -146,13 +209,13 @@ function UI(){
 
   function setDrivingGear(){
     if(this.elt.innerHTML == 'L'){
-      _this.BtnStatus_mtr_A.style('background-color', 'blue')
-      _this.BtnStatus_mtr_B.style('background-color', 'white')
+      _this.mtr_L.style('background-color', 'blue')
+      _this.mtr_R.style('background-color', 'white')
 
       _this.currentDrivingGear = "LEFT"
     }else { // R
-      _this.BtnStatus_mtr_A.style('background-color', 'white')
-      _this.BtnStatus_mtr_B.style('background-color', 'blue')
+      _this.mtr_L.style('background-color', 'white')
+      _this.mtr_R.style('background-color', 'blue')
 
       _this.currentDrivingGear = "RIGHT"
     }
@@ -260,8 +323,8 @@ function UI(){
     this.Btn_back.hide()
     this.Btn_my.hide()
     this.Btn_home.hide()
-    this.BtnStatus_mtr_A.hide()
-    this.BtnStatus_mtr_B.hide()
+    this.mtr_L.hide()
+    this.mtr_R.hide()
     this.size_1.hide()
     this.size_2.hide()
     this.size_3.hide()
@@ -317,14 +380,11 @@ function UI(){
     _this.Btn_my.show().size(150,20).position(60,590)
     _this.Btn_home.show().size(150,20).position(60,615)
 
-    _this.BtnStatus_mtr_A.hide()
-    _this.BtnStatus_mtr_B.hide()
+    _this.mtr_L.hide()
+    _this.mtr_R.hide()
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
-  //  _this.menu_OP.hide()
-  //  _this.menu_W.hide()
-  //  _this.menu_My.hide()
 
     _this.F_slider.hide()
     _this.X_slider.hide()
@@ -334,66 +394,28 @@ function UI(){
     _this.currentModule = 1
 }// end of function btn_openClose()
 
-  this.button_Wings = function(pair_wing,gearType,gearSize,motor_Type){
+  this.button_Wings = function(){
+    _this.mirr_apply.show().position(138,315)//.style("background-color",blue)
+    _this.mirr_cancel.show().position(190,315)//.style("background-color",white)
 
     if(pair_wing == 0){ // cancel pairing
-      _this.mirr_apply.show().position(138,315)//.style("background-color",white)
-      _this.mirr_cancel.show().position(190,315)//.style("background-color",blue)
-
-      _this.BtnStatus_mtr_A.hide()
-      _this.BtnStatus_mtr_B.hide()
+      _this.mtr_L.hide()
+      _this.mtr_R.hide()
 
     }else if(pair_wing == 1){  // paired!
-
       text("Driver Gear :", 20, 360)
-      _this.mirr_apply.show().position(138,315).style("background-color",blue)
-      _this.mirr_cancel.show().position(190,315).style("background-color",white)
 
-      _this.BtnStatus_mtr_A.show().position(150, 345)
-      _this.BtnStatus_mtr_B.show().position(200, 345)
-      // if(gearType == 0){
-      //   _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",white)
-      //   _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",blue)
-      // }else if(gearType == 1){
-      //   _this.BtnStatus_mtr_A.show().position(150, 345).style("background-color",blue)
-      //   _this.BtnStatus_mtr_B.show().position(200, 345).style("background-color",white)
-      // }
+      _this.mtr_L.show().position(150, 345)
+      _this.mtr_R.show().position(200, 345)
     }
 
-     _this.size_1.show().position(115,375)
-     _this.size_2.show().position(150,375)
-     _this.size_3.show().position(185,375)
-     _this.size_4.show().position(220,375)
+    _this.size_1.show().position(115,375)
+    _this.size_2.show().position(150,375)
+    _this.size_3.show().position(185,375)
+    _this.size_4.show().position(220,375)
 
-    // if(gearSize == 1){
-    //   _this.size_1.show().position(115,375).style("background-color",blue)
-    //   _this.size_2.show().position(150,375).style("background-color",white)
-    //   _this.size_3.show().position(185,375).style("background-color",white)
-    //   _this.size_4.show().position(220,375).style("background-color",white)
-    // }else if(gearSize == 2){
-    //   _this.size_1.show().position(115,375).style("background-color",white)
-    //   _this.size_2.show().position(150,375).style("background-color",blue)
-    //   _this.size_3.show().position(185,375).style("background-color",white)
-    //   _this.size_4.show().position(220,375).style("background-color",white)
-    // }else if(gearSize == 3){
-    //   _this.size_1.show().position(115,375).style("background-color",white)
-    //   _this.size_2.show().position(150,375).style("background-color",white)
-    //   _this.size_3.show().position(185,375).style("background-color",blue)
-    //   _this.size_4.show().position(220,375).style("background-color",white)
-    // }else if(gearSize == 4){
-    //   _this.size_1.show().position(115,375).style("background-color",white)
-    //   _this.size_2.show().position(150,375).style("background-color",white)
-    //   _this.size_3.show().position(185,375).style("background-color",white)
-    //   _this.size_4.show().position(220,375).style("background-color",blue)
-    // }
-
-    if (motor_Type == 180){
-      _this.mtr180.show().position(50, 430).style("background-color",blue)
-      _this.mtr360.show().position(140, 430).style("background-color",white)
-    }else if (motor_Type == 360){
-      _this.mtr180.show().position(50, 430).style("background-color",white)
-      _this.mtr360.show().position(140, 430).style("background-color",blue)
-    }
+    _this.mtr180.show().position(50, 430)//.style("background-color",blue)
+    _this.mtr360.show().position(140, 430)//.style("background-color",white)
 
     _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
@@ -404,10 +426,6 @@ function UI(){
     _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
-
-  //  _this.menu_OP.hide()
-  //  _this.menu_W.hide()
-  //  _this.menu_My.hide()
 
     Wings()
     _this.currentModule = 3
@@ -484,8 +502,8 @@ function button_My(){
     _this.pl_paring_toggle.hide()
     _this.mtr180.hide()
     _this.mtr360.hide()
-    _this.BtnStatus_mtr_A.hide()
-    _this.BtnStatus_mtr_B.hide()
+    _this.mtr_L.hide()
+    _this.mtr_R.hide()
 //    _this.menu_OP.hide()
 //    _this.menu_W.hide()
 //    _this.menu_My.hide()
@@ -631,8 +649,8 @@ function button_My(){
       _this.E_slider.value(stdSliderValue.openclose.E)
 
       //I don't think this is needed anymore if this is updated
-      if( delete stdSliderValue.openclose)
-        console.log('succeed')
+      // if( delete stdSliderValue.openclose)
+      //   console.log('succeed')
     } else {
       //save current value to empty sliderObj
       sliderObj.A = _this.A_slider.value()
