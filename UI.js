@@ -22,7 +22,7 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-  this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
+  this.mirroring_toggle = createButton('Cancel').mousePressed(toggleMirroring)
 
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
@@ -33,8 +33,8 @@ function UI(){
   this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
-  this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
-  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
+  //this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
+  //this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
 
   this.mtr_L = createButton('L').mousePressed(setDrivingGear)
   this.mtr_R = createButton('R').mousePressed(setDrivingGear)
@@ -101,8 +101,8 @@ function UI(){
         _this.size_3.style('background-color','white')
         _this.size_4.style('background-color','white')
 
-        _this.mirr_apply.style('background-color','white')
-        _this.mirr_cancel.style('background-color','blue') //default is cancel
+        // _this.mirr_apply.style('background-color','white')
+        // _this.mirr_cancel.style('background-color','blue') //default is cancel
 
         _this.mtr180.style('background-color','blue')
         _this.mtr360.style('background-color','white')
@@ -123,8 +123,8 @@ function UI(){
         _this.size_3.style('background-color','white')
         _this.size_4.style('background-color','white')
 
-        _this.mirr_apply.style('background-color','white')
-        _this.mirr_cancel.style('background-color','blue') //default is cancel
+        // _this.mirr_apply.style('background-color','white')
+        // _this.mirr_cancel.style('background-color','blue') //default is cancel
 
         _this.mtr180.style('background-color','blue')
         _this.mtr360.style('background-color','white')
@@ -138,16 +138,16 @@ function UI(){
   }
   // individual button event functions
   // _this: this object, this : caller button element
-  function toggleParing(){
-    _this.currentParing = 1 - _this.currentParing //toggle btw true(1) - false(0)
-    console.log("current paring status: ", _this.currentParing)
+  function toggleMirroring(){ //no highlight needed
+    _this.currentMirroring = 1 - _this.currentMirroring //toggle btw true(1) - false(0)
+    console.log("current paring status: ", _this.currentMirroring)
 
-    if(!_this.currentParing) //if applied state
-      _this.pl_paring_toggle.html('Apply')
+    if(!_this.currentMirroring) //if applied state
+      _this.mirroring_toggle.html('Apply')
     else
-      _this.pl_paring_toggle.html('Cancel')
-
+      _this.mirroring_toggle.html('Cancel')
   }
+
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
     _this.currentGearSize = gearSize
@@ -193,19 +193,19 @@ function UI(){
     console.log(_this.currentServoAngle)
   }
 
-  function setMirroring(){
-    if(this.elt.innerHTML == "Apply"){
-      _this.mirr_apply.style('background-color', 'blue')
-      _this.mirr_cancel.style('background-color', 'white')
-
-      _this.currentMirroring = true
-    } else { //Cancel
-      _this.mirr_apply.style('background-color', 'white')
-      _this.mirr_cancel.style('background-color', 'blue')
-
-      _this.currentMirroring = false
-    }
-  }
+  // function setMirroring(){
+  //   if(this.elt.innerHTML == "Apply"){
+  //     _this.mirr_apply.style('background-color', 'blue')
+  //     _this.mirr_cancel.style('background-color', 'white')
+  //
+  //     _this.currentMirroring = true
+  //   } else { //Cancel
+  //     _this.mirr_apply.style('background-color', 'white')
+  //     _this.mirr_cancel.style('background-color', 'blue')
+  //
+  //     _this.currentMirroring = false
+  //   }
+  // }
 
   function setDrivingGear(){
     if(this.elt.innerHTML == 'L'){
@@ -307,13 +307,7 @@ function UI(){
 
   this.button_front = function(){
 
-//    this.menu_OP.size(200,200).position(250,150).show()
-//    this.menu_W.size(200,200).position(500,150).show()
-    //  this.menu_My.size(200,200).position(750,150)
-    //              .attribute('style.opacity','0').show()
-
-//    this.menu_OP.hide()
-    this.pl_paring_toggle.hide()
+    this.mirroring_toggle.hide()
     this.mtr180.hide()
     this.mtr360.hide()
     this.Btn_reset.hide()
@@ -329,8 +323,8 @@ function UI(){
     this.size_2.hide()
     this.size_3.hide()
     this.size_4.hide()
-    this.mirr_apply.hide()
-    this.mirr_cancel.hide()
+    // this.mirr_apply.hide()
+    // this.mirr_cancel.hide()
     this.Mech_show.hide()
     this.Mech_hide.hide()
 
@@ -363,8 +357,9 @@ function UI(){
 
   this.button_OpenClose = function(){
 
-    _this.mirr_apply.show().position(138,315)
-    _this.mirr_cancel.show().position(190,315)
+    // _this.mirr_apply.show().position(138,315)
+    // _this.mirr_cancel.show().position(190,315)
+    _this.mirroring_toggle.show().position(164, 315)
 
     _this.size_1.show().position(115,375)
     _this.size_2.show().position(150,375)
@@ -382,7 +377,6 @@ function UI(){
 
     _this.mtr_L.hide()
     _this.mtr_R.hide()
-    _this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
 
@@ -395,8 +389,10 @@ function UI(){
 }// end of function btn_openClose()
 
   this.button_Wings = function(){
-    _this.mirr_apply.show().position(138,315)//.style("background-color",blue)
-    _this.mirr_cancel.show().position(190,315)//.style("background-color",white)
+    // _this.mirr_apply.show().position(138,315)//.style("background-color",blue)
+    // _this.mirr_cancel.show().position(190,315)//.style("background-color",white)
+
+    _this.mirroring_toggle.show().position(164, 315)
 
     if(pair_wing == 0){ // cancel pairing
       _this.mtr_L.hide()
@@ -423,7 +419,7 @@ function UI(){
     _this.Btn_my.show().size(150,20).position(60,590)
     _this.Btn_home.show().size(150,20).position(60,615)
 
-    _this.pl_paring_toggle.hide()
+    //_this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
 
@@ -433,35 +429,6 @@ function UI(){
 
 function button_folding_net(){
 
-  //******** these all might be not needed if other modules is *always* connected from front
-//   _this.pl_paring_toggle.hide()
-//   _this.OP_mtr180.hide()
-//   _this.OP_mtr360.hide()
-//   _this.BtnStatus_mtr_A.hide()
-//   _this.BtnStatus_mtr_B.hide()
-// //    _this.menu_OP.hide()
-// //    _this.menu_W.hide()
-// //    _this.menu_My.hide()
-//   _this.Btn_reset.hide()
-//   _this.Btn_plt.hide()
-//   _this.Btn_my.hide()
-//   _this.size_1.hide()
-//   _this.size_2.hide()
-//   _this.size_3.hide()
-//   _this.size_4.hide()
-//   _this.mirr_apply.hide()
-//   _this.mirr_cancel.hide()
-//
-//   _this.A_slider.hide()
-//   _this.B_slider.hide()
-//   _this.C_slider.hide()
-//   _this.D_slider.hide()
-//   _this.E_slider.hide()
-//   _this.F_slider.hide()
-//   _this.X_slider.hide()
-//   _this.Y_slider.hide()
-//
-//   _this.Btn_net.hide()
   _this.Btn_pdf.show().size(150,20).position(60,545)
   _this.Btn_back.show().size(150,20).position(60,590)
 }
@@ -476,37 +443,12 @@ function button_My(){
 
   //button creation - show is called every moment - might be overflowing
   var index = 0
-  // mySavedSketch.forEach(function(design){
-  //   if(design.A != undefined){ //only when valid object
-  //     var title = ""
-  //
-  //     if(design.module == 1){
-  //       title = "Flower"
-  //     } else if(design.module == 3){
-  //       title = "Flapping"
-  //     }
-  //
-  //     _this.myBtnNames[index] = design.module //saved kinds of btn module for later reference
-  //
-  //     //maybe creating button is not needed..
-  //     _this.myBtnList[index++] = createButton(title).size(100,100)
-  //                                     .position(100+150*index, 20)
-  //                                     .mousePressed(constructPanel)
-  //   }
-  // }); //end of foreach(mySavedSketch)
-  //
-  // (_this.myBtnList).forEach(function(btn){
-  //   btn.hide()//.mousePressed(button_My) //this must be binded to drawing each module?
-  // });
 
-    _this.pl_paring_toggle.hide()
+    _this.mirr_apply.hide()
     _this.mtr180.hide()
     _this.mtr360.hide()
     _this.mtr_L.hide()
     _this.mtr_R.hide()
-//    _this.menu_OP.hide()
-//    _this.menu_W.hide()
-//    _this.menu_My.hide()
     _this.Btn_reset.hide()
     _this.Btn_pdf.hide()
     _this.Btn_plt.hide()
@@ -516,8 +458,8 @@ function button_My(){
     _this.size_2.hide()
     _this.size_3.hide()
     _this.size_4.hide()
-    _this.mirr_apply.hide()
-    _this.mirr_cancel.hide()
+    // _this.mirr_apply.hide()
+    // _this.mirr_cancel.hide()
 
     _this.A_slider.hide()
     _this.B_slider.hide()
