@@ -22,14 +22,8 @@ function UI(){
   this.currentMirroring    = false
   this.currentParing       = 1
 
-//  this.menu_OP  = createButton('OPEN & CLOSE')//.mousePressed(_this.button_OpenClose)
-//  this.menu_W   = createButton('FLAPPING').mousePressed(button_Wings)
-  // this.menu_My  = createButton('')
-  //                 .attribute('src','assets/OpenClose.gif')//.mousePressed(button_My) // MY SKETCHBOOK
-
   this.pl_paring_toggle = createButton('Cancel').mousePressed(toggleParing)
-  this.OP_mtr180 = createButton('180°').mousePressed(setServoAngle)
-  this.OP_mtr360 = createButton('Continuous').mousePressed(setServoAngle)
+
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
   this.Btn_reset = createButton ('Reset all')
@@ -49,6 +43,9 @@ function UI(){
   this.size_2 = createButton('2').mousePressed(setGearSize)
   this.size_3 = createButton('3').mousePressed(setGearSize)
   this.size_4 = createButton('4').mousePressed(setGearSize)
+
+  this.mtr180 = createButton('180°').mousePressed(setServoAngle)
+  this.mtr360 = createButton('Continuous').mousePressed(setServoAngle)
 
   this.A_slider = createSlider(0, 400, 60).size(100).position(20, 200)
   this.B_slider = createSlider(0, 400, 240).size(100).position(140, 200)
@@ -254,8 +251,8 @@ function UI(){
 
 //    this.menu_OP.hide()
     this.pl_paring_toggle.hide()
-    this.OP_mtr180.hide()
-    this.OP_mtr360.hide()
+    this.mtr180.hide()
+    this.mtr360.hide()
     this.Btn_reset.hide()
     this.Btn_pdf.hide()
     this.Btn_plt.hide()
@@ -311,8 +308,8 @@ function UI(){
     _this.size_3.show().position(185,375)
     _this.size_4.show().position(220,375)
 
-    _this.OP_mtr180.show().position(50, 430)
-    _this.OP_mtr360.show().position(140, 430)
+    _this.mtr180.show().position(50, 430)
+    _this.mtr360.show().position(140, 430)
 
     _this.Btn_reset.show().size(150,20).position(60,495)
     _this.Btn_plt.show().size(150,20).position(60,520)
@@ -391,11 +388,11 @@ function UI(){
     // }
 
     if (motor_Type == 180){
-      _this.OP_mtr180.show().position(50, 430).style("background-color",blue)
-      _this.OP_mtr360.show().position(140, 430).style("background-color",white)
+      _this.mtr180.show().position(50, 430).style("background-color",blue)
+      _this.mtr360.show().position(140, 430).style("background-color",white)
     }else if (motor_Type == 360){
-      _this.OP_mtr180.show().position(50, 430).style("background-color",white)
-      _this.OP_mtr360.show().position(140, 430).style("background-color",blue)
+      _this.mtr180.show().position(50, 430).style("background-color",white)
+      _this.mtr360.show().position(140, 430).style("background-color",blue)
     }
 
     _this.Btn_reset.show().size(150,20).position(60,495)
@@ -485,8 +482,8 @@ function button_My(){
   // });
 
     _this.pl_paring_toggle.hide()
-    _this.OP_mtr180.hide()
-    _this.OP_mtr360.hide()
+    _this.mtr180.hide()
+    _this.mtr360.hide()
     _this.BtnStatus_mtr_A.hide()
     _this.BtnStatus_mtr_B.hide()
 //    _this.menu_OP.hide()
