@@ -95,9 +95,33 @@ function UI(){
 
   }
   function setGearSize(){
-    _this.currentGearSize = parseInt(this.elt.innerHTML)
+    var gearSize = parseInt(this.elt.innerHTML)
+    _this.currentGearSize = gearSize
 
-    console.log(_this.currentGearSize)
+    //maybe this to be toggled, not setting all manually
+    if(gearSize == 1){
+       _this.size_1.style("background-color",blue)
+       _this.size_2.style("background-color",white)
+       _this.size_3.style("background-color",white)
+       _this.size_4.style("background-color",white)
+     }else if(gearSize == 2){
+       _this.size_1.style("background-color",white)
+       _this.size_2.style("background-color",blue)
+       _this.size_3.style("background-color",white)
+       _this.size_4.style("background-color",white)
+     }else if(gearSize == 3){
+       _this.size_1.style("background-color",white)
+       _this.size_2.style("background-color",white)
+       _this.size_3.style("background-color",blue)
+       _this.size_4.style("background-color",white)
+     }else if(gearSize == 4){
+       _this.size_1.style("background-color",white)
+       _this.size_2.style("background-color",white)
+       _this.size_3.style("background-color",white)
+       _this.size_4.style("background-color",blue)
+     }
+
+    console.log(gearSize)
   }
 
   function setServoAngle(){
@@ -327,29 +351,32 @@ function UI(){
       }
     }
 
+     _this.size_1.show().position(115,375)
+     _this.size_2.show().position(150,375)
+     _this.size_3.show().position(185,375)
+     _this.size_4.show().position(220,375)
 
-
-    if(gearSize == 1){
-      _this.size_1.show().position(115,375).style("background-color",blue)
-      _this.size_2.show().position(150,375).style("background-color",white)
-      _this.size_3.show().position(185,375).style("background-color",white)
-      _this.size_4.show().position(220,375).style("background-color",white)
-    }else if(gearSize == 2){
-      _this.size_1.show().position(115,375).style("background-color",white)
-      _this.size_2.show().position(150,375).style("background-color",blue)
-      _this.size_3.show().position(185,375).style("background-color",white)
-      _this.size_4.show().position(220,375).style("background-color",white)
-    }else if(gearSize == 3){
-      _this.size_1.show().position(115,375).style("background-color",white)
-      _this.size_2.show().position(150,375).style("background-color",white)
-      _this.size_3.show().position(185,375).style("background-color",blue)
-      _this.size_4.show().position(220,375).style("background-color",white)
-    }else if(gearSize == 4){
-      _this.size_1.show().position(115,375).style("background-color",white)
-      _this.size_2.show().position(150,375).style("background-color",white)
-      _this.size_3.show().position(185,375).style("background-color",white)
-      _this.size_4.show().position(220,375).style("background-color",blue)
-    }
+    // if(gearSize == 1){
+    //   _this.size_1.show().position(115,375).style("background-color",blue)
+    //   _this.size_2.show().position(150,375).style("background-color",white)
+    //   _this.size_3.show().position(185,375).style("background-color",white)
+    //   _this.size_4.show().position(220,375).style("background-color",white)
+    // }else if(gearSize == 2){
+    //   _this.size_1.show().position(115,375).style("background-color",white)
+    //   _this.size_2.show().position(150,375).style("background-color",blue)
+    //   _this.size_3.show().position(185,375).style("background-color",white)
+    //   _this.size_4.show().position(220,375).style("background-color",white)
+    // }else if(gearSize == 3){
+    //   _this.size_1.show().position(115,375).style("background-color",white)
+    //   _this.size_2.show().position(150,375).style("background-color",white)
+    //   _this.size_3.show().position(185,375).style("background-color",blue)
+    //   _this.size_4.show().position(220,375).style("background-color",white)
+    // }else if(gearSize == 4){
+    //   _this.size_1.show().position(115,375).style("background-color",white)
+    //   _this.size_2.show().position(150,375).style("background-color",white)
+    //   _this.size_3.show().position(185,375).style("background-color",white)
+    //   _this.size_4.show().position(220,375).style("background-color",blue)
+    // }
 
     if (motor_Type == 180){
       _this.OP_mtr180.show().position(50, 430).style("background-color",blue)
@@ -622,7 +649,7 @@ function button_My(){
     var sliderObj = [{}] //empty json for wing
 
     if(_this.UI_mode == 1){
-    //if(UI_mode == 1){
+
       _this.A_slider.show()
       _this.B_slider.show()
       _this.C_slider.show()
@@ -634,8 +661,7 @@ function button_My(){
       _this.Y_slider.hide()
 
     } else if(_this.UI_mode == 2){
-    //} else if(UI_mode == 2){
-    console.log("UI_mode was changed for X, Y", _this.UI_mode)
+
       _this.A_slider.hide()
       _this.B_slider.hide()
       _this.C_slider.hide()
@@ -659,7 +685,14 @@ function button_My(){
       _this.X_slider.value(stdSliderValue.wings.X)
       _this.Y_slider.value(stdSliderValue.wings.Y)
 
-      delete stdSliderValue.wings
+      if(stdSliderValue.wings.currentMirroring){
+        _this.mirr_apply.style('background-color','blue')
+        _this.mirr_cancel.style('background-color','white')
+      } else {
+        _this.mirr_apply.style('background-color','white')
+        _this.mirr_cancel.style('background-color','blue')
+      }
+      //delete stdSliderValue.wings
     } else {
       //save current slider information into empty json
       sliderObj.A = _this.A_slider.value()
@@ -671,6 +704,10 @@ function button_My(){
 
       sliderObj.X = _this.X_slider.value()
       sliderObj.Y = _this.Y_slider.value()
+
+      sliderObj.mirring = _this.currentMirroring
+      sliderObj.gearSize = _this.currentGearSize
+      sliderObj.servoAngle = _this.currentServoAngle
 
       stdSliderValue.wings = sliderObj
       console.log(stdSliderValue.wings)
