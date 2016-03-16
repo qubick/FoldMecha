@@ -104,7 +104,7 @@ function draw() {
     Panel.callButton_MY()
 
     var mySavedModule = Panel.findDrawingFunc()
-    //var savedDesign = Panel.findSavedDesign()
+
     mySavedModule.forEach(function(entity, i){
       //all case is independent
       if(entity.module == 1){
@@ -130,11 +130,10 @@ function draw() {
       }
 
       //should pass separate json of entity?
-      //can passed 'i' entify which entity?
+      //can passed 'i' entity which entity?
       Panel.mySketch_ModuleText(entity, i)
     })
 
-    // Panel.button_My() //creating gallery buttons upon save data
   }
 }
 
