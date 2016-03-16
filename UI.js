@@ -27,7 +27,7 @@ function UI(){
 
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
-  this.Btn_reset = createButton ('Reset all')
+  this.Btn_reset = createButton ('Reset all').mousePressed(resetAll)
   this.Btn_pdf = createButton ('Download PDF')
   this.Btn_back = createButton ('Back to Simulation')
   this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
@@ -78,14 +78,16 @@ function UI(){
   this.button_show = createButton("show").hide()
   this.button_Delete = createButton("Delete").hide()
 
+  function resetAll(){
+    this.currentGearSize     = 2 //default
+    this.currentServoAngle   = 180 // 180 or 360
+    this.currentDrivingGear  = 0 // 0:left, 1:right
+    this.currentMirroring    = false
+  }
+
   this.initCurrentSelection = function(pageMode){
-    // this.currentGearSize     = 2 //default
-    // this.currentServoAngle   = 180 // 180 or 360
-    // this.currentDrivingGear  = 0 // 0:left, 1:right
-    // this.currentMirroring    = false
 
     //reverse slider selection
-
     console.log("initUI is called")
 
     if(pageMode == 1) {
@@ -95,20 +97,13 @@ function UI(){
         this.currentServoAngle   = 180 // 180 or 360
         this.currentMirroring    = false
 
-        // _this.size_1.style('background-color','white')
-        // _this.size_2.style('background-color','blue')
-        // _this.size_3.style('background-color','white')
-        // _this.size_4.style('background-color','white')
         highlightGearSize(2) // default gear size  = 2
-        // _this.mtr180.style('background-color','blue')
-        // _this.mtr360.style('background-color','white')
         highlightServoAngle(180) //default angle = 180
       } else {
         //invoke saved json obj
 
         highlightGearSize(stdSliderValue.openclose.gearSize)
         highlightServoAngle(stdSliderValue.openclose.servoAngle)
-        //stdSliderValue.openclose.mirroring
       }
     } else if(pageMode == 3){
       //take a look at stdSliderValue.wings
@@ -117,19 +112,10 @@ function UI(){
         this.currentServoAngle   = 180 // 180 or 360
         this.currentMirroring    = false
         this.currentDrivingGear  = 0 // 0:left, 1:right
-        //this.currentParing       = 1
 
         highlightGearSize(2) // default gear size  = 2
-        // _this.size_1.style('background-color','white')
-        // _this.size_2.style('background-color','blue')
-        // _this.size_3.style('background-color','white')
-        // _this.size_4.style('background-color','white')
         highlightServoAngle(180) //dafault
-        // _this.mtr180.style('background-color','blue')
-        // _this.mtr360.style('background-color','white')
         highlightDrivingGear(0) //default: left(0)
-        // _this.mtr_L.style('background-color','blue')
-        // _this.mtr_R.style('background-color','white')
       } else {
         //invoke saved json obj
 
@@ -358,8 +344,6 @@ function UI(){
 
   this.button_OpenClose = function(){
 
-    // _this.mirr_apply.show().position(138,315)
-    // _this.mirr_cancel.show().position(190,315)
     _this.mirroring_toggle.show().position(164, 315)
 
     _this.size_1.show().position(115,375)
@@ -418,7 +402,6 @@ function UI(){
     _this.Btn_my.show().size(150,20).position(60,590)
     _this.Btn_home.show().size(150,20).position(60,615)
 
-    //_this.pl_paring_toggle.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
 
@@ -579,16 +562,6 @@ function button_My(){
 
     var moduleObj = [{}] //empty json
 
-    // if(stdSliderValue.openclose != undefined){ // have defined by opening this module at least once, so revert previous information
-    //
-    //   _this.A_slider.value(stdSliderValue.openclose.A)
-    //   _this.B_slider.value(stdSliderValue.openclose.B)
-    //   _this.C_slider.value(stdSliderValue.openclose.C)
-    //   _this.D_slider.value(stdSliderValue.openclose.D)
-    //   _this.E_slider.value(stdSliderValue.openclose.E)
-    //
-    // } else {
-      //save current value to empty sliderObj
       moduleObj.A = _this.A_slider.value()
       moduleObj.B = _this.B_slider.value()
       moduleObj.C = _this.C_slider.value()
@@ -640,23 +613,8 @@ function button_My(){
       _this.Y_slider.show()
     }
 
-    // if(stdSliderValue.wings != undefined){ // this module has been opened at least once, previous information is saved
-    //
-    //   _this.A_slider.value(stdSliderValue.wings.A) //restore values from json obejct storage
-    //   _this.B_slider.value(stdSliderValue.wings.B)
-    //   _this.C_slider.value(stdSliderValue.wings.C)
-    //   _this.D_slider.value(stdSliderValue.wings.D)
-    //   _this.E_slider.value(stdSliderValue.wings.E)
-    //   _this.F_slider.value(stdSliderValue.wings.F)
-    //
-    //   _this.X_slider.value(stdSliderValue.wings.X)
-    //   _this.Y_slider.value(stdSliderValue.wings.Y)
-    //
-    //   //delete stdSliderValue.wings
-    // } else {
-    //   //save current slider information into empty json
+     //save current slider information into empty json
       //for the first time, have to create json obj
-      //should saving ahppens everytime it changed?
       moduleObj.A = _this.A_slider.value()
       moduleObj.B = _this.B_slider.value()
       moduleObj.C = _this.C_slider.value()
@@ -674,8 +632,7 @@ function button_My(){
 
       stdSliderValue.wings = moduleObj
       console.log(stdSliderValue.wings)
-    //}
-
+    
     _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
     _this.B_slider.changed(_this.sliderBUpdate) //how to differetiate user change vs. system update?
     _this.C_slider.changed(_this.sliderCUpdate)
