@@ -93,14 +93,20 @@ function UI(){
     if(pageMode == 1) {
       //take a look at stdSliderValue.openclose
       if(stdSliderValue.openclose == undefined){ //initial values
-        this.currentGearSize     = 2 //default
-        this.currentServoAngle   = 180 // 180 or 360
-        this.currentMirroring    = false
+        _this.currentGearSize     = 2 //default
+        _this.currentServoAngle   = 180 // 180 or 360
+        _this.currentMirroring    = false
 
         highlightGearSize(2) // default gear size  = 2
         highlightServoAngle(180) //default angle = 180
       } else {
         //invoke saved json obj
+
+        _this.A_slider.value(stdSliderValue.openclose.A)
+        _this.B_slider.value(stdSliderValue.openclose.B)
+        _this.C_slider.value(stdSliderValue.openclose.C)
+        _this.A_slider.value(stdSliderValue.openclose.D)
+        _this.B_slider.value(stdSliderValue.openclose.E)
 
         highlightGearSize(stdSliderValue.openclose.gearSize)
         highlightServoAngle(stdSliderValue.openclose.servoAngle)
@@ -108,16 +114,26 @@ function UI(){
     } else if(pageMode == 3){
       //take a look at stdSliderValue.wings
       if(stdSliderValue.wings == undefined){
-        this.currentGearSize     = 2 //default
-        this.currentServoAngle   = 180 // 180 or 360
-        this.currentMirroring    = false
-        this.currentDrivingGear  = 0 // 0:left, 1:right
+        _this.currentGearSize     = 2 //default
+        _this.currentServoAngle   = 180 // 180 or 360
+        _this.currentMirroring    = false
+        _this.currentDrivingGear  = 0 // 0:left, 1:right
 
         highlightGearSize(2) // default gear size  = 2
         highlightServoAngle(180) //dafault
         highlightDrivingGear(0) //default: left(0)
       } else {
         //invoke saved json obj
+
+        _this.A_slider.value(stdSliderValue.wings.A)
+        _this.B_slider.value(stdSliderValue.wings.B)
+        _this.A_slider.value(stdSliderValue.wings.C)
+        _this.B_slider.value(stdSliderValue.wings.D)
+        _this.C_slider.value(stdSliderValue.wings.E)
+        _this.A_slider.value(stdSliderValue.wings.F)
+
+        _this.B_slider.value(stdSliderValue.wings.X)
+        _this.B_slider.value(stdSliderValue.wings.Y)
 
         highlightGearSize(stdSliderValue.wings.gearSize)
         highlightServoAngle(stdSliderValue.wings.servoAngle)
@@ -632,7 +648,7 @@ function button_My(){
 
       stdSliderValue.wings = moduleObj
       console.log(stdSliderValue.wings)
-    
+
     _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
     _this.B_slider.changed(_this.sliderBUpdate) //how to differetiate user change vs. system update?
     _this.C_slider.changed(_this.sliderCUpdate)
