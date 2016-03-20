@@ -25,7 +25,12 @@ function Turtle(){
     this.angle -= dangle
   }
   this.right = function(dangle){
+    // console.log("here is in turtle, passed parameter ", dangle)
     this.angle += dangle
+    // console.log("here is in turtle, calculated angel: ", this.angle)
+  }
+  function rightPass(dangle){
+    console.log(dangle)
   }
   this.pencolor = function(ncolor){
     this.tcolor = ncolor

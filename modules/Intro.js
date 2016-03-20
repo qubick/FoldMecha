@@ -10,6 +10,10 @@ function Intro(){
   this.in_gear = this.radius-27
   // to animate Flapping
 
+  var turn_L1 = 0
+  var change_L1 = 1
+  // to animate Walking
+
   this.button_back = function(){
 
     if(mouseX>=250 && mouseX<=450 && mouseY>=150 && mouseY<=350){
@@ -361,21 +365,78 @@ function Intro(){
   this.walking = function(){
     this.t5 = new Turtle()
     this.t6 = new Turtle()
+    this.L1 = 10
+    this.dist_A = 30
+    this.dist_G = 40
+ // from fixed center to the rotating center
+  //  turn_L1 = 100
+    turn_L1 = turn_L1+change_L1
+    if(turn_L1 == 360){
+      turn_L1 = 0
+    }
 
     this.t5.penup()
     this.t5.forward(height/2-220)
     this.t5.right(90)
-    this.t5.forward(850-width/2)
+    this.t5.forward(850-width/2) //center
 
     this.w_center_x = this.t5.x
     this.w_center_y = this.t5.y
 
+    this.t5.back(this.dist_G)
+
+    this.AG_x = this.t5.x  // AG: X: 810
+    this.AG_y = this.t5.y  // AG: Y: 220
+
+//    console.log(this.dist_A)
+//  console.log(this.angle_AG)
+
+/*    this.t5.left(this.angle_AG)
+    this.t5.forward(this.dist_A)
+
+    this.AE_x = this.t5.x
+    this.AE_y = this.t5.y
+
+    this.t5.back(this.dist_A)
+    this.t5.right(this.angle_AG)*/
+
+
+    this.t5.forward(this.dist_G)
+    this.t5.right(turn_L1)
+    this.t5.forward(this.L1)
+
+    this.w_center_x2 = this.t5.x
+    this.w_center_y2 = this.t5.y
+
+    this.t5.back(this.L1)
+    this.t5.left(turn_L1)
     this.t5.back(850-width/2)
     this.t5.left(90)
     this.t5.back(height/2-220)
 
-    ellipse(this.w_center_x,this.w_center_y,5,5)
+    this.dist_E = dist(this.w_center_x2,this.w_center_y2,this.AG_x,this.AG_y)
+//triangle AEG
+    this.step1_AG = sq(this.dist_A) + sq(this.dist_G) - sq(this.dist_E)      //numerator
+    this.step2_AG = 2*this.dist_A*this.dist_G                       // denominator
+    this.angle_cosine_AG = this.step1_AG/this.step2_AG
+    this.step3_AG = acos(this.angle_cosine_AG)
+    this.angle_AG = degrees(this.step3_AG)
 
+/*
+    this.step1_EG = sq(this.dist_A) + sq(this.dist_G) - sq(this.dist_E)      //numerator
+    this.step2_EG = 2*this.dist_A*this.dist_G                       // denominator
+    this.angle_cosine_EG = this.step1_AG/this.step2_AG
+    this.step3_EG = acos(this.angle_cosine_AG)
+    this.angle_EG = degrees(this.step3_AG)
+*/
+
+//    console.log("G: "+dist_E)
+    noStroke()
+    ellipse(this.w_center_x,this.w_center_y,5,5)
+    ellipse(this.w_center_x2,this.w_center_y2,5,5)
+    stroke(color(tempC))
+    line(this.w_center_x2,this.w_center_y2,this.AG_x,this.AG_y)
+  //  line(this.AG_x,this.AG_y,this.AE_x,this.AE_y)
 
 
   }

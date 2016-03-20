@@ -476,8 +476,14 @@ this.UI1_created = false
       pop()
 
     }
-//    console.log("radius: "+radiusN)
   }
+  this.drawPDF = function(){
+
+      console.log("PDF DOWNLADED")// test here
+
+
+  }
+
 
   // get functions
   this.getA = function(){return this.dist_a;}
