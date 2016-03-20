@@ -198,11 +198,11 @@ function UI(){
 
   function highlightServoAngle(servo){
     if(servo == 180){
-        _this.mtr180.style('background','blue')
-        _this.mtr360.style('background-color','white')
+        _this.mtr180.style('background',blue)
+        _this.mtr360.style('background-color',white)
     } else { //360
-        _this.mtr180.style('background-color','white')
-        _this.mtr360.style('background-color','blue')
+        _this.mtr180.style('background-color',white)
+        _this.mtr360.style('background-color',blue)
     }
   }
 
@@ -218,11 +218,11 @@ function UI(){
 
   function highlightDrivingGear(drivingGear){ // 0: left, 1:right
       if(drivingGear == 0){
-          _this.mtr_L.style('background-color', 'blue')
-          _this.mtr_R.style('background-color', 'white')
+          _this.mtr_L.style('background-color', blue)
+          _this.mtr_R.style('background-color', white)
       } else { // 1
-          _this.mtr_L.style('background-color', 'white')
-          _this.mtr_R.style('background-color', 'blue')
+          _this.mtr_L.style('background-color', white)
+          _this.mtr_R.style('background-color', blue)
       }
   }
 
@@ -297,16 +297,14 @@ function UI(){
 
   this.initUI_net = function(){ //initializer
     //GRAY & BLACK background for LEFT PANEL
+
+
+
     noStroke()
     fill(_this.bgcolor2)
-    rect(0,500,270,_this.temp_windowHeight-500)
+    rect(0,550,270,_this.temp_windowHeight-550)
     fill(0)
-    rect(0,575,270,125)
-    rect(0,500,270,35)
-
-    //checkbox
-    fill(255)
-    rect(20,35,230,150)
+    rect(0,515,270,35)
 
   } // end of function initUI()
 
@@ -427,7 +425,26 @@ function UI(){
 
 function button_folding_net(){
 
-  _this.Btn_pdf.show().size(150,20).position(60,545)
+  _this.size_1.hide() //bind to same function
+  _this.size_2.hide()
+  _this.size_3.hide()
+  _this.size_4.hide()
+  _this.mtr180.hide()
+  _this.mtr360.hide()
+  _this.mtr_L.hide()
+  _this.mtr_R.hide()
+  _this.Btn_reset.hide()
+  _this.Btn_plt.hide()
+  _this.Btn_net.hide()
+  _this.A_slider.hide()
+  _this.B_slider.hide()
+  _this.C_slider.hide()
+  _this.D_slider.hide()
+  _this.E_slider.hide()
+  _this.F_slider.hide()
+
+
+  _this.Btn_pdf.show().size(150,20).position(60,565)
   _this.Btn_back.show().size(150,20).position(60,590)
 }
 
@@ -481,21 +498,17 @@ function button_My(){
     text("C", 25, 265)
     text("D", 145, 265)
     text("E", 25, 300)
+    text("F", 145, 300)
     text("Model Mirroring :", 20, 330)
     text("Gear Size :", 20, 390)
-    text("Servo Rotation Angle :", 20, 420)
+    text("Motor Rotation Angle :", 20, 420)
 
   }
 
   this.putText_OpenClose_net = function(){
 
-    noStroke()
     fill(255)
-    text("FOLDING NET  :  OPEN & CLOSE", 22, 25)
-    fill(_this.bgcolor2)
-    rect(0,35,270, _this.temp_windowHeight-160)
-    fill(0)
-    text("Assembly Instruction", 60, 55)
+    text("FOLDING NET  :  OPEN & CLOSE", 22, 540)
 
   }
 
@@ -509,7 +522,7 @@ function button_My(){
     text("Model Mirroring :", 20, 330)
     text("Driver Gear :", 20, 360)
     text("Gear Size :", 20, 390)
-    text("Servo Rotation Angle :", 20, 420)
+    text("Motor Rotation Angle :", 20, 420)
 
     if(_this.UI_mode == 1){
       text("A", 25, 230)
@@ -528,13 +541,26 @@ function button_My(){
 
   this.putText_Flapping_net = function(){
 
+    fill(255)
+    text("FOLDING NET  :  FLAPPING", 37, 540)
+
+  }
+
+  this.putText_walk = function(){
+
     noStroke()
     fill(255)
-    text("FOLDING NET  :  FLAPPING", 37, 25)
-    fill(_this.bgcolor2)
-    rect(0,35,270, _this.temp_windowHeight-160)
+    text("WALK", 120, 25)
     fill(0)
-    text("Assembly Instruction", 60, 55)
+    text("A", 25, 230)
+    text("B", 145, 230)
+    text("C", 25, 265)
+    text("D", 145, 265)
+    text("E", 25, 300)
+    text("F", 145, 300)
+    text("Add New :", 20, 330)
+    text("Gear Size :", 20, 390)
+    text("Motor Rotation Angle :", 20, 420)
 
   }
 
@@ -820,7 +846,7 @@ function button_My(){
 
     //module specific interface
     if(entity.module == 1){
-      text("Servo Rotation Angle: ", 25, y+120)
+      text("Motor Rotation Angle: ", 25, y+120)
 
       //toggle button 180 or continuous
       this.btn180[index-1].position(50, y+135).show()

@@ -28,6 +28,8 @@ function setup() {
   Flower3.init()
   Bird1 = new Bird()
   Bird1.init()
+  Walk1 = new Walk()
+  Walk1.init()
   IntroM1 = new Intro()
 
   pair_petal = 1
@@ -36,7 +38,7 @@ function setup() {
   pair_wing = 0
   gearType_wing = 1
   gearSize_wing = 2
-  motorType_wing = 360
+  motorType_wing = 180
   UI_wing = 1
   planet_pair = 1
   motorType_Pl = 180
@@ -74,7 +76,7 @@ function draw() {
     Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
 
   }else if (pageMode == open_close_net){ //mode 2
-    Panel.initUI()
+    Panel.initUI_net()
     Panel.putText_OpenClose_net()
 
     Flower3.drawNet( gearSize_petal, motorType_petal)
@@ -92,10 +94,19 @@ function draw() {
     Bird1.flappingUI(UI_wing) //draw things
 
   }else if (pageMode==flapping_net){ //mode 4
-    Panel.initUI()
+    Panel.initUI_net()
     Panel.putText_Flapping_net()
 
     Bird1.drawNet(pair_wing,gearSize_wing)
+
+  }else if (pageMode == walking){ //mode 5
+
+    Walk1.drawWalk()
+
+    Panel.initUI()
+    Panel.putText_walk()
+//    Panel.button_walk()
+
 
   }else if (pageMode == my_sketch){ //mode 9
 
@@ -142,6 +153,7 @@ function mousePressed(){ //map mouse pressed position to function
 //Universal -> go to HOME
     if (mouseX>60 && mouseX<210 && mouseY>615 && mouseY<635){ // Go to Home
         pageMode = front
+        console.log("******")
     }
 
 // simulation -> *home or my sketch
@@ -162,7 +174,10 @@ function mousePressed(){ //map mouse pressed position to function
       pageMode = 3
       Panel.initCurrentSelection(pageMode)
     }else if (mouseX>750 && mouseX<950 && mouseY>150 && mouseY<350){
-    // temp Planetary gear Mode
+    // temp Walking Mode
+      pageMode = 5
+    }else if (mouseX>250 && mouseX<450 && mouseY>400 && mouseY<430){
+    // temp My SKETCHBOOK
       pageMode = 9
     }
 
@@ -291,6 +306,9 @@ function mousePressed(){ //map mouse pressed position to function
   }
 
   if (pageMode == 2){
+    if (mouseX>60 && mouseX<210 && mouseY>565 && mouseY<585){
+      console.log(" DOWNLOAD PDF")
+    }
     if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
     // back to the simulation
        pageMode = 1
@@ -299,12 +317,15 @@ function mousePressed(){ //map mouse pressed position to function
   }
 
   if (pageMode == 4){
+    if (mouseX>60 && mouseX<210 && mouseY>565 && mouseY<585){
+//      console.log(" DOWNLOAD PDF")
+      Bird1.drawPDF()
+    }
     if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
     // back to the simulation
        pageMode = 3
        Panel.initCurrentSelection(pageMode)
     }
   }
-
 
 }
