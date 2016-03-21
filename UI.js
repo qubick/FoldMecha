@@ -459,7 +459,7 @@ function button_My(){
   //button creation - show is called every moment - might be overflowing
   var index = 0
 
-    _this.mirr_apply.hide()
+    _this.mirroring_toggle.hide()
     _this.mtr180.hide()
     _this.mtr360.hide()
     _this.mtr_L.hide()

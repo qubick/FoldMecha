@@ -32,7 +32,7 @@ function setup() {
   Walk1.init()
   IntroM1 = new Intro()
 
-  pair_petal = 1
+  pair_petal = 0
   gearSize_petal = 2
   motorType_petal = 180
   pair_wing = 0
@@ -40,6 +40,7 @@ function setup() {
   gearSize_wing = 2
   motorType_wing = 180
   UI_wing = 1
+  UI_walk = 1
   planet_pair = 1
   motorType_Pl = 180
   PullPush_mecType = 0
@@ -91,7 +92,7 @@ function draw() {
     Panel.button_Wings()
     // Panel.Wings(UI_wing)
 
-    Bird1.flappingUI(UI_wing) //draw things
+    Bird1.flappingUI(UI_wing)
 
   }else if (pageMode==flapping_net){ //mode 4
     Panel.initUI_net()
@@ -101,12 +102,13 @@ function draw() {
 
   }else if (pageMode == walking){ //mode 5
 
-    Walk1.drawWalk()
+    Walk1.compWalk()
 
     Panel.initUI()
     Panel.putText_walk()
-//    Panel.button_walk()
 
+    Walk1.walkUI(UI_walk)
+//    Panel.button_walk()
 
   }else if (pageMode == my_sketch){ //mode 9
 
@@ -303,6 +305,17 @@ function mousePressed(){ //map mouse pressed position to function
        console.log(" FOLDING NET ENTERED")
     }
 
+  }
+
+  if (pageMode == 5){
+
+    if (mouseX>210 && mouseX<225 && mouseY>160 && mouseY<180){
+        // UI mode 1 : show wing parameters
+       UI_walk = 1
+    }else if (mouseX>230 && mouseX<245 && mouseY>160 && mouseY<180){
+        // UI mode 2 : center
+       UI_walk = 2
+    }
   }
 
   if (pageMode == 2){
