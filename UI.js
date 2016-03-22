@@ -770,8 +770,8 @@ function button_My(){
 
   this.sliderDUpdate = function() {
     Bird1.setD(_this.D_slider.value())
-     _this.D_slider.attribute('min', Bird1.dist_dMin)
-                   .attribute('max', Bird1.dist_dMax)
+    _this.D_slider.attribute('min', Bird1.dist_dMin)
+                  .attribute('max', Bird1.dist_dMax)
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
@@ -789,9 +789,12 @@ function button_My(){
 
   this.sliderEUpdate = function() {
     Bird1.setE(_this.E_slider.value())
+    _this.E_slider.attribute('min', Bird1.dist_eMin)
+                  .attribute('max', Bird1.dist_eMax)
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         //_this.E_slider.value(_this.calcSliderPos2(Flower3.eMin, Flower3.eMax, Flower3.getE()))
+        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.openclose.E = _this.E_slider.value()
         break
       case 3: // Flagppig Bird
@@ -805,6 +808,10 @@ function button_My(){
   this.sliderFUpdate = function() {
     // no switch case cuz OP module doesn't have slider F
     Bird1.setF(_this.F_slider.value())
+
+    _this.F_slider.attribute('min', Bird1.dist_fMin)
+                  .attribute('max', Bird1.dist_fMax)
+    _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
     stdSliderValue.wings.F = _this.F_slider.value()
   }
 
