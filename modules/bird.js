@@ -36,6 +36,12 @@ this.UI1_created = false
    this.dist_bMax = 400
    this.dist_cMin = 0
    this.dist_cMax = 400
+   this.dist_dMin = 0
+   this.dist_dMax = 400
+   this.dist_eMin = 0
+   this.dist_eMax = 400
+   this.dist_fMin = 0
+   this.dist_fMax = 400
    this.xMin = 0
    this.xMax = 200
    this.yMin = 0
@@ -497,11 +503,9 @@ this.UI1_created = false
 
   // set functions
   this.setA = function(newA){
-    console.log("currA: ", this.dist_a)
     if (newA > this.dist_aMin && newA < this.dist_aMax){
       this.dist_a = newA
       this.updateSim()
-      console.log("currA: ", this.dist_a)
       return true
     }
     return false
@@ -524,12 +528,14 @@ this.UI1_created = false
   }
   this.setD = function(newD){
 
+console.log("d is now being updated, newD: ", newD, "curr D: ", this.dist_d)
+console.log("min d: ", this.dist_dMin, "max d: ", this.dist_eMax)
     if (newD > this.dist_dMin && newD < this.dist_dMax){
       this.dist_d = newD
       this.updateSim()
 
       return true
-    }
+    } //need else anyway - if min and max was well defined, this should not happen
     return false
   }
   this.setE = function(newE){
@@ -572,12 +578,16 @@ this.UI1_created = false
 
     this.dist_cMin = abs(this.dist_a-this.dist_b)+this.lengthGap
     this.dist_cMax = this.dist_a+this.dist_b-this.lengthGap
-//dist_dMin/Max??
+
+    this.dist_dMin = abs(this.dist_c-this.dist_e)+this.lengthGap
+    this.dist_dMax = this.dist_c+this.dist_e-this.lengthGap
+
+console.log("d is updated")
     this.dist_eMin = abs(this.dist_c-this.dist_d)+this.lengthGap
     this.dist_eMax = this.dist_c+this.dist_d-this.lengthGap
 
-    this.dist_fMin = abs(this.dist_e-this.dist_e)+this.lengthGap
-    this.dist_fMax = this.dist_e+this.dist_e-this.lengthGap
+    this.dist_fMin = abs(this.dist_e-this.dist_g)+this.lengthGap
+    this.dist_fMax = this.dist_e+this.dist_g-this.lengthGap
 
     return true
   }

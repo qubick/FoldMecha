@@ -19,11 +19,7 @@ function UI(){
   this.currentGearSize     = 2 //default
   this.currentServoAngle   = 180 // 180 or 360
   this.currentDrivingGear  = 0 // 0:left, 1:right
-  this.currentMirroring    = false
-  this.currentParing       = 1
-
-  //default == canceled --> possible action = "apply"
-  this.mirroring_toggle = createButton('Apply').mousePressed(toggleMirroring)
+  this.currentPairing      = 1
 
   this.Mech_show = createButton ('Show Mechanism')
   this.Mech_hide = createButton ('Hide Mechanism')
@@ -34,6 +30,8 @@ function UI(){
   this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
   this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
+  this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
+  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
 
   this.mtr_L = createButton('L').mousePressed(setDrivingGear)
   this.mtr_R = createButton('R').mousePressed(setDrivingGear)
@@ -82,7 +80,7 @@ function UI(){
     this.currentGearSize     = 2 //default
     this.currentServoAngle   = 180 // 180 or 360
     this.currentDrivingGear  = 0 // 0:left, 1:right
-    this.currentMirroring    = false
+    this.currentPairing    = 0
   }
 
   this.initCurrentSelection = function(pageMode){
@@ -95,8 +93,9 @@ function UI(){
       if(stdSliderValue.openclose == undefined){ //initial values
         _this.currentGearSize     = 2 //default
         _this.currentServoAngle   = 180 // 180 or 360
-        _this.currentMirroring    = false
+        _this.currentPairing    = 0
 
+        highlightMirroring(0)
         highlightGearSize(2) // default gear size  = 2
         highlightServoAngle(180) //default angle = 180
       } else {
@@ -108,6 +107,7 @@ function UI(){
         _this.A_slider.value(stdSliderValue.openclose.D)
         _this.B_slider.value(stdSliderValue.openclose.E)
 
+        highlightMirroring(stdSliderValue.openclose.pair)
         highlightGearSize(stdSliderValue.openclose.gearSize)
         highlightServoAngle(stdSliderValue.openclose.servoAngle)
       }
@@ -116,15 +116,15 @@ function UI(){
       if(stdSliderValue.wings == undefined){
         _this.currentGearSize     = 2 //default
         _this.currentServoAngle   = 180 // 180 or 360
-        _this.currentMirroring    = false
+        _this.currentPairing    = 0
         _this.currentDrivingGear  = 0 // 0:left, 1:right
 
+        highlightMirroring(0)
         highlightGearSize(2) // default gear size  = 2
         highlightServoAngle(180) //dafault
         highlightDrivingGear(0) //default: left(0)
       } else {
         //invoke saved json obj
-
         _this.A_slider.value(stdSliderValue.wings.A)
         _this.B_slider.value(stdSliderValue.wings.B)
         _this.A_slider.value(stdSliderValue.wings.C)
@@ -135,6 +135,7 @@ function UI(){
         _this.B_slider.value(stdSliderValue.wings.X)
         _this.B_slider.value(stdSliderValue.wings.Y)
 
+        highlightMirroring(stdSliderValue.wings.pair)
         highlightGearSize(stdSliderValue.wings.gearSize)
         highlightServoAngle(stdSliderValue.wings.servoAngle)
         highlightDrivingGear(stdSliderValue.wings.drivingGear)
@@ -143,17 +144,6 @@ function UI(){
   }
   // individual button event functions
   // _this: this object, this : caller button element
-  function toggleMirroring(){ //no highlight needed
-
-    if(!_this.currentMirroring) //if current == false (cancled status)
-      _this.mirroring_toggle.html('Cancle')
-    else
-      _this.mirroring_toggle.html('Apply')
-
-    _this.currentMirroring = 1 - _this.currentMirroring //toggle btw true(1) - false(0)
-    console.log("current paring status: ", _this.currentMirroring)
-
-  }
 
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
@@ -163,6 +153,16 @@ function UI(){
     console.log(gearSize)
   }
 
+  function highlightMirroring(pair){
+    if(pair == 1){
+      _this.mirr_apply.style("background-color",blue)
+      _this.mirr_cancel.style("background-color",white)
+    }else if(pair == 0){
+      _this.mirr_apply.style("background-color",white)
+      _this.mirr_cancel.style("background-color",blue)
+    }
+
+  }
   function highlightGearSize(gearSize){
     if(gearSize == 1){
        _this.size_1.style("background-color",blue)
@@ -204,6 +204,17 @@ function UI(){
         _this.mtr180.style('background-color',white)
         _this.mtr360.style('background-color',blue)
     }
+  }
+
+  function setMirroring(pair){
+    if(this.elt.innerHTML == "Apply"){
+      highlightMirroring(pair)
+      _this.currentPairing = 1
+    }else{ //Cancel
+      _this.currentPairing = 0
+      highlightMirroring(pair)
+    }
+    console.log(_this.currentPairing)
   }
 
   function setDrivingGear(){
@@ -260,6 +271,7 @@ function UI(){
         temp.module     = 1
         temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
+        temp.mirroring  = _this.currentPairing// True/False
 
         break;
       case 3: //Flapping
@@ -270,7 +282,7 @@ function UI(){
 
         temp.gearSize   = _this.currentGearSize //number 1~4
         temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
-        temp.mirroring  = _this.currentMirroring// True/False
+        temp.mirroring  = _this.currentPairing// True/False
         temp.driveGear  = _this.currentDrivingGear
 
         break;
@@ -297,9 +309,6 @@ function UI(){
 
   this.initUI_net = function(){ //initializer
     //GRAY & BLACK background for LEFT PANEL
-
-
-
     noStroke()
     fill(_this.bgcolor2)
     rect(0,550,270,_this.temp_windowHeight-550)
@@ -310,7 +319,6 @@ function UI(){
 
   this.button_front = function(){
 
-    this.mirroring_toggle.hide()
     this.mtr180.hide()
     this.mtr360.hide()
     this.Btn_reset.hide()
@@ -328,6 +336,8 @@ function UI(){
     this.size_4.hide()
     this.Mech_show.hide()
     this.Mech_hide.hide()
+    this.mirr_apply.hide()
+    this.mirr_cancel.hide()
 
     this.A_slider.hide()
     this.B_slider.hide()
@@ -358,7 +368,8 @@ function UI(){
 
   this.button_OpenClose = function(){
 
-    _this.mirroring_toggle.show().position(164, 315)
+    _this.mirr_apply.show().position(138,315)
+    _this.mirr_cancel.show().position(190,315)
 
     _this.size_1.show().position(115,375)
     _this.size_2.show().position(150,375)
@@ -389,13 +400,17 @@ function UI(){
 
   this.button_Wings = function(){
 
-    _this.mirroring_toggle.show().position(164, 315)
+    if(_this.currentPairing == 0){ // cancel pairing
+      _this.mirr_apply.show().position(138,315).style("background-color",white)
+      _this.mirr_cancel.show().position(190,315).style("background-color",blue)
 
-    if(_this.currentMirroring == 0){ // cancel pairing
       _this.mtr_L.hide()
       _this.mtr_R.hide()
 
-    }else if(_this.currentMirroring == 1){  // paired!
+    }else if(_this.currentPairing == 1){  // paired!
+      _this.mirr_apply.show().position(138,315).style("background-color",blue)
+      _this.mirr_cancel.show().position(190,315).style("background-color",white)
+
       text("Driver Gear :", 20, 360)
 
       _this.mtr_L.show().position(150, 345)
@@ -442,7 +457,8 @@ function button_folding_net(){
   _this.D_slider.hide()
   _this.E_slider.hide()
   _this.F_slider.hide()
-
+  _this.mirr_apply.hide()
+  _this.mirr_cancel.hide()
 
   _this.Btn_pdf.show().size(150,20).position(60,565)
   _this.Btn_back.show().size(150,20).position(60,590)
@@ -459,7 +475,8 @@ function button_My(){
   //button creation - show is called every moment - might be overflowing
   var index = 0
 
-    _this.mirroring_toggle.hide()
+    _this.mirr_apply.hide()
+    _this.mirr_cancel.hide()
     _this.mtr180.hide()
     _this.mtr360.hide()
     _this.mtr_L.hide()
@@ -491,7 +508,7 @@ function button_My(){
 
     noStroke()
     fill(255)
-    text("OPEN & CLOSE", 80, 25)
+    text("OPENING & CLOSING", 60, 25)
     fill(0)
     text("A", 25, 230)
     text("B", 145, 230)
@@ -543,14 +560,13 @@ function button_My(){
 
     fill(255)
     text("FOLDING NET  :  FLAPPING", 37, 540)
-
   }
 
   this.putText_walk = function(){
 
     noStroke()
     fill(255)
-    text("WALK", 120, 25)
+    text("WALKING", 103, 25)
     fill(0)
     text("A", 25, 230)
     text("B", 145, 230)
@@ -558,10 +574,10 @@ function button_My(){
     text("D", 145, 265)
     text("E", 25, 300)
     text("F", 145, 300)
-    text("Add New :", 20, 330)
+    text("Model Mirroring :", 20, 330)
+    text("Add New :", 20, 360)
     text("Gear Size :", 20, 390)
     text("Motor Rotation Angle :", 20, 420)
-
   }
 
   this.putText_My = function(){
@@ -571,7 +587,6 @@ function button_My(){
     noStroke()
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
-
     //button_My()
   }
   this.Front = function(){
@@ -582,7 +597,6 @@ function button_My(){
     text("FoldMecha",550,70)
     textSize(15)
     text("design your own mechanical movement and download the folding net to bulid",360,100)
-
     //button_front()
   }
 
@@ -610,12 +624,12 @@ function button_My(){
       moduleObj.D = _this.D_slider.value()
       moduleObj.E = _this.E_slider.value()
 
-      moduleObj.mirroring = _this.currentMirroring
+      moduleObj.mirroring = _this.currentPairing
       moduleObj.gearSize  = _this.currentGearSize
       moduleObj.servoAngle= _this.currentServoAngle
 
       stdSliderValue.openclose = moduleObj
-      console.log(stdSliderValue.openclose)
+      //console.log(stdSliderValue.openclose)
     // }
 
     _this.A_slider.changed(_this.sliderAUpdate)
@@ -624,7 +638,7 @@ function button_My(){
     _this.D_slider.changed(_this.sliderDUpdate)
     _this.E_slider.changed(_this.sliderEUpdate)
 
-    console.log("current Module #:", _this.currentModule)
+    //console.log("current Module #:", _this.currentModule)
   }
 
   function Wings(){
@@ -667,13 +681,13 @@ function button_My(){
       moduleObj.X = _this.X_slider.value()
       moduleObj.Y = _this.Y_slider.value()
 
-      moduleObj.mirring = _this.currentMirroring
+      moduleObj.mirring = _this.currentPairing
       moduleObj.gearSize = _this.currentGearSize
       moduleObj.servoAngle = _this.currentServoAngle
       moduleObj.drivingGear = _this.currentDrivingGear
 
       stdSliderValue.wings = moduleObj
-      console.log(stdSliderValue.wings)
+      //console.log(stdSliderValue.wings)
 
     _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
     _this.B_slider.changed(_this.sliderBUpdate) //how to differetiate user change vs. system update?
@@ -685,7 +699,7 @@ function button_My(){
     _this.X_slider.changed(_this.sliderXUpdate)
     _this.Y_slider.changed(_this.sliderYUpdate)
 
-    console.log("current Module #:", _this.currentModule)
+    //console.log("current Module #:", _this.currentModule)
   }
 
   /* from here: flower sliders */
@@ -756,8 +770,8 @@ function button_My(){
 
   this.sliderDUpdate = function() {
     Bird1.setD(_this.D_slider.value())
-    _this.D_slider.attribute('min', Bird1.dist_dMin)
-                  .attribute('max', Bird1.dist_dMax)
+     _this.D_slider.attribute('min', Bird1.dist_dMin)
+                   .attribute('max', Bird1.dist_dMax)
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
@@ -765,8 +779,9 @@ function button_My(){
         stdSliderValue.openclose.D = _this.D_slider.value()
         break
       case 3: // Flagppig Bird
-        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.wings.D = _this.D_slider.value()
+        if(_this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD())))
+          console.log("current module: ", _this.currentModule)
         break
       default:
     }
