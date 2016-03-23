@@ -148,7 +148,7 @@ function draw() {
         push()
         translate(i*-50, i*-50) //move based on my_sketch setting
 
-        Walk1.compWalk()
+        //Walk1.compWalk()
         Walk1.walkUI(UI_walk)
         pop()
       }
@@ -166,7 +166,6 @@ function mousePressed(){ //map mouse pressed position to function
 //Universal -> go to HOME
     if (mouseX>60 && mouseX<210 && mouseY>615 && mouseY<635){ // Go to Home
         pageMode = front
-        console.log("******")
     }
 
 // simulation -> *home or my sketch

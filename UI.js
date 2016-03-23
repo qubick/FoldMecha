@@ -57,16 +57,15 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
   this.selectParent = [] //array
+  this.selectLinked = []
   this.btn180 = []
   this.btnContd = []
   this.linked = false
 
   for(var i=0; i<4; i++){ //up to saved model numbers or saving limit
     var sel = createSelect().hide()
-    sel.option('None')
-    // sel.option('Module1') //option should be redefined upon relationship btw modules
-    // sel.option('Module2')
-    // sel.option('Module3')
+    //sel.attribute('id','option'+i).option('None') //default
+    sel.attribute('id', i).option('None') //default
 
     var btn180 = createButton("180°").hide()
     var btn360 = createButton("Continuous").hide()
@@ -74,7 +73,6 @@ function UI(){
     this.btn180.push(btn180)
     this.btnContd.push(btn360)
   }
-  //this.selectParent[1].option('Module1')
 
   this.button_hide = createButton("Hide").hide()
   this.button_show = createButton("show").hide()
@@ -269,7 +267,7 @@ function UI(){
       ,gearSize:   _this.currentGearSize //number 1~4
       ,servoAngle: _this.currentServoAngle //1:180, 2:cont
       ,mirroring:  _this.currentPairing// True/False
-
+      ,linekedTo: 'none'
     }
 
     switch (_this.currentModule) {
@@ -634,6 +632,7 @@ function button_My(){
     text("MY SKETCHBOOK", 70, 25)
     //button_My()
   }
+
   this.Front = function(){
     background(bgcolor2)
     noStroke()
@@ -877,8 +876,6 @@ function button_My(){
   this.mySketch_ModuleText = function(entity, index){
 
     if(_this.linked){
-      // _this.initUI()
-      //GRAY & BLACK background for LEFT PANEL
       noStroke()
       fill(_this.bgcolor2)
       rect(0,0,270,_this.temp_windowHeight)
@@ -886,14 +883,14 @@ function button_My(){
       rect(0,575,270,125)
       rect(0,0,270,35)
 
+      _this.putText_My()
       _this.selectParent.forEach(function(entity){
         entity.hide()
       });
 
       //and then redraw for linked module
-      
+
     } else { // if all modules are individual
-      // var y = (index)*150
       if(index < 2)
         var y = 85
       else
@@ -922,19 +919,15 @@ function button_My(){
       if(entity.module == 1){
         // _this.selectParent[index].remove(_this.selectParent[index].index)
         _this.selectParent[index].changed(mySelectedEvent)
-                          .position(100, y+75)
-                          .show()
+                          .position(100, y+75).show()
         title = "Flapping"
       }
-
       if(entity.module == 3){
         // _this.selectParent[index].remove(_this.selectParent[index].index)
-        _this.selectParent[index]//.changed(mySelectedEvent)
-                          .position(100, y+75)
-                          .show()
+        _this.selectParent[index].changed(mySelectedEvent)
+                          .position(100, y+75).show()
         title = "Flying"
       }
-
       if(entity.module == 5){
         title = "Walking"
       }
@@ -945,8 +938,15 @@ function button_My(){
   }
 
   function mySelectedEvent(){ //anonymous function to deal with selection event
-    //if selected, shold draw the mysketch panel
 
+    // console.log(this.elt.id, this.elt.value) //caller selector, selected option value
+    var idx = this.elt.id
+    var linked = this.elt.value.slice(-1) //get the last character - linked module
+
+    mySavedSketch[idx].linkedTo = linked
+    console.log(mySavedSketch[idx].linkedTo)
+
+    mySavedSketch[linked].likedTo = idx //linked each other
     _this.linked = true
     //-->> if delete is called, this should be revoked again
   }
