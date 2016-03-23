@@ -144,7 +144,6 @@ function draw() {
       }
 
       if(entity.module == 5){
-        console.log("retrieve walker here w/ UI_walk: ", UI_walk)
         //pass param based on returned savedDesign
         push()
         translate(i*-50, i*-50) //move based on my_sketch setting

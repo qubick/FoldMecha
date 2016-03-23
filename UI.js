@@ -876,10 +876,11 @@ function button_My(){
 
   this.mySketch_ModuleText = function(entity, index){
 
+    // var y = (index)*150
     if(index < 2)
       var y = 85
     else
-      var y = (index)*150
+      var y = 85 + (index-1)*160
 
     //these are common
     fill(50)
@@ -908,15 +909,18 @@ function button_My(){
 
     //module specific interface
     if(entity.module == 1){
-      text("Motor Rotation Angle: ", 25, y+120)
-
+      // text("Motor Rotation Angle: ", 25, y+120)
       //toggle button 180 or continuous
-      this.btn180[index-1].position(50, y+135).show()
-      this.btnContd[index-1].position(150, y+135).show()
+      // this.btn180[index-1].position(50, y+135).show()
+      // this.btnContd[index-1].position(150, y+135).show()
 
     }
 
     if(entity.module == 3){
+
+    }
+
+    if(entity.module == 5){
 
     }
   }
