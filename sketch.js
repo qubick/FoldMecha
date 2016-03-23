@@ -105,7 +105,8 @@ function draw() {
     Walk1.compWalk()
 
     Panel.initUI()
-    Panel.putText_walk()
+    Panel.button_walk()
+    Panel.putText_walk(UI_walk)
 
     Walk1.walkUI(UI_walk)
 //    Panel.button_walk()
@@ -315,6 +316,14 @@ function mousePressed(){ //map mouse pressed position to function
     }else if (mouseX>230 && mouseX<245 && mouseY>160 && mouseY<180){
         // UI mode 2 : center
        UI_walk = 2
+    }
+
+    if (mouseX>138 && mouseX<182 && mouseY>315 && mouseY<335){
+// only one leg
+      pair_leg = 1
+    }else if (mouseX>190 && mouseX<240 && mouseY>315 && mouseY<335){
+// two wings
+      pair_leg = 0
     }
   }
 

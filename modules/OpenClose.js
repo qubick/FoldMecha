@@ -35,7 +35,6 @@ function OpenClose(){
 
         if (this.rack_Y_reset1 == false){
             this.rack_Y = height/2-3+lower_Y
-
             this.rotationAngle = 3
             this.angle_increase = 0.01
             this.change_direction = -1
@@ -54,8 +53,7 @@ function OpenClose(){
         this.rack_increase_change = .57
 
         if (this.rack_Y_reset2 == false){
-          this.rack_Y = height/2-16+lower_Y
-
+            this.rack_Y = height/2-16+lower_Y
             this.rotationAngle = 3
             this.angle_increase = 0.01
             this.change_direction = -1
@@ -74,8 +72,7 @@ function OpenClose(){
         this.rack_increase_change = .63
 
         if (this.rack_Y_reset3 == false){
-          this.rack_Y = height/2-50+lower_Y
-
+            this.rack_Y = height/2-50+lower_Y
             this.rotationAngle = 3
             this.angle_increase = 0.01
             this.change_direction = -1
@@ -94,8 +91,7 @@ function OpenClose(){
         this.rack_increase_change = .72
 
         if (this.rack_Y_reset4 == false){
-          this.rack_Y = height/2-88+lower_Y
-
+            this.rack_Y = height/2-88+lower_Y
             this.rotationAngle = 3
             this.angle_increase = 0.01
             this.change_direction = -1
@@ -114,10 +110,9 @@ function OpenClose(){
       if(gear_size ==1){
         this.radius= 48
 
-        if (this.rack_Y_reset5 == false){
+      if (this.rack_Y_reset5 == false){
           this.rotationAngle = PI+PI/2-.18
           this.rack_Y = height/2-3+lower_Y
-
           this.rack_Y_reset5 = true
           this.rack_Y_reset1 = false
           this.rack_Y_reset2 = false
@@ -131,10 +126,9 @@ function OpenClose(){
         this.radius= 56
         this.rack_increase_change = .57
 
-        if (this.rack_Y_reset6 == false){
+      if (this.rack_Y_reset6 == false){
           this.rotationAngle = PI+PI/4
           this.rack_Y = height/2-16+lower_Y
-
           this.rack_Y_reset6 = true
           this.rack_Y_reset1 = false
           this.rack_Y_reset2 = false
@@ -149,11 +143,9 @@ function OpenClose(){
         this.radius= 64
         this.rack_increase_change = .63
 
-
-        if (this.rack_Y_reset7 == false){
+      if (this.rack_Y_reset7 == false){
           this.rotationAngle = PI+PI/4+.2
           this.rack_Y = height/2-50+lower_Y
-
           this.rack_Y_reset7 = true
           this.rack_Y_reset1 = false
           this.rack_Y_reset2 = false
@@ -168,10 +160,9 @@ function OpenClose(){
         this.radius= 72
         this.rack_increase_change = .72
 
-        if (this.rack_Y_reset8 == false){
+      if (this.rack_Y_reset8 == false){
           this.rotationAngle = PI+PI/4+.43
           this.rack_Y = height/2-88+lower_Y
-
           this.rack_Y_reset8 = true
           this.rack_Y_reset1 = false
           this.rack_Y_reset2 = false
@@ -184,27 +175,29 @@ function OpenClose(){
       }
     }
     this.centerPositionY_rack = height/2+200+lower_Y
-
     this.centerPositionX_pinion = temp_windowWidth/2+200
 
-    this.drawPinionGear(this.radius, this.centerPositionX_pinion, this.centerPositionY_rack,motorType)
+    this.drawPinionGear(pair_petal,this.radius, this.centerPositionX_pinion, this.centerPositionY_rack,motorType)
 }
 
-  this.drawRackGear = function(radius,centerPositionX_rack,centerPositionY_rack,motorType){
+  this.drawRackGear = function(pair_petal,radius,centerPositionX_rack,centerPositionY_rack,motorType){
 
-    this.numberOfTeeth=radius/4
     this.temp_rackX = 40 // where the rack gear starts drawing
-    this.teethAngle=TWO_PI/this.numberOfTeeth
-    this.teethWidth=sin(this.teethAngle/2)*radius
-  //  this.interlock = 0
     this.RlineY=cos(this.teethAngle/2)*radius+this.teethHeight
+
+    if(pair_petal == 0){
+      this.bottom_w = 0
+    }else if(pair_petal == 1){
+      this.bottom_w = 25
+    }
+
     push()
     translate(centerPositionX_rack,this.rack_Y+this.teethWidth)
     rotate(PI/2)
     fill(150)
     stroke(255)
-//    this.RlineY = 55 // temporary setting to define where to draw gear teeth
-  this.numberOfTeeth = 15
+    this.numberOfTeeth = 15
+
     for (var i=0; i<this.numberOfTeeth; i++){
       stroke(150)
       strokeWeight(1)
@@ -219,7 +212,6 @@ function OpenClose(){
     this.rack_X_size = 70
     fill(150)
     rect((-3*this.teethWidth/4)-this.teethWidth, -this.RlineY+this.teethHeight,this.rack_Y_size, this.rack_X_size)
-
 
     // setting to draw moving pivots
     this.fx = (-3*this.teethWidth/4)-this.teethWidth
@@ -264,19 +256,15 @@ function OpenClose(){
     if (radius == 48){
       fixed_up_Y  = 140
       fixed_up_x_adjust = this.radius - this.teethHeight*2
-
     }else if (radius == 56){
       fixed_up_Y  = 100
       fixed_up_x_adjust = this.radius - this.teethHeight
-
     }else if (radius == 64){
       fixed_up_Y  = 80
       fixed_up_x_adjust = this.radius - this.teethHeight/2
-
     }else if (radius == 72){
       fixed_up_Y  = 50
       fixed_up_x_adjust = this.radius
-
     }
 /////////////// SET Fixed Pivot (up) & Moving pivot (bottom) & dist_g
 
@@ -286,7 +274,15 @@ function OpenClose(){
     // Moving pivot Y
     this.movingP_Y = this.fx-this.dist_f+(this.rack_Y+this.teethWidth)
     fill(color(tempC))
-    ellipse(this.centerP_X,this.movingP_Y,8,8)
+    if(pair_petal == 0){
+      ellipse(this.centerP_X-this.bottom_w,this.movingP_Y,8,8) // LEFT
+    }else if(pair_petal == 1){
+      ellipse(this.centerP_X-this.bottom_w,this.movingP_Y,8,8) // LEFT
+      ellipse(this.centerP_X+this.bottom_w,this.movingP_Y,8,8) // RIGHT
+      stroke(color(tempC))
+      line(this.centerP_X-this.bottom_w,this.movingP_Y,this.centerP_X+this.bottom_w,this.movingP_Y)
+    }
+
     // Moving pivot
     this.dist_g = abs((this.fx-this.dist_f+(this.rack_Y+this.teethWidth))-fixed_up_Y)
 
@@ -309,64 +305,91 @@ function OpenClose(){
     this.step3_EG = acos(this.angle_cosine_EG)
     this.angle_EG = degrees(this.step3_EG)
 
-    // calcurate by walking
+    // calcurate by walking for LEFT
     this.t3.penup()
     this.t3.right(90)
     this.t3.forward(this.centerP_X-width/2)
     this.t3.left(90)
     this.t3.forward(height/2-fixed_up_Y)
-
-    this.fixed_X = this.t3.x
-    this.fixed_Y = this.t3.y
-
+        this.fixed_X = this.t3.x
+        this.fixed_Y = this.t3.y
     this.t3.left(180-this.angle_DG)
     this.t3.forward(this.dist_d)
-
-    this.DE_X = this.t3.x
-    this.DE_Y = this.t3.y
-
+        this.DE_X = this.t3.x
+        this.DE_Y = this.t3.y
     this.t3.forward(this.dist_c)
-
-    this.AC_X = this.t3.x
-    this.AC_Y = this.t3.y
-
+        this.AC_X = this.t3.x
+        this.AC_Y = this.t3.y
     this.t3.back(this.dist_d+this.dist_c)
     this.t3.right(180-this.angle_DG)  // back to fixed point
-
     this.t3.left(180-(this.angle_DG+this.angle_BD))
     this.t3.forward(this.dist_b)
-
-    this.AB_X = this.t3.x
-    this.AB_Y = this.t3.y
-
+        this.AB_X = this.t3.x
+        this.AB_Y = this.t3.y
     this.t3.back(this.dist_b)
     this.t3.right(180-(this.angle_DG+this.angle_BD))
-
     this.t3.back(height/2-fixed_up_Y)
     this.t3.right(90)
     this.t3.back(this.centerP_X-width/2)
     this.t3.left(90)
 
+    // calcurate by walking for RIGHT
+    this.t4.penup()
+    this.t4.right(90)
+    this.t4.forward(this.centerP_X-width/2)
+    this.t4.left(90)
+    this.t4.forward(height/2-fixed_up_Y)
+    this.t4.right(180-this.angle_DG)   // for right
+    this.t4.forward(this.dist_d)
+        this.DE_X2 = this.t4.x
+    this.t4.forward(this.dist_c)
+        this.AC_X2 = this.t4.x
+    this.t4.back(this.dist_d+this.dist_c)
+    this.t4.left(180-this.angle_DG)  // back to fixed point
+    this.t4.right(180-(this.angle_DG+this.angle_BD))
+    this.t4.forward(this.dist_b)
+        this.AB_X2 = this.t4.x
+    this.t4.back(this.dist_b)
+    this.t4.left(180-(this.angle_DG+this.angle_BD))
+    this.t4.back(height/2-fixed_up_Y)
+    this.t4.right(90)
+    this.t4.back(this.centerP_X-width/2)
+    this.t4.left(90)
+
     // start draw opening and closing
     stroke(color(tempC))
-    line(this.fixed_X,this.fixed_Y,this.DE_X,this.DE_Y) // side D
-    line(this.DE_X,this.DE_Y,this.centerP_X,this.movingP_Y) // side E
-    line(this.centerP_X,this.movingP_Y,this.centerP_X,this.movingP_Y+this.dist_f)
+    line(this.fixed_X-this.bottom_w,this.fixed_Y,this.DE_X-this.bottom_w,this.DE_Y) // side D
+    line(this.DE_X-this.bottom_w,this.DE_Y,this.centerP_X-this.bottom_w,this.movingP_Y) // side E
+    line(this.centerP_X,this.movingP_Y,this.centerP_X,this.movingP_Y+this.dist_f) // side F
 
-    //draw petal
+    //draw petal for L
     fill(color(tempC))
-    triangle(this.fixed_X,this.fixed_Y,this.AB_X,this.AB_Y,this.AC_X,this.AC_Y)
-
+    triangle(this.fixed_X-this.bottom_w,this.fixed_Y,this.AB_X,this.AB_Y,this.AC_X,this.AC_Y)
     //fixed point
-    noStroke()
-    fill(0)
-    ellipse(this.centerP_X,fixed_up_Y,8,8)
+
+    if(pair_petal == 0){
+      noStroke()
+      fill(0)
+      ellipse(this.centerP_X-this.bottom_w,fixed_up_Y,8,8)
+
+    }else if(pair_petal == 1){
+      fill(color(tempC))
+      triangle(this.fixed_X+this.bottom_w,this.fixed_Y,this.AB_X2,this.AB_Y,this.AC_X2,this.AC_Y)
+      stroke(color(tempC))
+      line(this.centerP_X+this.bottom_w,this.movingP_Y,this.DE_X2,this.DE_Y) // side E for R
+      line(this.fixed_X+this.bottom_w,this.fixed_Y,this.DE_X2,this.DE_Y) // side D for R
+
+      noStroke()
+      fill(0)
+      ellipse(this.centerP_X-this.bottom_w,fixed_up_Y,8,8)
+      ellipse(this.centerP_X+this.bottom_w,fixed_up_Y,8,8)
+    }
 
     // here it makes all move
     this.rack_Y = this.rack_Y-this.rack_change_apply
   }
 
-  this.drawPinionGear = function(radius, centerPositionX, centerPositionY,motorType){
+  this.drawPinionGear = function(pair_petal,radius, centerPositionX, centerPositionY,motorType){
     this.numberOfTeeth=radius/4
     this.teethHeight=0.25*radius
     this.teethAngle=TWO_PI/this.numberOfTeeth
@@ -374,7 +397,6 @@ function OpenClose(){
     this.lineY=cos(this.teethAngle/2)*radius+this.teethHeight
 
     push()
-
     translate(centerPositionX, centerPositionY)
     rotate(this.rotationAngle)
 
@@ -441,19 +463,19 @@ function OpenClose(){
     pop()
 
     this.centerPositionX_rack = centerPositionX - this.radius*2 - this.teethHeight
-    this.drawRackGear(radius,this.centerPositionX_rack,centerPositionY-50, motorType)
+    this.drawRackGear(pair_petal,radius,this.centerPositionX_rack,centerPositionY-50, motorType)
 
   }
 
   this.init = function(){
   // init all the variables inside the class (instance vars) here.
-    this.t3 = new Turtle()
-    this.t4 = new Turtle()
+    this.t3 = new Turtle() // LEFT
+    this.t4 = new Turtle() // RIGHT
     this.dist_a = 100
     this.dist_b = 320
-    this.dist_c = 50
-    this.dist_d = 230
-    this.dist_e = 250
+    this.dist_c = 70
+    this.dist_d = 200
+    this.dist_e = 240
     this.dist_f = 70  // 0 < dist_f = 100 => lower_Y = 0
     lower_Y = 0  // 100 < dist_f = 150 => lower_Y = dist_f-100
 // abs(dist_d-dist_e) <= 30 :  if "dist_f" == 100 (max)
@@ -472,7 +494,6 @@ function OpenClose(){
     this.dist_eMin = 50
     this.dist_eMax = 400
 */
-
     this.step1_BD = sq(this.dist_b) + sq(this.dist_c+this.dist_d) - sq(this.dist_a)
     this.step2_BD = 2*this.dist_b*(this.dist_c+this.dist_d)
     this.angle_cosine_BD = this.step1_BD/this.step2_BD
@@ -494,27 +515,23 @@ function OpenClose(){
 
   this.opencloseUI = function(){
 
-    push()
-    translate(20,40)
-
     fill(150)
-    triangle(200,55,40,10,50,55)
+    triangle(210,85,60,45,75,85)
     stroke(150)
-    line(115,50,200,130) // side D:
-
-    for(var i=55; i<130;i=i+8){
-      line(200,i,200,i+4)
-    }
+    line(110,80,210,140) // side E
+    line(210,140,210,175) // side F
+    line(205,175,215,175)
     noStroke()
     fill(0)
-    ellipse(200,55,6,6)
-    ellipse(200,130,6,6)
+    ellipse(210,85,6,6)
+    ellipse(210,140,6,6)
 
-    text("A", 30,40)
-    text("B", 115,30)
-    text("C", 80,73)
-    text("D", 165,73)
-    text("E", 145, 105)
+    text("A", 50,70)
+    text("B", 135,60)
+    text("C", 95,100)
+    text("D", 165,100)
+    text("E", 150,130)
+    text("F", 190,160)
 
   }
 
@@ -575,11 +592,9 @@ function OpenClose(){
           line(gear_Rx1,gear_Ry1,gear_Rx2,gear_Ry2)
           line(gear_Rx2,gear_Ry2,gear_Rx3,gear_Ry3)
           line(gear_Rx3,gear_Ry3,gear_Rx4,gear_Ry3)
-
         }
 
       this.rack_X_size = 70
-
       var rack_body_Lx1 = (-3*this.teethWidth/4)-this.teethWidth*2 // left top point X
       var rack_body_Ly1 = -this.RlineY+this.teethHeight // left top point Y
       line(rack_body_Lx1,rack_body_Ly1,rack_body_Lx1+this.teethWidth,rack_body_Ly1)
@@ -590,5 +605,4 @@ function OpenClose(){
       pop()
 
   }
-
 }

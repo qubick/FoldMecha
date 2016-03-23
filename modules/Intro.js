@@ -2,14 +2,12 @@ function Intro(){
   this.f1 = 0
   this.change_f1=0.5
   // to animate OpenClose
-
   this.radius = 40
   this.teethHeight=0.25*this.radius
   this.rotationAngle=0
   this.angle_increase = 0.02
   this.in_gear = this.radius-27
   // to animate Flapping
-
   var startingX = 270/2 // center X: width/2 + left gray panel width*1/2
   var startingY = 100   // center Y: height/2-100
   var angle = 0  // starting angle
@@ -101,6 +99,7 @@ function Intro(){
     text("GALLERY",567,420)
     text("ABOUT",823,420)
   }
+
   this.OpenClose = function(side,mul,tempX,tempY){
 
     this.t1 = new Turtle()
@@ -110,13 +109,12 @@ function Intro(){
     this.c = 40
     this.d = 90
     this.e = 140
-    this.centerwidth = 15  // base length
-
     this.f = sqrt(sq(this.e)-sq(this.d))        // f is calculated from given distances d and e.
     this.f2 = this.f-this.f1
+    this.centerwidth = 15  // base length
 
-    this.step1_f2 = sq(this.d) + sq(this.e) - sq(this.f2)      //numerator
-    this.step2_f2 = 2*this.d*this.e                       // denominator
+    this.step1_f2 = sq(this.d) + sq(this.e) - sq(this.f2)
+    this.step2_f2 = 2*this.d*this.e
     this.angle_cosine_f2 = this.step1_f2/this.step2_f2
     this.step3_f2 = acos(this.angle_cosine_f2)
     this.angle_f2 = degrees(this.step3_f2)
@@ -147,23 +145,18 @@ function Intro(){
 
     /* WALK THROUGH FIGURE AND SET CONTROL POINTS. */
     this.t1.forward(this.f1)     // Move turtle to base of figure.
-
-    this.ef_x = this.t1.x
-    this.ef_y = this.t1.y
-
+        this.ef_x = this.t1.x
+        this.ef_y = this.t1.y
     this.t1.penup()         // Move turtle to point DE.
     this.t1.left(this.angle_d*side)
     this.t1.forward(this.e)
-
-    this.de_x = this.t1.x
-    this.de_y = this.t1.y
-
+        this.de_x = this.t1.x
+        this.de_y = this.t1.y
     this.t1.penup()        // Move turtle to point DF.
     this.t1.right((180-this.angle_f2)*side)
     this.t1.forward(this.d)
-
-    this.df_x = this.t1.x
-    this.df_y = this.t1.y      // Store point DF coordinates. df_x is given as the fixed value at the top
+        this.df_x = this.t1.x
+        this.df_y = this.t1.y      // Store point DF coordinates. df_x is given as the fixed value at the top
 
     /* NOW WE ARE DONE WALKING THE FIGURE, AND LET'S RETURN TO THE HOME POINT.*/
     this.t1.penup()       // Return to start position
@@ -176,6 +169,7 @@ function Intro(){
     this.t1.back(10+tempX)
     this.t1.right(90*side)
     this.t1.forward(20+tempY)
+
     /*   T2 is for the upper part of the petal structure :triangle ab(c+d)     */
     this.t2.penup()
     this.t2.back(20+tempY)
@@ -185,17 +179,13 @@ function Intro(){
     this.t2.forward(this.f)
     this.t2.left((180-this.angle_a-(180-this.angle_f2-this.angle_d))*side)
     this.t2.forward(this.b)
-
-    this.ab_x = this.t2.x
-    this.ab_y = this.t2.y   // Store point AB coordinates.
-
+        this.ab_x = this.t2.x
+        this.ab_y = this.t2.y   // Store point AB coordinates.
     this.t2.penup()
     this.t2.left((180-this.angle_cd)*side)
     this.t2.forward(this.a)
-
-    this.ac_x = this.t2.x
-    this.ac_y = this.t2.y  // Store point AC coordinates.
-
+        this.ac_x = this.t2.x
+        this.ac_y = this.t2.y  // Store point AC coordinates.
     /* Return to start position */
     this.t2.penup()
     this.t2.back(this.a)
@@ -214,7 +204,6 @@ function Intro(){
     triangle(mul*(this.df_x+100+(this.centerwidth*-1*side)),mul*(this.df_y),mul*(this.de_x+100+(this.centerwidth*-1*side)),mul*(this.de_y),mul*(this.ab_x+100+(this.centerwidth*-1*side)),mul*(this.ab_y))
     triangle(mul*(this.ac_x+100+(this.centerwidth*-1*side)),mul*(this.ac_y),mul*(this.de_x+100+(this.centerwidth*-1*side)),mul*(this.de_y),mul*(this.ab_x+100+(this.centerwidth*-1*side)),mul*(this.ab_y))
     ellipse(mul*(this.ef_x+100+(this.centerwidth*-1*side)),mul*(this.ef_y),5,5)
-
     stroke(color(tempC))
     line(mul*(this.de_x+100+(this.centerwidth*-1*side)),mul*(this.de_y),mul*(this.ef_x+100+(this.centerwidth*-1*side)),mul*(this.ef_y))
     line(mul*(this.df_x+100+(this.centerwidth*-1*side)),mul*(this.df_y),mul*(this.df_x+100+(this.centerwidth/2*side)),mul*(this.df_y))
@@ -233,9 +222,9 @@ function Intro(){
     stroke(color(tempC))
     line(width/2+8,height/2-90,width/2-8,height/2-90)
   }
+
   this.flapping = function(centerPositionX,centerPositionY,side,XX,YY){
     this.t3 = new Turtle()
-    this.t4 = new Turtle()
     this.dist_a = 65
     this.dist_b = 30
     this.dist_c = 85
@@ -275,58 +264,42 @@ function Intro(){
     this.t3.forward(this.wing_axisY)
     this.t3.left(90*side)
     this.t3.forward((this.wing_axisX+this.wing_topLengthX*side)*side)
-
-    this.c2_x = this.t3.x
-    this.c2_y = this.t3.y      // point C2: where the wing starting point.
-
+        this.c2_x = this.t3.x
+        this.c2_y = this.t3.y      // point C2: where the wing starting point.
     var leftTurn = this.angle_f + this.angle_x
-
     this.t3.right(90*side)
     this.t3.left((180-leftTurn)*side)
     this.t3.forward(this.dist_e)
-
-    this.b_x = this.t3.x
-    this.b_y = this.t3.y    // point B: the edge of the wing
-
+        this.b_x = this.t3.x
+        this.b_y = this.t3.y    // point B: the edge of the wing
     this.t3.back(this.dist_e)
     this.t3.right(this.angle_c2*side)
     this.t3.forward(this.dist_d)
-
-    this.a_x = this.t3.x
-    this.a_y = this.t3.y    // point A: headside triangle
-
+        this.a_x = this.t3.x
+        this.a_y = this.t3.y    // point A: headside triangle
     this.t3.left((180-(this.angle_a+this.angle_e))*side)
     this.t3.forward(this.dist_b)
-
-    this.c_x = this.t3.x
-    this.c_y = this.t3.y    // point C: top of the wing triangle
+        this.c_x = this.t3.x
+        this.c_y = this.t3.y    // point C: top of the wing triangle
 
   // CACULATION IS DONE _ COME BACK TO HOME
     this.t3.back(this.dist_b)
     this.t3.right((180-(this.angle_a+this.angle_e))*side)
-
     this.t3.back(this.dist_d)
     this.t3.left(this.angle_c2*side)
-
     this.t3.right((180-leftTurn)*side)
     this.t3.left(90*side)
-
     this.t3.back((this.wing_axisX+this.wing_topLengthX*side)*side)
     this.t3.right(90*side)
     this.t3.back(this.wing_axisY)
 
     var theta = this.rotationAngle*this.rotationDirection+this.rotation_interlock
     var len = sqrt(pow(this.in_gear,2)+pow(this.in_gear,2))
-
-    push()
-    translate(centerPositionX,centerPositionY)
-
     var rad = -.11 // due to some mismatch
 
     this.rotationAngle = this.rotationAngle + this.angle_increase
-
     if(this.rotationAngle >= 2*PI){
-          this.rotationAngle = 0
+       this.rotationAngle = 0
     }
 
     this.dist_g = dist(len*cos(theta+rad), len*sin(theta+rad), this.c2_x-centerPositionX, this.c2_y-centerPositionY)
@@ -343,12 +316,10 @@ function Intro(){
     this.angle_x =degrees(this.step3_x)
 
     stroke(color(tempC))
-    line(this.pinion_Xdot,this.pinion_Ydot,this.b_x-centerPositionX,this.b_y-centerPositionY) // side f
+    line(this.pinion_Xdot+centerPositionX,this.pinion_Ydot+centerPositionY,this.b_x,this.b_y) // side f
     noStroke()
     fill(color(tempC))
-    ellipse(this.pinion_Xdot,this.pinion_Ydot, 5,5) //moving pivot on gears
-
-    pop()
+    ellipse(this.pinion_Xdot+centerPositionX,this.pinion_Ydot+centerPositionY, 5,5) //moving pivot on gears
 
     this.step1_f = sq(this.dist_e) + sq(this.dist_g) - sq(this.dist_f)
     this.step2_f = 2*this.dist_e*this.dist_g
@@ -364,120 +335,181 @@ function Intro(){
   }
 
   this.walking = function(){
-      var drawStartX = 120
-      var drawStartY = -10
-    // parameterized values
-      this.dist_a = 150/4
-      this.dist_b = 130/4
-      this.dist_c = 120/4
-      this.dist_d = 180/4
-      this.dist_e = 250/4
-      this.dist_f = 250/4
-      this.dist_g = 210/4
+    var drawStartX = 110
+    var drawStartY = -10
+      // parameterized values
+    this.dist_a = 150/4
+    this.dist_b = 130/4
+    this.dist_c = 120/4
+    this.dist_d = 180/4
+    this.dist_e = 220/4
+    this.dist_f = 220/4
+    this.dist_g = 210/4
       // rotating center
-      this.w_center_x2 = 25*1/2*sin(radians(angle))+this.w_center_x
-      this.w_center_y2 = 25*1/2*cos(radians(angle))+this.w_center_y
-      this.rad = atan2(this.w_center_y2-this.AG_y,this.w_center_x2-this.AG_x)
-      this.degD = this.rad/PI*180
-      this.temp_L_x2 = sqrt(sq(this.w_center_x2-this.AG_x)+sq(this.w_center_y2-this.AG_y))
+    this.w_center_x2 = 23*1/2*sin(radians(angle))+this.w_center_x
+    this.w_center_y2 = 23*1/2*cos(radians(angle))+this.w_center_y
+    this.rad = atan2(this.w_center_y2-this.AG_y,this.w_center_x2-this.AG_x)
+    this.degD = this.rad/PI*180
+    this.rad2 = atan2(this.w_center_y2-this.AG_y2,this.w_center_x2-this.AG_x2) // RIGHT
+    this.degD2 = this.rad2/PI*180 // RIGHT
+    this.temp_L_x2 = sqrt(sq(this.w_center_x2-this.AG_x)+sq(this.w_center_y2-this.AG_y))
+    this.temp_R_x2 = sqrt(sq(this.w_center_x2-this.AG_x2)+sq(this.w_center_y2-this.AG_y2)) // RIGHT
 
       //triangle AE-L up
-      this.step1_AL = sq(this.dist_a) + sq(this.temp_L_x2) - sq(this.dist_e)
-      this.step2_AL = 2*this.dist_a*this.temp_L_x2
-      this.angle_cosine_AL = this.step1_AL/this.step2_AL
-      this.step3_AL = acos(this.angle_cosine_AL)
-      this.angle_AL = degrees(this.step3_AL)
-
+    this.step1_AL = sq(this.dist_a) + sq(this.temp_L_x2) - sq(this.dist_e)
+    this.step2_AL = 2*this.dist_a*this.temp_L_x2
+    this.angle_cosine_AL = this.step1_AL/this.step2_AL
+    this.step3_AL = acos(this.angle_cosine_AL)
+    this.angle_AL = degrees(this.step3_AL)
       //triangle CF-L down
-      this.step1_CL = sq(this.dist_c) + sq(this.temp_L_x2) - sq(this.dist_f)      //numerator
-      this.step2_CL = 2*this.dist_c*this.temp_L_x2                     // denominator
-      this.angle_cosine_CL = this.step1_CL/this.step2_CL
-      this.step3_CL = acos(this.angle_cosine_CL)
-      this.angle_CL = degrees(this.step3_CL)
+    this.step1_CL = sq(this.dist_c) + sq(this.temp_L_x2) - sq(this.dist_f)      //numerator
+    this.step2_CL = 2*this.dist_c*this.temp_L_x2                     // denominator
+    this.angle_cosine_CL = this.step1_CL/this.step2_CL
+    this.step3_CL = acos(this.angle_cosine_CL)
+    this.angle_CL = degrees(this.step3_CL)
 
-      this.turn_L1 = 180 - ((90-this.degD) + this.angle_AL);
+    //triangle AE-R up : RIGHT
+    this.step1_AR = sq(this.dist_a) + sq(this.temp_R_x2) - sq(this.dist_e)
+    this.step2_AR = 2*this.dist_a*this.temp_R_x2
+    this.angle_cosine_AR = this.step1_AR/this.step2_AR
+    this.step3_AR = acos(this.angle_cosine_AR)
+    this.angle_AR = degrees(this.step3_AR)
 
-      this.t5 = new Turtle()
+    //triangle CF-R down : RIGHT
+    this.step1_CR = sq(this.dist_c) + sq(this.temp_R_x2) - sq(this.dist_f)      //numerator
+    this.step2_CR = 2*this.dist_c*this.temp_R_x2                     // denominator
+    this.angle_cosine_CR = this.step1_CR/this.step2_CR
+    this.step3_CR = acos(this.angle_cosine_CR)
+    this.angle_CR = degrees(this.step3_CR)
+
+    this.turn_L1 = 180 - ((90-this.degD) + this.angle_AL)
+    this.turn_R1 = 180 - ((90+this.degD2) + this.angle_AR)
       // start Calcurate for Left
-      this.t5.penup()
-      this.t5.forward(startingY)
-      this.t5.right(90)
-      this.t5.forward(startingX) //center
+    this.t5 = new Turtle()
+    this.t6 = new Turtle()
 
-      this.w_center_x = this.t5.x
-      this.w_center_y = this.t5.y
+    this.t5.penup()
+    this.t5.forward(startingY)
+    this.t5.right(90)
+    this.t5.forward(startingX) //center
+        this.w_center_x = this.t5.x
+        this.w_center_y = this.t5.y
+    this.t5.back(this.dist_g)
+    this.t5.left(90)
+        this.AG_x = this.t5.x
+        this.AG_y = this.t5.y
+    this.t5.right(this.turn_L1)
+    this.t5.forward(this.dist_a)
+        this.AE_x = this.t5.x
+        this.AE_y = this.t5.y
+    this.t5.back(this.dist_a)
+    this.t5.left(90)
+    this.t5.forward(this.dist_b)
+        this.B_x = this.t5.x
+        this.B_y = this.t5.y
+    this.t5.back(this.dist_b)
+    this.t5.right(90)
+    this.t5.right((this.angle_AL+this.angle_CL))
+    this.t5.forward(this.dist_c)
+        this.CF_x = this.t5.x
+        this.CF_y = this.t5.y
+    var angleBC2 = 360-(90+this.angle_AL+this.angle_CL)
+    // calcurating the angle to draw the side D
+    this.t5.left(180-angleBC2-90)
+    this.t5.forward(this.dist_d)
+        this.D_x = this.t5.x
+        this.D_y = this.t5.y
+    this.t5.back(this.dist_d)
+    this.t5.right(90)
+    this.t5.forward(this.dist_b)
+        this.B2_x = this.t5.x
+        this.B2_y = this.t5.y
+    // back to home
+    this.t5.back(this.dist_b)
+    this.t5.left(90)
+    this.t5.right(180-angleBC2-90)
+    this.t5.left(this.angle_AL+this.angle_CL)
+    this.t5.back(this.dist_c)
+    this.t5.left(this.turn_L1)
+    this.t5.right(90)
+    this.t5.forward(this.dist_g)
+    this.t5.back(startingX)
+    this.t5.left(90)
+    this.t5.back(startingY)
 
-      this.t5.back(this.dist_g)
-      this.t5.left(90)
+    // center rotating pivot
+    fill(color(tempC))
+    ellipse(this.w_center_x2+drawStartX,this.w_center_y2+drawStartY,5,5)
+    // Draw Legs
+    stroke(color(tempC))
+    line(this.AE_x+drawStartX,this.AE_y+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE E
+    line(this.AG_x+drawStartX,this.AG_y+drawStartY,this.CF_x+drawStartX,this.CF_y+drawStartY) // SIDE C
+    line(this.B_x+drawStartX,this.B_y+drawStartY,this.B2_x+drawStartX,this.B2_y+drawStartY) // SIDE C2
+    line(this.CF_x+drawStartX,this.CF_y+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE F
+    fill(color(tempC))
+    triangle(this.AG_x+drawStartX,this.AG_y+drawStartY,this.B_x+drawStartX,this.B_y+drawStartY,this.AE_x+drawStartX,this.AE_y+drawStartY)
+    triangle(this.B2_x+drawStartX,this.B2_y+drawStartY,this.D_x+drawStartX,this.D_y+drawStartY,this.CF_x+drawStartX,this.CF_y+drawStartY)
 
-      this.AG_x = this.t5.x
-      this.AG_y = this.t5.y
+    // RIGHT LEG
+    this.t6.penup()
+    this.t6.forward(startingY)
+    this.t6.right(90)
+    this.t6.forward(startingX) //center
+    this.t6.back(this.dist_g*-1)
+    this.t6.left(90*-1)
+        this.AG_x2 = this.t6.x
+        this.AG_y2 = this.t6.y
+    this.t6.right(this.turn_R1*-1)
+    this.t6.forward(this.dist_a)
+        this.AE_x2 = this.t6.x
+        this.AE_y2 = this.t6.y
+    this.t6.back(this.dist_a)
+    this.t6.right(90)
+    this.t6.forward(this.dist_b)
+        this.B_x2 = this.t6.x
+        this.B_y2 = this.t6.y
+    this.t6.back(this.dist_b)
+    this.t6.left(90)
+    this.t6.left(this.angle_AR+this.angle_CR)
+    this.t6.forward(this.dist_c)
+        this.CF_x2 = this.t6.x
+        this.CF_y2 = this.t6.y
 
-      this.t5.right(this.turn_L1)
-      this.t5.forward(this.dist_a)
+    var angleBC2_R = 360-(90+this.angle_AR+this.angle_CR)
+    this.t6.right(180-angleBC2_R-90)
+    this.t6.forward(this.dist_d)
+        this.D_x2 = this.t6.x
+        this.D_y2 = this.t6.y
+    this.t6.back(this.dist_d)
+    this.t6.left(90)
+    this.t6.forward(this.dist_b)
+        this.B2_x2 = this.t6.x
+        this.B2_y2 = this.t6.y
+    this.t6.back(this.dist_b)
+    this.t6.right(90)
+    this.t6.left(180-angleBC2_R-90)
+    this.t6.right(this.angle_AR+this.angle_CR)
+    this.t6.back(this.dist_c)
+    this.t6.back(this.dist_a)
+    this.t6.left(this.turn_R1*-1)
+    this.t6.right(90*-1)
+    this.t6.forward(this.dist_g*-1)
+    this.t6.back(startingX)
+    this.t6.left(90)
+    this.t6.back(startingY)
 
-      this.AE_x = this.t5.x
-      this.AE_y = this.t5.y
+    stroke(color(tempC))
+    line(this.AE_x2+drawStartX,this.AE_y2+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE E RIGHT
+    line(this.CF_x2+drawStartX,this.CF_y2+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE F RIGHT
+    line(this.AG_x2+drawStartX,this.AG_y2+drawStartY,this.CF_x2+drawStartX,this.CF_y2+drawStartY) // SIDE C RIGHT
+    line(this.B_x2+drawStartX,this.B_y2+drawStartY,this.B2_x2+drawStartX,this.B2_y2+drawStartY)
+    fill(color(tempC))
+    triangle(this.AG_x2+drawStartX,this.AG_y2+drawStartY,this.B_x2+drawStartX,this.B_y2+drawStartY,this.AE_x2+drawStartX,this.AE_y2+drawStartY)
+    triangle(this.B2_x2+drawStartX,this.B2_y2+drawStartY,this.D_x2+drawStartX,this.D_y2+drawStartY,this.CF_x2+drawStartX,this.CF_y2+drawStartY)
 
-      this.t5.back(this.dist_a)
-      this.t5.left(90)
-      this.t5.forward(this.dist_b)
-
-      this.B_x = this.t5.x
-      this.B_y = this.t5.y
-
-      this.t5.back(this.dist_b)
-      this.t5.right(90)
-      this.t5.right((this.angle_AL+this.angle_CL))
-      this.t5.forward(this.dist_c)
-
-      this.CF_x = this.t5.x
-      this.CF_y = this.t5.y
-
-      var angleBC2 = 360-(90+this.angle_AL+this.angle_CL)
-      // calcurating the angle to draw the side D
-      this.t5.left(180-angleBC2-90)
-      this.t5.forward(this.dist_d)
-
-      this.D_x = this.t5.x
-      this.D_y = this.t5.y
-
-      this.t5.back(this.dist_d)
-      this.t5.right(90)
-      this.t5.forward(this.dist_b)
-
-      this.B2_x = this.t5.x
-      this.B2_y = this.t5.y
-
-      // back to home
-      this.t5.back(this.dist_b)
-      this.t5.left(90)
-      this.t5.right(180-angleBC2-90)
-      this.t5.left(this.angle_AL+this.angle_CL)
-      this.t5.back(this.dist_c)
-      this.t5.left(this.turn_L1)
-      this.t5.right(90)
-      this.t5.forward(this.dist_g)
-      this.t5.back(startingX)
-      this.t5.left(90)
-      this.t5.back(startingY)
-
-      // center rotating pivot
-      fill(color(tempC))
-      ellipse(this.w_center_x2+drawStartX,this.w_center_y2+drawStartY,5,5)
-      // Draw Legs
-      stroke(color(tempC))
-      line(this.AE_x+drawStartX,this.AE_y+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE E
-      line(this.AG_x+drawStartX,this.AG_y+drawStartY,this.CF_x+drawStartX,this.CF_y+drawStartY) // SIDE C
-      line(this.B_x+drawStartX,this.B_y+drawStartY,this.B2_x+drawStartX,this.B2_y+drawStartY) // SIDE C2
-      line(this.CF_x+drawStartX,this.CF_y+drawStartY,this.w_center_x2+drawStartX,this.w_center_y2+drawStartY) // SIDE F
-      fill(color(tempC))
-      triangle(this.AG_x+drawStartX,this.AG_y+drawStartY,this.B_x+drawStartX,this.B_y+drawStartY,this.AE_x+drawStartX,this.AE_y+drawStartY)
-      triangle(this.B2_x+drawStartX,this.B2_y+drawStartY,this.D_x+drawStartX,this.D_y+drawStartY,this.CF_x+drawStartX,this.CF_y+drawStartY)
-
-      angle = angle+1
-      if(angle>360){
-        angle = 0
-      }
+    angle = angle+1.2  // animate central gear
+    if(angle>360){
+      angle = 0
     }
+ }
 }

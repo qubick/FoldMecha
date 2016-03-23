@@ -104,8 +104,8 @@ function UI(){
         _this.A_slider.value(stdSliderValue.openclose.A)
         _this.B_slider.value(stdSliderValue.openclose.B)
         _this.C_slider.value(stdSliderValue.openclose.C)
-        _this.A_slider.value(stdSliderValue.openclose.D)
-        _this.B_slider.value(stdSliderValue.openclose.E)
+        _this.D_slider.value(stdSliderValue.openclose.D)
+        _this.E_slider.value(stdSliderValue.openclose.E)
 
         highlightMirroring(stdSliderValue.openclose.pair)
         highlightGearSize(stdSliderValue.openclose.gearSize)
@@ -127,13 +127,13 @@ function UI(){
         //invoke saved json obj
         _this.A_slider.value(stdSliderValue.wings.A)
         _this.B_slider.value(stdSliderValue.wings.B)
-        _this.A_slider.value(stdSliderValue.wings.C)
-        _this.B_slider.value(stdSliderValue.wings.D)
-        _this.C_slider.value(stdSliderValue.wings.E)
-        _this.A_slider.value(stdSliderValue.wings.F)
+        _this.C_slider.value(stdSliderValue.wings.C)
+        _this.D_slider.value(stdSliderValue.wings.D)
+        _this.E_slider.value(stdSliderValue.wings.E)
+        _this.F_slider.value(stdSliderValue.wings.F)
 
-        _this.B_slider.value(stdSliderValue.wings.X)
-        _this.B_slider.value(stdSliderValue.wings.Y)
+        _this.X_slider.value(stdSliderValue.wings.X)
+        _this.Y_slider.value(stdSliderValue.wings.Y)
 
         highlightMirroring(stdSliderValue.wings.pair)
         highlightGearSize(stdSliderValue.wings.gearSize)
@@ -438,6 +438,26 @@ function UI(){
     _this.currentModule = 3
 }
 
+this.button_walk = function(){
+    _this.mirr_apply.show().position(138,315)
+    _this.mirr_cancel.show().position(190,315)
+
+    _this.size_1.show().position(115,375)
+    _this.size_2.show().position(150,375)
+    _this.size_3.show().position(185,375)
+    _this.size_4.show().position(220,375)
+
+    _this.Btn_reset.show().size(150,20).position(60,495)
+    _this.Btn_plt.show().size(150,20).position(60,520)
+    _this.Btn_net.show().size(150,20).position(60,545)
+    _this.Btn_my.show().size(150,20).position(60,590)
+    _this.Btn_home.show().size(150,20).position(60,615)
+
+    _this.Btn_pdf.hide()
+    _this.Btn_back.hide()
+
+}
+
 function button_folding_net(){
 
   _this.size_1.hide() //bind to same function
@@ -563,21 +583,26 @@ function button_My(){
   }
 
   this.putText_walk = function(){
+    _this.UI_mode_walk = UI_walk
 
     noStroke()
     fill(255)
     text("WALKING", 103, 25)
     fill(0)
-    text("A", 25, 230)
-    text("B", 145, 230)
-    text("C", 25, 265)
-    text("D", 145, 265)
-    text("E", 25, 300)
-    text("F", 145, 300)
-    text("Model Mirroring :", 20, 330)
-    text("Add New :", 20, 360)
+    text("Model Pairing :", 20, 330)
+    text("Add a New Pair :", 20, 360)
     text("Gear Size :", 20, 390)
-    text("Motor Rotation Angle :", 20, 420)
+
+    if(_this.UI_mode_walk == 1){
+      text("A", 25, 230)
+      text("B", 145, 230)
+      text("C", 25, 265)
+      text("D", 145, 265)
+      text("E", 25, 300)
+      text("F", 145, 300)
+    }else if(_this.UI_mode_walk == 2){
+      text("G", 25, 230)
+    }
   }
 
   this.putText_My = function(){
@@ -716,14 +741,14 @@ function button_My(){
 
       switch (_this.currentModule) {
         case 1: // OpenClose Flower
-          //_this.A_slider.attribute('value', _this.calcSliderPos2(Flower3.aMin, Flower3.aMax, Flower3.getA()))
 
           //we assume this is only possible when there is already json obj created
+          _this.A_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           stdSliderValue.openclose.A = _this.A_slider.value()
           break
         case 3: // Flagppig Bird
-          stdSliderValue.wings.A = _this.A_slider.value()
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+          stdSliderValue.wings.A = _this.A_slider.value()
           break
 
         default:
@@ -737,12 +762,12 @@ function button_My(){
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        //_this.B_slider.value(_this.calcSliderPos2(Flower3.bMin, Flower3.bMax, Flower3.getB()))
+        _this.B_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         stdSliderValue.openclose.B = _this.B_slider.value()
         break
       case 3: // Flagppig Bird
-        stdSliderValue.wings.B = _this.B_slider.value()
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        stdSliderValue.wings.B = _this.B_slider.value()
         break
 
       default:
@@ -756,12 +781,12 @@ function button_My(){
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        //_this.C_slider.value(_this.calcSliderPos2(Flower3.cMin, Flower3.cMax, Flower3.getC()))
+        _this.C_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         stdSliderValue.openclose.C = _this.C_slider.value()
         break
       case 3: // Flagppig Bird
-        stdSliderValue.wings.C = _this.C_slider.value()
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        stdSliderValue.wings.C = _this.C_slider.value()
         break
 
       default:
@@ -775,13 +800,12 @@ function button_My(){
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        //_this.D_slider.value(_this.calcSliderPos2(Flower3.dMin, Flower3.dMax, Flower3.getD()))
+        _this.D_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.openclose.D = _this.D_slider.value()
         break
       case 3: // Flagppig Bird
+        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.wings.D = _this.D_slider.value()
-        if(_this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD())))
-          console.log("current module: ", _this.currentModule)
         break
       default:
     }
@@ -793,12 +817,11 @@ function button_My(){
                   .attribute('max', Bird1.dist_eMax)
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        //_this.E_slider.value(_this.calcSliderPos2(Flower3.eMin, Flower3.eMax, Flower3.getE()))
         _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.openclose.E = _this.E_slider.value()
         break
       case 3: // Flagppig Bird
-        //_this.E_slider.value(_this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.wings.E = _this.E_slider.value()
         break
       default:
@@ -811,7 +834,7 @@ function button_My(){
 
     _this.F_slider.attribute('min', Bird1.dist_fMin)
                   .attribute('max', Bird1.dist_fMax)
-    _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+                  .attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
     stdSliderValue.wings.F = _this.F_slider.value()
   }
 
