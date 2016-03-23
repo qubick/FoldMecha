@@ -59,6 +59,7 @@ function UI(){
   this.selectParent = [] //array
   this.btn180 = []
   this.btnContd = []
+  this.linked = false
 
   for(var i=0; i<4; i++){ //up to saved model numbers or saving limit
     var sel = createSelect().hide()
@@ -88,9 +89,7 @@ function UI(){
 
   this.initCurrentSelection = function(pageMode){
 
-    //reverse slider selection
-    console.log("initUI is called")
-
+    //invoke slider selection
     if(pageMode == 1) {
       //take a look at stdSliderValue.openclose
       if(stdSliderValue.openclose == undefined){ //initial values
@@ -313,6 +312,7 @@ function UI(){
   }
 
   this.initUI = function(){ //initializer
+
     //GRAY & BLACK background for LEFT PANEL
     noStroke()
     fill(_this.bgcolor2)
@@ -876,57 +876,78 @@ function button_My(){
 
   this.mySketch_ModuleText = function(entity, index){
 
-    // var y = (index)*150
-    if(index < 2)
-      var y = 85
-    else
-      var y = 85 + (index-1)*160
+    if(_this.linked){
+      // _this.initUI()
+      //GRAY & BLACK background for LEFT PANEL
+      noStroke()
+      fill(_this.bgcolor2)
+      rect(0,0,270,_this.temp_windowHeight)
+      fill(0)
+      rect(0,575,270,125)
+      rect(0,0,270,35)
 
-    var title = ''
-    fill(50)
-    rect(0,y-50, 270,30) //(x,y,width,height)
-    fill(255)
+      _this.selectParent.forEach(function(entity){
+        entity.hide()
+      });
 
-    fill(0)
-    text("Position: ",  25, y)
-    text("Scale: ",     25, y+30)
-    text("Rotation: ",  25, y+60)
-    text("Link: ",    25, y+90) //walker does not need this
+      //and then redraw for linked module
+      
+    } else { // if all modules are individual
+      // var y = (index)*150
+      if(index < 2)
+        var y = 85
+      else
+        var y = 85 + (index-1)*160
 
-    //informations - should be flexible by saved info
-    text("XX YY",       100, y) //position
-    text("100",         100, y+30) //scale
-    text("360",         100, y+60) //rotate
+      var title = ''
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height)
+      fill(255)
 
-    //toggle button hide/show or delete
-    // _this.btnDelete.show()
+      fill(0)
+      text("Position: ",  25, y)
+      text("Scale: ",     25, y+30)
+      text("Rotation: ",  25, y+60)
+      text("Link: ",    25, y+90) //walker does not need this
 
-    //module specific interface
-    if(entity.module == 1){
-      // _this.selectParent[index].remove(_this.selectParent[index].index)
-      _this.selectParent[index]//.changed(mySelectedEvent)
-                        .position(100, y+75)
-                        .show()
-      title = "Flapping"
+      //informations - should be flexible by saved info
+      text("XX YY",       100, y) //position
+      text("100",         100, y+30) //scale
+      text("360",         100, y+60) //rotate
+
+      //toggle button hide/show or delete
+      // _this.btnDelete.show()
+
+      //module specific interface
+      if(entity.module == 1){
+        // _this.selectParent[index].remove(_this.selectParent[index].index)
+        _this.selectParent[index].changed(mySelectedEvent)
+                          .position(100, y+75)
+                          .show()
+        title = "Flapping"
+      }
+
+      if(entity.module == 3){
+        // _this.selectParent[index].remove(_this.selectParent[index].index)
+        _this.selectParent[index]//.changed(mySelectedEvent)
+                          .position(100, y+75)
+                          .show()
+        title = "Flying"
+      }
+
+      if(entity.module == 5){
+        title = "Walking"
+      }
+
+      fill(255)
+      text("Module "+ index + ": "+ title, 25, y-30)
     }
-
-    if(entity.module == 3){
-      // _this.selectParent[index].remove(_this.selectParent[index].index)
-      _this.selectParent[index]//.changed(mySelectedEvent)
-                        .position(100, y+75)
-                        .show()
-      title = "Flying"
-    }
-
-    if(entity.module == 5){
-      title = "Walking"
-    }
-
-    fill(255)
-    text("Module "+ index + ": "+ title, 25, y-30)
   }
 
   function mySelectedEvent(){ //anonymous function to deal with selection event
+    //if selected, shold draw the mysketch panel
 
+    _this.linked = true
+    //-->> if delete is called, this should be revoked again
   }
 }
