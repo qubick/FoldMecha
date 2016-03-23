@@ -882,11 +882,10 @@ function button_My(){
     else
       var y = 85 + (index-1)*160
 
-    //these are common
+    var title = ''
     fill(50)
     rect(0,y-50, 270,30) //(x,y,width,height)
     fill(255)
-    text("Module"+index, 25, y-30)
 
     fill(0)
     text("Position: ",  25, y)
@@ -899,30 +898,32 @@ function button_My(){
     text("100",         100, y+30) //scale
     text("360",         100, y+60) //rotate
 
-    // _this.selectParent[index].remove(_this.selectParent[index].index)
-    _this.selectParent[index]//.changed(mySelectedEvent)
-                      .position(100, y+75)
-                      .show()
-
     //toggle button hide/show or delete
     // _this.btnDelete.show()
 
     //module specific interface
     if(entity.module == 1){
-      // text("Motor Rotation Angle: ", 25, y+120)
-      //toggle button 180 or continuous
-      // this.btn180[index-1].position(50, y+135).show()
-      // this.btnContd[index-1].position(150, y+135).show()
-
+      // _this.selectParent[index].remove(_this.selectParent[index].index)
+      _this.selectParent[index]//.changed(mySelectedEvent)
+                        .position(100, y+75)
+                        .show()
+      title = "Flapping"
     }
 
     if(entity.module == 3){
-
+      // _this.selectParent[index].remove(_this.selectParent[index].index)
+      _this.selectParent[index]//.changed(mySelectedEvent)
+                        .position(100, y+75)
+                        .show()
+      title = "Flying"
     }
 
     if(entity.module == 5){
-
+      title = "Walking"
     }
+
+    fill(255)
+    text("Module "+ index + ": "+ title, 25, y-30)
   }
 
   function mySelectedEvent(){ //anonymous function to deal with selection event
