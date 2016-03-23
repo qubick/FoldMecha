@@ -1,6 +1,5 @@
 function UI(){
 
-  this.done = false
   this.lengthGap = 10
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
@@ -15,7 +14,10 @@ function UI(){
     ,mySavedSketch = [{}]
     ,currentModule = 0 // 1 OpenClose
                         // 3 Wings
+                        // 5 Walker
                         // 9 MySketch
+  this.prevModule = 0
+
   this.currentGearSize     = 2 //default
   this.currentServoAngle   = 180 // 180 or 360
   this.currentDrivingGear  = 0 // 0:left, 1:right
@@ -54,23 +56,24 @@ function UI(){
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
-  this.selectPartent = [] //array
+  this.selectParent = [] //array
   this.btn180 = []
   this.btnContd = []
 
-  for(var i=0; i<4; i++){ //up to saved model numbers
+  for(var i=0; i<4; i++){ //up to saved model numbers or saving limit
     var sel = createSelect().hide()
     sel.option('None')
-    sel.option('Module1') //option should be redefined upon relationship btw modules
-    sel.option('Module2')
-    sel.option('Module3')
+    // sel.option('Module1') //option should be redefined upon relationship btw modules
+    // sel.option('Module2')
+    // sel.option('Module3')
 
     var btn180 = createButton("180°").hide()
     var btn360 = createButton("Continuous").hide()
-    this.selectPartent.push(sel)
+    this.selectParent.push(sel)
     this.btn180.push(btn180)
     this.btnContd.push(btn360)
   }
+  //this.selectParent[1].option('Module1')
 
   this.button_hide = createButton("Hide").hide()
   this.button_show = createButton("show").hide()
@@ -256,40 +259,56 @@ function UI(){
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
-    console.log("saved Design function called")
-    //this is common for all three modules. We will add only unique data per module
+    //this is common for all modules.
+    //We will add only unique data per module
     var temp = {
       A: _this.A_slider.value()
       ,B: _this.B_slider.value()
       ,C: _this.C_slider.value()
       ,D: _this.D_slider.value()
       ,E: _this.E_slider.value()
+      ,gearSize:   _this.currentGearSize //number 1~4
+      ,servoAngle: _this.currentServoAngle //1:180, 2:cont
+      ,mirroring:  _this.currentPairing// True/False
+
     }
 
     switch (_this.currentModule) {
       case 1: //OpenClose
         temp.module     = 1
-        temp.gearSize   = _this.currentGearSize //number 1~4
-        temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
-        temp.mirroring  = _this.currentPairing// True/False
 
         break;
       case 3: //Flapping
-        temp.module = 3
+        temp.module = 3 // <-- this is for user to see from mysketch
         temp.F = _this.F_slider.value()
         temp.X = _this.X_slider.value()
         temp.Y = _this.Y_slider.value()
 
-        temp.gearSize   = _this.currentGearSize //number 1~4
-        temp.servoAngle = _this.currentServoAngle //1:180, 2:cont
-        temp.mirroring  = _this.currentPairing// True/False
         temp.driveGear  = _this.currentDrivingGear
+
+        break;
+      case 5: //Walking
+      console.log("walking should be saved")
+        temp.module = 5
+        temp.F = _this.F_slider.value()
+        // temp.G = _this.G_slider.value() //slider G does not exist yet
 
         break;
       default:
       } // end of switch - case
 
       mySavedSketch.push(temp)
+
+      _this.prevModule = temp.module //current module no
+      var id = 0
+      if(_this.prevModule != 0){
+        _this.selectParent.forEach(function(sel){
+           if(temp.module == 5) //walking cannot be linked to any
+             return
+          sel.option('Module'+temp.module)
+          //id++
+        });
+      }
       console.log(mySavedSketch)
   }
 
@@ -348,7 +367,7 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    this.selectPartent.forEach(function(entity){
+    this.selectParent.forEach(function(entity){
       entity.hide()
     });
     this.btn180.forEach(function(entity){
@@ -456,6 +475,7 @@ this.button_walk = function(){
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
 
+    _this.currentModule = 5
 }
 
 function button_folding_net(){
@@ -871,23 +891,20 @@ function button_My(){
     text("Position: ",  25, y)
     text("Scale: ",     25, y+30)
     text("Rotation: ",  25, y+60)
-    text("Parent: ",    25, y+90)
+    text("Link: ",    25, y+90) //walker does not need this
 
-    //informations
+    //informations - should be flexible by saved info
     text("XX YY",       100, y) //position
     text("100",         100, y+30) //scale
     text("360",         100, y+60) //rotate
 
-    _this.selectPartent[index].changed(mySelectedEvent)
+    // _this.selectParent[index].remove(_this.selectParent[index].index)
+    _this.selectParent[index]//.changed(mySelectedEvent)
                       .position(100, y+75)
                       .show()
 
     //toggle button hide/show or delete
-    /*
-    btnHide.show()
-    btnShow.show()
-    btnDelete.show()
-    */
+    // _this.btnDelete.show()
 
     //module specific interface
     if(entity.module == 1){

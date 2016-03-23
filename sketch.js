@@ -143,6 +143,17 @@ function draw() {
         pop()
       }
 
+      if(entity.module == 5){
+        console.log("retrieve walker here w/ UI_walk: ", UI_walk)
+        //pass param based on returned savedDesign
+        push()
+        translate(i*-50, i*-50) //move based on my_sketch setting
+
+        Walk1.compWalk()
+        Walk1.walkUI(UI_walk)
+        pop()
+      }
+
       //should pass separate json of entity?
       //can passed 'i' entity which entity?
       Panel.mySketch_ModuleText(entity, i)
