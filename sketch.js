@@ -168,28 +168,20 @@ function draw() {
         push()
         translate(i*-50, i*-50) //move based on my_sketch setting
 
-        // Walk1.compWalk()
-        // Walk1.walkUI(UI_walk)
          Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
 
-    if(add_leg == 1){
-      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
-    }
-    if(add_leg == 2){
-      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
-      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
-    }
-    if(add_leg == 3){
-      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
-      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
-      Walk4.compWalk(pair_leg,1,gearSize_walk,colorsend_3)
-    }
-
-    Panel.initUI()
-    Panel.button_walk(add_leg)
-    Panel.putText_walk(UI_walk)
-
-    Walk1.walkUI(UI_walk,add_leg)
+        if(add_leg == 1){
+          Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+        }
+        if(add_leg == 2){
+          Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+          Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+        }
+        if(add_leg == 3){
+          Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+          Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+          Walk4.compWalk(pair_leg,1,gearSize_walk,colorsend_3)
+        }
         pop()
       }
 

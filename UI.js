@@ -497,6 +497,7 @@ this.button_walk = function(num_leg){
   _this.Btn_pdf.hide()
   _this.Btn_back.hide()
 
+  _this.currentModule = 5
 }
 
 function button_folding_net(){
