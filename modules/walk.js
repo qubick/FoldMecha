@@ -3,6 +3,7 @@ function Walk(){
   var startingX = 270/2 // center X: width/2 + left gray panel width*1/2
   var startingY = 100   // center Y: height/2-100
   var angle = 0  // starting angle
+  var tempC_walker = color(tempC)
 
   this.init = function(){
   // parameterized values
@@ -59,19 +60,33 @@ function Walk(){
     this.turn_R1 = 180 - ((90+this.degD2) + this.angle_AR)
   }
 
-  this.compWalk = function(pair_leg){
+  this.compWalk = function(pair_leg,add,gear_size,tempC_new){
 
-    noStroke()
-    fill(150)
-    ellipse(this.w_center_x,this.w_center_y,100,100)  // center Gear
-    fill(0)
-    ellipse(this.w_center_x,this.w_center_y,10,10)  // center Gear point
-    fill(color(tempC))
+    if(gear_size ==1){
+      this.radius= 50
+    }else if(gear_size ==2){
+      this.radius= 75
+    }else if(gear_size ==3){
+      this.radius= 100
+    }else if(gear_size ==4){
+      this.radius= 125
+    }
+    tempC_walker = tempC_new
+
+    if(add == 0){
+      noStroke()
+      fill(150)
+      ellipse(this.w_center_x,this.w_center_y,this.radius+25,this.radius+25)  // center Gear
+      fill(0)
+      ellipse(this.w_center_x,this.w_center_y,10,10)  // center Gear point
+    }
+
+    fill(color(tempC_walker))
     ellipse(this.w_center_x2,this.w_center_y2,10,10) // center rotating pivot
 
     this.drawWalk(pair_leg)
 
-    }
+  }
 
   this.drawWalk = function(pair_leg){
     this.init2()
@@ -129,24 +144,23 @@ function Walk(){
     this.t5.left(90)
     this.t5.back(startingY)
 
-    stroke(color(tempC))
+    stroke(color(tempC_walker))
     line(this.AE_x,this.AE_y,this.w_center_x2,this.w_center_y2)
     fill(0)
     ellipse(this.AG_x,this.AG_y,10,10)  // fixed pivot for RIGHT
 
     // Draw Legs
-    stroke(color(tempC))
+    stroke(color(tempC_walker))
     line(this.AE_x,this.AE_y,this.w_center_x2,this.w_center_y2) // SIDE E
     line(this.AG_x,this.AG_y,this.CF_x,this.CF_y) // SIDE C
     line(this.B_x,this.B_y,this.B2_x,this.B2_y) // SIDE C2
     line(this.CF_x,this.CF_y,this.w_center_x2,this.w_center_y2) // SIDE F
-    fill(color(tempC))
+    fill(color(tempC_walker))
     triangle(this.AG_x,this.AG_y,this.B_x,this.B_y,this.AE_x,this.AE_y)
     triangle(this.B2_x,this.B2_y,this.D_x,this.D_y,this.CF_x,this.CF_y)
     noStroke()
     fill(0)
     ellipse(this.AG_x,this.AG_y,10,10)  // fixed pivot for LEFT
-
 
   if (pair_leg == 1){
 //        console.log("PAIRED LEGS")
@@ -199,12 +213,12 @@ function Walk(){
     this.t6.left(90)
     this.t6.back(startingY)
 
-    stroke(color(tempC))
+    stroke(color(tempC_walker))
     line(this.AE_x2,this.AE_y2,this.w_center_x2,this.w_center_y2) // SIDE E RIGHT
     line(this.CF_x2,this.CF_y2,this.w_center_x2,this.w_center_y2) // SIDE F RIGHT
     line(this.AG_x2,this.AG_y2,this.CF_x2,this.CF_y2) // SIDE C RIGHT
     line(this.B_x2,this.B_y2,this.B2_x2,this.B2_y2)
-    fill(color(tempC))
+    fill(color(tempC_walker))
     triangle(this.AG_x2,this.AG_y2,this.B_x2,this.B_y2,this.AE_x2,this.AE_y2)
     triangle(this.B2_x2,this.B2_y2,this.D_x2,this.D_y2,this.CF_x2,this.CF_y2)
     noStroke()
@@ -220,7 +234,7 @@ function Walk(){
     }
  }
 
- this.walkUI = function(UI_mode){
+ this.walkUI = function(UI_mode,rec_color){
 
     if(UI_mode == 1){
       fill(150)
@@ -271,6 +285,23 @@ function Walk(){
       fill(255)
       text("2", 233, 175)
 
+    }
+
+    if (rec_color == 0){
+      this.rec_color = colorsend_1
+    }else if(rec_color == 1){
+      this.rec_color = colorsend_2
+    }else if(rec_color == 2){
+      this.rec_color = colorsend_3
+    }
+    stroke(0)
+    fill(this.rec_color)
+    rect(205,347,17,17)
+
+    if(rec_color == 3){
+      noStroke()
+      fill(bgcolor2)
+      rect(20,338,220,32)
     }
 
  }

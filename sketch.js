@@ -13,9 +13,7 @@ var temp_windowWidth = 1200
 var temp_windowHeight = 660
 var pair_petal, gearSize_petal, motorType_petal
 var pair_wing, gearType_wing, gearSize_wing, motorType_wing, UI_wing
-var planet_pair,motorType_Pl
-
-var flowerCnt = 0
+var pair_leg, add_leg, gearSize_walk
 
 function setup() {
   createCanvas(temp_windowWidth, temp_windowHeight)
@@ -24,12 +22,21 @@ function setup() {
   tempC = color(0,120,230)
   blue = color(70,150,255)
   white = color(255)
+  colorsend_1 = color(255,0,0)
+  colorsend_2 = color(200,0,255)
+  colorsend_3 = color(50,200,200)
   Flower3 = new OpenClose()
   Flower3.init()
   Bird1 = new Bird()
   Bird1.init()
   Walk1 = new Walk()
+  Walk2 = new Walk()
+  Walk3 = new Walk()
+  Walk4 = new Walk()
   Walk1.init()
+  Walk2.init()
+  Walk3.init()
+  Walk4.init()
   IntroM1 = new Intro()
 
   pair_petal = 0
@@ -40,9 +47,10 @@ function setup() {
   gearSize_wing = 2
   motorType_wing = 180
   UI_wing = 1
+  pair_leg = 0
+  add_leg = 0
+  gearSize_walk = 2
   UI_walk = 1
-  planet_pair = 1
-  motorType_Pl = 180
   PullPush_mecType = 0
   OpenClose_mecType = 0
   Panel = new UI()
@@ -102,14 +110,26 @@ function draw() {
 
   }else if (pageMode == walking){ //mode 5
 
-    Walk1.compWalk()
+    Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
+
+    if(add_leg == 1){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+    }
+    if(add_leg == 2){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+    }
+    if(add_leg == 3){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+      Walk4.compWalk(pair_leg,1,gearSize_walk,colorsend_3)
+    }
 
     Panel.initUI()
-    Panel.button_walk()
+    Panel.button_walk(add_leg)
     Panel.putText_walk(UI_walk)
 
-    Walk1.walkUI(UI_walk)
-//    Panel.button_walk()
+    Walk1.walkUI(UI_walk,add_leg)
 
   }else if (pageMode == my_sketch){ //mode 9
 
@@ -148,8 +168,28 @@ function draw() {
         push()
         translate(i*-50, i*-50) //move based on my_sketch setting
 
-        //Walk1.compWalk()
-        Walk1.walkUI(UI_walk)
+        // Walk1.compWalk()
+        // Walk1.walkUI(UI_walk)
+         Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
+
+    if(add_leg == 1){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+    }
+    if(add_leg == 2){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+    }
+    if(add_leg == 3){
+      Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)
+      Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
+      Walk4.compWalk(pair_leg,1,gearSize_walk,colorsend_3)
+    }
+
+    Panel.initUI()
+    Panel.button_walk(add_leg)
+    Panel.putText_walk(UI_walk)
+
+    Walk1.walkUI(UI_walk,add_leg)
         pop()
       }
 
@@ -318,7 +358,6 @@ function mousePressed(){ //map mouse pressed position to function
   }
 
   if (pageMode == 5){
-
     if (mouseX>210 && mouseX<225 && mouseY>160 && mouseY<180){
         // UI mode 1 : show wing parameters
        UI_walk = 1
@@ -327,14 +366,46 @@ function mousePressed(){ //map mouse pressed position to function
        UI_walk = 2
     }
 
-    if (mouseX>138 && mouseX<182 && mouseY>315 && mouseY<335){
-// only one leg
-      pair_leg = 1
-    }else if (mouseX>190 && mouseX<240 && mouseY>315 && mouseY<335){
-// two wings
-      pair_leg = 0
+    if (mouseX>115 && mouseX<135 && mouseY>375 && mouseY<395){
+    // button 1 : Gear Size 1
+       gearSize_walk = 1
+    }else if (mouseX>150 && mouseX<170 && mouseY>375 && mouseY<395){
+    // button 2 : Gear Size 2
+       gearSize_walk = 2
+    }else if (mouseX>185 && mouseX<205 && mouseY>375 && mouseY<395){
+    // button 3 : Gear Size 3
+       gearSize_walk = 3
+    }else if (mouseX>220 && mouseX<240 && mouseY>375 && mouseY<395){
+    // button 4 : Gear Size 4
+       gearSize_walk = 4
     }
-  }
+
+    if (mouseX>138 && mouseX<182 && mouseY>315 && mouseY<335){
+    // only one leg
+       pair_leg = 1
+    }else if (mouseX>190 && mouseX<240 && mouseY>315 && mouseY<335){
+    // two wings
+       pair_leg = 0
+    }
+
+    if (mouseX>138 && mouseX<182 && mouseY>345 && mouseY<365){
+    // add more pair
+        add_leg = add_leg+1
+
+        if(add_leg >= 3){
+          add_leg = 3
+        }
+    }
+
+    if(mouseX>60 && mouseX<210 && mouseY>495 && mouseY<515){
+    // RESET all
+       gearSize_walk = 2
+       pair_leg = 0
+       add_leg = 0
+       console.log(" RESET ENTERED")
+    }
+
+}
 
   if (pageMode == 2){
     if (mouseX>60 && mouseX<210 && mouseY>565 && mouseY<585){

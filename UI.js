@@ -34,6 +34,7 @@ function UI(){
   this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
   this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
+  this.new_apply = createButton('Apply')
 
   this.mtr_L = createButton('L').mousePressed(setDrivingGear)
   this.mtr_R = createButton('R').mousePressed(setDrivingGear)
@@ -140,10 +141,19 @@ function UI(){
         highlightServoAngle(stdSliderValue.wings.servoAngle)
         highlightDrivingGear(stdSliderValue.wings.drivingGear)
       }
+    } else if(pageMode == 5){
+      if(stdSliderValue.openclose == undefined){ //initial values
+        _this.currentGearSize     = 2 //default
+        _this.currentPairing    = 0
+
+        highlightMirroring(0)
+        highlightGearSize(2) // default gear size  = 2
     }
-  }
-  // individual button event functions
-  // _this: this object, this : caller button element
+
+ }
+}
+
+
 
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
@@ -355,6 +365,7 @@ function UI(){
     this.Mech_hide.hide()
     this.mirr_apply.hide()
     this.mirr_cancel.hide()
+    this.new_apply.hide()
 
     this.A_slider.hide()
     this.B_slider.hide()
@@ -406,6 +417,7 @@ function UI(){
     _this.mtr_R.hide()
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
+    _this.new_apply.hide()
 
     _this.F_slider.hide()
     _this.X_slider.hide()
@@ -450,30 +462,41 @@ function UI(){
 
     _this.Btn_pdf.hide()
     _this.Btn_back.hide()
+    _this.new_apply.hide()
 
     Wings()
     _this.currentModule = 3
 }
 
-this.button_walk = function(){
-    _this.mirr_apply.show().position(138,315)
-    _this.mirr_cancel.show().position(190,315)
+this.button_walk = function(num_leg){
+  _this.mirr_apply.show().position(138,315)
+  _this.mirr_cancel.show().position(190,315)
 
-    _this.size_1.show().position(115,375)
-    _this.size_2.show().position(150,375)
-    _this.size_3.show().position(185,375)
-    _this.size_4.show().position(220,375)
+  if(num_leg<3){
+    _this.new_apply.show().position(138,345).style("background-color",white)
 
-    _this.Btn_reset.show().size(150,20).position(60,495)
-    _this.Btn_plt.show().size(150,20).position(60,520)
-    _this.Btn_net.show().size(150,20).position(60,545)
-    _this.Btn_my.show().size(150,20).position(60,590)
-    _this.Btn_home.show().size(150,20).position(60,615)
+  }else{
+    _this.new_apply.hide()
+    console.log("****")
 
-    _this.Btn_pdf.hide()
-    _this.Btn_back.hide()
+  }
+  fill(0)
+  text("Add New :", 20, 360)
 
-    _this.currentModule = 5
+  _this.size_1.show().position(115,375)
+  _this.size_2.show().position(150,375)
+  _this.size_3.show().position(185,375)
+  _this.size_4.show().position(220,375)
+
+  _this.Btn_reset.show().size(150,20).position(60,495)
+  _this.Btn_plt.show().size(150,20).position(60,520)
+  _this.Btn_net.show().size(150,20).position(60,545)
+  _this.Btn_my.show().size(150,20).position(60,590)
+  _this.Btn_home.show().size(150,20).position(60,615)
+
+  _this.Btn_pdf.hide()
+  _this.Btn_back.hide()
+
 }
 
 function button_folding_net(){
@@ -497,6 +520,7 @@ function button_folding_net(){
   _this.F_slider.hide()
   _this.mirr_apply.hide()
   _this.mirr_cancel.hide()
+  _this.new_apply.hide()
 
   _this.Btn_pdf.show().size(150,20).position(60,565)
   _this.Btn_back.show().size(150,20).position(60,590)
@@ -515,6 +539,7 @@ function button_My(){
 
     _this.mirr_apply.hide()
     _this.mirr_cancel.hide()
+    _this.new_apply.hide()
     _this.mtr180.hide()
     _this.mtr360.hide()
     _this.mtr_L.hide()
@@ -608,7 +633,7 @@ function button_My(){
     text("WALKING", 103, 25)
     fill(0)
     text("Model Pairing :", 20, 330)
-    text("Add a New Pair :", 20, 360)
+//    text("A New Pair :", 20, 360)
     text("Gear Size :", 20, 390)
 
     if(_this.UI_mode_walk == 1){
