@@ -314,10 +314,8 @@ function UI(){
           //sel.option('Module'+temp.module)
           var ii = mySavedSketch.length-1
           sel.option('Module'+ ii)
-          console.log("current mySavedSetch length -1: ", mySavedSketch.length-1)
         });
       }
-      console.log(mySavedSketch)
   }
 
   this.initUI = function(){ //initializer
@@ -1035,16 +1033,15 @@ function button_My(){
 
     // this.elt.id: caller selector(link from)
     // this.elt.value: selected option value from that selector (linked to)
-    var idx = this.elt.id
-    var linked = this.elt.value.slice(-1) //"module3" etc. get the last character - linked module
+    var caller = this.elt.id
+    var callee = this.elt.value.slice(-1) //"module3" etc. get the last character - linked module
 
-    mySavedSketch[idx].linkedFrom = linked //etc. caller(later) is linked to option
-    //console.log(mySavedSketch[idx].linkedTo)
+    console.log("linked from: ", caller, " linked to: ", callee)
+    mySavedSketch[caller].linkedTo = callee //etc. caller(later) is linked to option
+    mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
-    mySavedSketch[linked].likedTo = idx //caller, linked each other
-
-    console.log("linked from: ", idx, " linked to: ", linked)
-    console.log(mySavedSketch[linked].linkedFrom)
+    console.log(mySavedSketch[caller].linkedTo)
+    console.log(mySavedSketch[callee].linkedFrom)
     _this.linked = true
     //-->> if delete is called, this should be revoked again
   }
