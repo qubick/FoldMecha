@@ -64,7 +64,7 @@ function UI(){
   this.btnContd = []
   this.linked = false
 
-  for(var i=0; i<4; i++){ //up to saved model numbers or saving limit
+  for(var i=0; i<5; i++){ //up to saved model numbers or saving limit
     var sel = createSelect().hide()
     //sel.attribute('id','option'+i).option('None') //default
     sel.attribute('id', i).option('None') //default
@@ -915,75 +915,82 @@ function button_My(){
   this.mySketch_ModuleText = function(entity, index){
 
     if(_this.linked){
-      noStroke()
-      fill(_this.bgcolor2)
-      rect(0,0,270,_this.temp_windowHeight)
-      fill(0)
-      rect(0,575,270,125)
-      rect(0,0,270,35)
-
-      _this.putText_My()
       _this.selectParent.forEach(function(entity){
         entity.hide()
       });
 
       //and then redraw for linked module
-      var cnt = 0
-      mySavedSketch.forEach(function(entity, idx){
+      mySavedSketch.forEach(function(m, idx){ //this should be done once by sketch.js
+        console.log(m)
+        var title = ''
+        if(index < 2) //override empty default obejct (index == 0)
+          var y = 85
+        else
+          var y = 85 + (idx-1)*160
 
-//console.log(entity.module + "'s link info: " + entity.linkedFrom + entity.linkedTo)
-        if(entity.linedFrom != undefined) {
-          if(entity.linkedTo == undefined) {//sth is linked as parent
+        if(m.linkedFrom != undefined) { //either parent or no linker
 
-              var y = 85 + (cnt++)*160
+          fill(50)
+          rect(0,y-50, 270,30) //(x,y,width,height)
+          fill(255)
 
-              var title = ''
-              fill(50)
-              rect(0,y-50, 270,30) //(x,y,width,height)
-              fill(255)
+          fill(0)
+          text("Position: ",  25, y)
+          text("Scale: ",     25, y+30)
+          text("Rotation: ",  25, y+60)
+          text("Link: ",    25, y+90) //walker does not need this
 
-              fill(0)
-              text("Position: ",  25, y)
-              text("Scale: ",     25, y+30)
-              text("Rotation: ",  25, y+60)
-              text("Link: ",    25, y+90) //walker does not need this
+          //informations - should be flexible by saved info
+          text("XX YY",       100, y) //position
+          text("100",         100, y+30) //scale
+          text("360",         100, y+60) //rotate
 
-              //informations - should be flexible by saved info
-              text("XX YY",       100, y) //position
-              text("100",         100, y+30) //scale
-              text("360",         100, y+60) //rotate
-            //***************** fot test
+          if(m.linkedTo == undefined) {//sth is linked as parent
+
             //module specific interface
-            if(entity.module == 1){
-              // _this.selectParent[index].remove(_this.selectParent[index].index)
-              _this.selectParent[idx].changed(mySelectedEvent)
-                                .position(100, y+75).show()
+            if(m.module == 1){
+              title = "Flapping "
+            }
+            if(m.module == 3){
+              title = "Flying "
+            } // no entity.modue == 5, since walker can't be linked
+
+            if(m.linkedFrom == 1){
+              title += " && Flapping"
+            }
+            if(m.linkedFrom == 3){
+              title += " && Flying"
+            }
+
+            fill(255)
+            text("Module "+ idx + ": "+ title, 25, y-30) //index should be done in different way
+
+          } else { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
+            //should draw as usuall
+console.log("draw UI for: ", m.module) //-->2 should be shown here..
+            //module specific interface
+            if(m.module == 1){
               title = "Flapping"
             }
-            if(entity.module == 3){
-              // _this.selectParent[index].remove(_this.selectParent[index].index)
-              _this.selectParent[idx].changed(mySelectedEvent)
-                                .position(100, y+75).show()
+            if(m.module == 3){
               title = "Flying"
             }
-            if(entity.module == 5){
+            if(m.module == 5){
               title = "Walking"
             }
 
             fill(255)
-            text("Module "+ idx + ": "+ title, 25, y-30)
+            text("Module "+ idx + ": "+ title, 25, y-30) //index should be done in different way
 
-          } else {
-            return
           }
-        } else {
-          if(entity.linkedFrom != undefined) //anything is linked, so draw UI as it is
+        } else { //entity.linkedFrom == undefined
+          if(m.linkedTo != undefined) //linked as child, should have been drawn above by parent
             return
         }
-      });
+      }); //end of if (this.linked == true)
 
-    } else { // if all modules are individual
-      if(index < 2)
+    } else { // if all modules are individual (this.linked == false)
+      if(index < 2) //override empty default obejct (index == 0)
         var y = 85
       else
         var y = 85 + (index-1)*160
@@ -1040,9 +1047,9 @@ function button_My(){
     mySavedSketch[caller].linkedTo = callee //etc. caller(later) is linked to option
     mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
-    console.log(mySavedSketch[caller].linkedTo)
-    console.log(mySavedSketch[callee].linkedFrom)
-    _this.linked = true
-    //-->> if delete is called, this should be revoked again
+    // console.log(mySavedSketch[caller].linkedTo)
+    // console.log(mySavedSketch[callee].linkedFrom)
+
+    _this.linked = true //-->> if delete is called, this should be revoked again
   }
 }
