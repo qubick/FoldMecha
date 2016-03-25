@@ -11,8 +11,8 @@ function UI(){
 
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
-    ,mySavedSketch = [{}]
-    ,currentModule = 0 // 1 OpenClose
+      ,mySavedSketch = [{}]
+      ,currentModule = 0 // 1 OpenClose
                         // 3 Wings
                         // 5 Walker
                         // 9 MySketch
@@ -53,6 +53,7 @@ function UI(){
   this.D_slider = createSlider(0, 400, 150).size(100).position(140, 235)
   this.E_slider = createSlider(0, 400, 250).size(100).position(20, 270)
   this.F_slider = createSlider(0, 400, 150).size(100).position(140,270)
+  this.G_slider = createSlider(0, 400, 150).size(100).position(140,270)
 
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
@@ -89,6 +90,7 @@ function UI(){
   this.initCurrentSelection = function(pageMode){
 
     //invoke slider selection
+    //I feel somehow this is little redundant
     if(pageMode == 1) {
       //take a look at stdSliderValue.openclose
       if(stdSliderValue.openclose == undefined){ //initial values
@@ -149,11 +151,8 @@ function UI(){
         highlightMirroring(0)
         highlightGearSize(2) // default gear size  = 2
     }
-
- }
+  }
 }
-
-
 
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
@@ -298,7 +297,7 @@ function UI(){
       console.log("walking should be saved")
         temp.module = 5
         temp.F = _this.F_slider.value()
-        // temp.G = _this.G_slider.value() //slider G does not exist yet
+        temp.G = _this.G_slider.value()
 
         break;
       default:
@@ -373,6 +372,8 @@ function UI(){
     this.D_slider.hide()
     this.E_slider.hide()
     this.F_slider.hide()
+    this.G_slider.hide()
+    
     this.X_slider.hide()
     this.Y_slider.hide()
 
@@ -420,6 +421,7 @@ function UI(){
     _this.new_apply.hide()
 
     _this.F_slider.hide()
+    _this.G_slider.hide()
     _this.X_slider.hide()
     _this.Y_slider.hide()
 
@@ -519,6 +521,7 @@ function button_folding_net(){
   _this.D_slider.hide()
   _this.E_slider.hide()
   _this.F_slider.hide()
+  _this.G_slider.hide()
   _this.mirr_apply.hide()
   _this.mirr_cancel.hide()
   _this.new_apply.hide()
@@ -561,6 +564,8 @@ function button_My(){
     _this.D_slider.hide()
     _this.E_slider.hide()
     _this.F_slider.hide()
+    _this.G_slider.hide()
+
     _this.X_slider.hide()
     _this.Y_slider.hide()
 
@@ -734,6 +739,7 @@ function button_My(){
       _this.D_slider.hide()
       _this.E_slider.hide()
       _this.F_slider.hide()
+      _this.G_slider.hide()
 
       _this.X_slider.show()
       _this.Y_slider.show()
@@ -747,6 +753,7 @@ function button_My(){
       moduleObj.D = _this.D_slider.value()
       moduleObj.E = _this.E_slider.value()
       moduleObj.F = _this.F_slider.value()
+      moduleObj.G = _this.G_slider.value()
 
       moduleObj.X = _this.X_slider.value()
       moduleObj.Y = _this.Y_slider.value()
@@ -765,6 +772,7 @@ function button_My(){
     _this.D_slider.changed(_this.sliderDUpdate)
     _this.E_slider.changed(_this.sliderEUpdate)
     _this.F_slider.changed(_this.sliderFUpdate)
+    _this.G_slider.changed(_this.sliderGUpdate)
 
     _this.X_slider.changed(_this.sliderXUpdate)
     _this.Y_slider.changed(_this.sliderYUpdate)
@@ -874,13 +882,18 @@ function button_My(){
   }
 
   this.sliderFUpdate = function() {
-    // no switch case cuz OP module doesn't have slider F
+    // no switch case cuz OP module doesn't have slider F --> might not true now...
     Bird1.setF(_this.F_slider.value())
 
     _this.F_slider.attribute('min', Bird1.dist_fMin)
                   .attribute('max', Bird1.dist_fMax)
                   .attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
     stdSliderValue.wings.F = _this.F_slider.value()
+  }
+
+  this.sliderGUpdate = function() {
+    // no switch case cuz other module doesn't have slider G
+
   }
 
   this.sliderXUpdate = function() {
@@ -915,6 +928,14 @@ function button_My(){
       });
 
       //and then redraw for linked module
+      mySavedSketch.forEach(function(entity){
+        if(entity.linkedTo != undefined) {//sth is linked, or linked as parent
+
+        } else {
+          if(entity.linkedFrom != undefined) //sth is not linked, nor never tri
+            return
+        }
+      });
 
     } else { // if all modules are individual
       if(index < 2)
@@ -967,12 +988,12 @@ function button_My(){
 
     // console.log(this.elt.id, this.elt.value) //caller selector, selected option value
     var idx = this.elt.id
-    var linked = this.elt.value.slice(-1) //get the last character - linked module
+    var linked = this.elt.value.slice(-1) //"module3" etc. get the last character - linked module
 
     mySavedSketch[idx].linkedTo = linked
     console.log(mySavedSketch[idx].linkedTo)
 
-    mySavedSketch[linked].likedTo = idx //linked each other
+    mySavedSketch[linked].likedFrom = idx //linked each other
     _this.linked = true
     //-->> if delete is called, this should be revoked again
   }
