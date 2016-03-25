@@ -311,8 +311,10 @@ function UI(){
         _this.selectParent.forEach(function(sel){
            if(temp.module == 5) //walking cannot be linked to any
              return
-          sel.option('Module'+temp.module)
-          //id++
+          //sel.option('Module'+temp.module)
+          var ii = mySavedSketch.length-1
+          sel.option('Module'+ ii)
+          console.log("current mySavedSetch length -1: ", mySavedSketch.length-1)
         });
       }
       console.log(mySavedSketch)
@@ -373,7 +375,7 @@ function UI(){
     this.E_slider.hide()
     this.F_slider.hide()
     this.G_slider.hide()
-    
+
     this.X_slider.hide()
     this.Y_slider.hide()
 
@@ -928,11 +930,56 @@ function button_My(){
       });
 
       //and then redraw for linked module
-      mySavedSketch.forEach(function(entity){
-        if(entity.linkedTo != undefined) {//sth is linked, or linked as parent
+      var cnt = 0
+      mySavedSketch.forEach(function(entity, idx){
 
+//console.log(entity.module + "'s link info: " + entity.linkedFrom + entity.linkedTo)
+        if(entity.linedFrom != undefined) {
+          if(entity.linkedTo == undefined) {//sth is linked as parent
+
+              var y = 85 + (cnt++)*160
+
+              var title = ''
+              fill(50)
+              rect(0,y-50, 270,30) //(x,y,width,height)
+              fill(255)
+
+              fill(0)
+              text("Position: ",  25, y)
+              text("Scale: ",     25, y+30)
+              text("Rotation: ",  25, y+60)
+              text("Link: ",    25, y+90) //walker does not need this
+
+              //informations - should be flexible by saved info
+              text("XX YY",       100, y) //position
+              text("100",         100, y+30) //scale
+              text("360",         100, y+60) //rotate
+            //***************** fot test
+            //module specific interface
+            if(entity.module == 1){
+              // _this.selectParent[index].remove(_this.selectParent[index].index)
+              _this.selectParent[idx].changed(mySelectedEvent)
+                                .position(100, y+75).show()
+              title = "Flapping"
+            }
+            if(entity.module == 3){
+              // _this.selectParent[index].remove(_this.selectParent[index].index)
+              _this.selectParent[idx].changed(mySelectedEvent)
+                                .position(100, y+75).show()
+              title = "Flying"
+            }
+            if(entity.module == 5){
+              title = "Walking"
+            }
+
+            fill(255)
+            text("Module "+ idx + ": "+ title, 25, y-30)
+
+          } else {
+            return
+          }
         } else {
-          if(entity.linkedFrom != undefined) //sth is not linked, nor never tri
+          if(entity.linkedFrom != undefined) //anything is linked, so draw UI as it is
             return
         }
       });
@@ -986,14 +1033,18 @@ function button_My(){
 
   function mySelectedEvent(){ //anonymous function to deal with selection event
 
-    // console.log(this.elt.id, this.elt.value) //caller selector, selected option value
+    // this.elt.id: caller selector(link from)
+    // this.elt.value: selected option value from that selector (linked to)
     var idx = this.elt.id
     var linked = this.elt.value.slice(-1) //"module3" etc. get the last character - linked module
 
-    mySavedSketch[idx].linkedTo = linked
-    console.log(mySavedSketch[idx].linkedTo)
+    mySavedSketch[idx].linkedFrom = linked //etc. caller(later) is linked to option
+    //console.log(mySavedSketch[idx].linkedTo)
 
-    mySavedSketch[linked].likedFrom = idx //linked each other
+    mySavedSketch[linked].likedTo = idx //caller, linked each other
+
+    console.log("linked from: ", idx, " linked to: ", linked)
+    console.log(mySavedSketch[linked].linkedFrom)
     _this.linked = true
     //-->> if delete is called, this should be revoked again
   }
