@@ -4,10 +4,6 @@ function UI(){
   this.bgcolor2 = color(200)
   this.temp_windowHeight = 660
   this.UI_mode = 1 //default
-  this.mode = 0 //default
-
-  this.myBtnList = [] //button array for my sketch
-  this.myBtnNames = []
 
   var _this = this
   var stdSliderValue = [{}] //sketch object to restore slider from/to different module
@@ -15,26 +11,26 @@ function UI(){
                         // 3 Wings
                         // 5 Walker
                         // 9 MySketch
+  this.myBtnList = [] //button array for my sketch
   this.mySavedSketch = [{}]
-  this.prevModule = 0
 
   this.currentGearSize     = 2 //default
   this.currentServoAngle   = 180 // 180 or 360
   this.currentDrivingGear  = 0 // 0:left, 1:right
   this.currentPairing      = 1
 
-  this.Mech_show = createButton ('Show Mechanism')
-  this.Mech_hide = createButton ('Hide Mechanism')
-  this.Btn_reset = createButton ('Reset all').mousePressed(resetAll)
-  this.Btn_pdf = createButton ('Download PDF')
-  this.Btn_back = createButton ('Back to Simulation')
-  this.Btn_plt = createButton ('Save in My Palette').mousePressed(saveDesign)
-  this.Btn_net = createButton ('View the Folding Net').mousePressed(button_folding_net)
-  this.Btn_my = createButton ('Go to My Sketch').mousePressed(button_My)
-  this.Btn_home = createButton ('Go to Home')//.mousePressed(_this.Front)
+  this.Mech_show  = createButton ('Show Mechanism')
+  this.Mech_hide  = createButton ('Hide Mechanism')
+  this.Btn_reset  = createButton ('Reset all').mousePressed(resetAll)
+  this.Btn_pdf    = createButton ('Download PDF')
+  this.Btn_back   = createButton ('Back to Simulation')
+  this.Btn_plt    = createButton ('Save in My Palette').mousePressed(saveDesign)
+  this.Btn_net    = createButton ('View the Folding Net').mousePressed(button_folding_net)
+  this.Btn_my     = createButton ('Go to My Sketch').mousePressed(button_My)
+  this.Btn_home   = createButton ('Go to Home')//.mousePressed(_this.Front)
   this.mirr_apply = createButton('Apply').mousePressed(setMirroring)
-  this.mirr_cancel = createButton('Cancel').mousePressed(setMirroring)
-  this.new_apply = createButton('Apply')
+  this.mirr_cancel= createButton('Cancel').mousePressed(setMirroring)
+  this.new_apply  = createButton('Apply')
 
   this.mtr_L = createButton('L').mousePressed(setDrivingGear)
   this.mtr_R = createButton('R').mousePressed(setDrivingGear)
@@ -59,12 +55,12 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
 
   this.selectParent = [] //array
-  this.selectLinked = []
   this.btn180 = []
   this.btnContd = []
   this.linked = false
 
-  for(var i=0; i<5; i++){ //up to saved model numbers or saving limit
+  // for individual module
+  for(var i=0; i<5; i++){ //up to # of saved models or saving limit (now 4)
     var sel = createSelect().hide()
     //sel.attribute('id','option'+i).option('None') //default
     sel.attribute('id', i).option('None') //default
@@ -75,16 +71,16 @@ function UI(){
     this.btn180.push(btn180)
     this.btnContd.push(btn360)
   }
-
-  this.button_hide = createButton("Hide").hide()
-  this.button_show = createButton("show").hide()
   this.button_Delete = createButton("Delete").hide()
 
+  // for linked module
+  this.selectLinked = []
+
   function resetAll(){
-    this.currentGearSize     = 2 //default
-    this.currentServoAngle   = 180 // 180 or 360
-    this.currentDrivingGear  = 0 // 0:left, 1:right
-    this.currentPairing    = 0
+    this.currentGearSize    = 2 //default
+    this.currentServoAngle  = 180 // 180 or 360
+    this.currentDrivingGear = 0 // 0:left, 1:right
+    this.currentPairing     = 0
   }
 
   this.initCurrentSelection = function(pageMode){
@@ -157,7 +153,7 @@ function UI(){
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
     highlightGearSize(gearSize)
-    _this.currentGearSize = gearSize
+    _this.currentGearSize = parseInt(this.elt.innerHTML)
 
     console.log(gearSize)
   }
@@ -259,15 +255,12 @@ function UI(){
   }
 
   this.findDrawingFunc = function(){
-    //return _this.mode
     return _this.mySavedSketch
   }
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
-    //this is common for all modules.
-    //We will add only unique data per module
-    var temp = {
+    var temp = {  //this is common for all modules
       A: _this.A_slider.value()
       ,B: _this.B_slider.value()
       ,C: _this.C_slider.value()
@@ -279,10 +272,9 @@ function UI(){
       ,linekedTo: 'none'
     }
 
-    switch (_this.currentModule) {
+    switch (_this.currentModule) { //module specific informaion
       case 1: //OpenClose
         temp.module     = 1
-
         break;
       case 3: //Flapping
         temp.module = 3 // <-- this is for user to see from mysketch
@@ -291,29 +283,24 @@ function UI(){
         temp.Y = _this.Y_slider.value()
 
         temp.driveGear  = _this.currentDrivingGear
-
         break;
       case 5: //Walking
       console.log("walking should be saved")
         temp.module = 5
         temp.F = _this.F_slider.value()
         temp.G = _this.G_slider.value()
-
         break;
       default:
       } // end of switch - case
 
       _this.mySavedSketch.push(temp)
 
-      _this.prevModule = temp.module //current module no
-      var id = 0
-      if(_this.prevModule != 0){
+      if(temp.module != 0){
         _this.selectParent.forEach(function(sel){
            if(temp.module == 5) //walking cannot be linked to any
              return
-          //sel.option('Module'+temp.module)
           var ii = _this.mySavedSketch.length-1
-          sel.option('Module'+ ii)
+          sel.option('Module '+ ii)
         });
       }
   }
@@ -382,11 +369,10 @@ function UI(){
     });
     this.btn180.forEach(function(entity){
       entity.hide()
-    })
+    });
     this.btnContd.forEach(function(entity){
       entity.hide()
-    })
-
+    });
     this.myBtnList.forEach(function(btn){
       btn.hide()
     });
