@@ -187,7 +187,8 @@ function draw() {
 
       //should pass separate json of entity?
       //can passed 'i' entity which entity?
-      Panel.mySketch_ModuleText(entity, i) //-> this override thing
+      if(i) //only if i is true
+        Panel.mySketch_ModuleText(entity, i) //-> this override thing
     })
 
   }
