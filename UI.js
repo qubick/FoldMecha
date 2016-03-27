@@ -75,7 +75,14 @@ function UI(){
 
   // for linked module
   this.selectLinked = []
-  this.selectDriver = createSelect().hide()
+  this.selectDriver    = createSelect().hide()
+  this.selectDirection = createSelect().hide()
+
+  this.selectDirection.attribute('id',0).option('Left')
+  this.selectDirection.attribute('id',1).option('Right')
+  this.selectDirection.attribute('id',2).option('Up')
+  this.selectDirection.attribute('id',3).option('Down')
+  this.selectDirection.attribute('id',4).option('Merge')
 
   function resetAll(){
     this.currentGearSize    = 2 //default
@@ -920,9 +927,9 @@ function button_My(){
           fill(255)
 
           fill(0)
-          text("Position: ",  25, y)
-          text("Scale: ",     25, y+30)
-          text("Rotation: ",  25, y+60)
+          text("Position: ", 25, y)
+          text("Scale: ",    25, y+30)
+          text("Rotation: ", 25, y+60)
 
           //informations - should be flexible by saved info
           text("XX YY",       100, y) //position
@@ -945,11 +952,12 @@ function button_My(){
               title += " && Flying"
             }
 
-            text("Link: ",    25, y+90) //walker does not need this
+            text("Driver",     25, y+90) //rotate
             fill(255)
             text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
 
-            _this.selectDriver.position(100, y+75).show()
+            _this.selectDriver.position(20, y+100).show()
+            _this.selectDirection.position(150, y+100).show()
 
           } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
             //module specific interface
@@ -1032,13 +1040,10 @@ function button_My(){
     // console.log(mySavedSketch[caller].linkedTo)
     // console.log(mySavedSketch[callee].linkedFrom)
 
-    var i = 1
-    _this.selectDriver
-          .attribute('id', i++)
-          .option('Module ' + callee + ' to ' + caller) //add each other
-    _this.selectDriver
-         .attribute('id', i++)
-         .option('Module ' + caller + ' to ' + callee)
+    _this.selectDriver.attribute('id', 0)
+                      .option('Module ' + callee + ' to ' + caller) //add each other
+    _this.selectDriver.attribute('id', 1)
+                      .option('Module ' + caller + ' to ' + callee)
 
     _this.linked = true //-->> if delete is called, this should be revoked again
   }
