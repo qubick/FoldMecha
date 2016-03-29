@@ -153,9 +153,7 @@ function draw() {
         motorType_petal = entity.servoAngle
         Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
         pop()
-      }
-
-      if(entity.module == 3){
+      } else if(entity.module == 3){
         //pass param based on returned savedDesign
         push()
         // translate(i*-50, i*-50) //move based on my_sketch setting
@@ -170,9 +168,7 @@ function draw() {
         motorType_wing = entity.servoAngle
         Bird1.compBird(pair_wing, gearType_wing, gearSize_wing, motorType_wing)
         pop()
-      }
-
-      if(entity.module == 5){
+      }else if(entity.module == 5){
         //pass param based on returned savedDesign
         push()
         translate(i*-50, i*-50) //move based on my_sketch setting

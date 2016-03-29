@@ -250,17 +250,15 @@ function UI(){
       }
   }
 
-  function constructPanel(){
-    console.log(this.elt.innerHTML) //caller gallery btn
-
-    if(this.elt.innerHTML == "Flower"){
-      console.log("flower left panel construction")
-      button_OpenClose()
-    } else if(this.elt.innerHTML == "Flapping"){
-      console.log("Wings left panel construction")
-      button_Wings()
-    }
-  }
+  // function constructPanel(){
+  //   console.log(this.elt.innerHTML) //caller gallery btn
+  //
+  //   if(this.elt.innerHTML == "Flower"){
+  //     button_OpenClose()
+  //   } else if(this.elt.innerHTML == "Flapping"){
+  //     button_Wings()
+  //   }
+  // }
 
   this.findDrawingFunc = function(){
     return _this.mySavedSketch
@@ -909,8 +907,8 @@ function button_My(){
   this.mySketch_ModuleText = function(entity, index){
 
     if(_this.linked){
-      console.log("drawing ", index, "th linked module: ", entity)
-      console.log(entity.module, entity.linkedFrom, entity.linkedTo)
+      // console.log("drawing ", index, "th linked module: ", entity)
+      // console.log(entity.module, entity.linkedFrom, entity.linkedTo)
 
       _this.selectParent.forEach(function(entity){
         entity.hide()
@@ -1007,17 +1005,21 @@ function button_My(){
       if(entity.module == 1){
         //remove myself before to show selector
         // _this.selectParent[index].remove(_this.selectParent[index].index)
-        _this.selectParent[index].changed(mySelectedEvent)
-                          .position(100, y+75).show()
+        var selectedParent = _this.selectParent[index];
+        selectedParent.changed(mySelectedEvent)
+                      .position(100, y+75)
+                      .show();
+
         title = "Flapping"
-      }
-      if(entity.module == 3){
+      } else if(entity.module == 3){
         // _this.selectParent[index].remove(_this.selectParent[index].index)
-        _this.selectParent[index].changed(mySelectedEvent)
-                          .position(100, y+75).show()
+        var selectedParent = _this.selectParent[index];
+        selectedParent.changed(mySelectedEvent)
+                      .position(100, y+75)
+                      .show();
+        
         title = "Flying"
-      }
-      if(entity.module == 5){
+      } else if(entity.module == 5){
         title = "Walking"
       }
 
@@ -1038,10 +1040,17 @@ function button_My(){
     _this.mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
     //have to return this
-    _this.mySavedSketch[caller].x = _this.mySavedSketch[callee].x + 30
+    _this.mySavedSketch[caller].x = 20 //_this.mySavedSketch[callee].x + 30
     _this.mySavedSketch[caller].y = 50
-    addLinkedModule(caller, callee)
+    // addLinkedModule(caller, callee)
 
+    console.log("iterating?")
+    if(!_this.linked){
+      _this.selectDriver.attribute('id', 0)
+                        .option('Module ' + callee + ' to ' + caller) //add each other
+      _this.selectDriver.attribute('id', 1)
+                        .option('Module ' + caller + ' to ' + callee)
+    }
     _this.linked = true //-->> if delete is called, this should be revoked again
   }
 
