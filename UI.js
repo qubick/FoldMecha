@@ -44,15 +44,24 @@ function UI(){
   this.mtr360 = createButton('Continuous').mousePressed(setServoAngle)
 
   this.A_slider = createSlider(0, 400, 60).size(100).position(20, 200)
+                                                    .changed(sliderAUpdate)
   this.B_slider = createSlider(0, 400, 240).size(100).position(140, 200)
+                                                    .changed(sliderBUpdate)
   this.C_slider = createSlider(0, 400, 50).size(100).position(20, 235)
+                                                    .changed(sliderCUpdate)
   this.D_slider = createSlider(0, 400, 150).size(100).position(140, 235)
+                                                    .changed(sliderDUpdate)
   this.E_slider = createSlider(0, 400, 250).size(100).position(20, 270)
+                                                    .changed(sliderEUpdate)
   this.F_slider = createSlider(0, 400, 150).size(100).position(140,270)
+                                                    .changed(sliderFUpdate)
   this.G_slider = createSlider(0, 400, 150).size(100).position(140,270)
+                                                    .changed(sliderGUpdate)
 
   this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
+                                                    .changed(sliderXUpdate)
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
+                                                    .changed(sliderYUpdate)
 
   this.selectParent = [] //array
   this.btn180 = []
@@ -71,6 +80,7 @@ function UI(){
     this.btn180.push(btn180)
     this.btnContd.push(btn360)
   }
+
   this.button_Delete = createButton("Delete").hide()
 
   // for linked module
@@ -100,7 +110,7 @@ function UI(){
       if(stdSliderValue.openclose == undefined){ //initial values
         _this.currentGearSize     = 2 //default
         _this.currentServoAngle   = 180 // 180 or 360
-        _this.currentPairing    = 0
+        _this.currentPairing      = 0
 
         highlightMirroring(0)
         highlightGearSize(2) // default gear size  = 2
@@ -123,7 +133,7 @@ function UI(){
       if(stdSliderValue.wings == undefined){
         _this.currentGearSize     = 2 //default
         _this.currentServoAngle   = 180 // 180 or 360
-        _this.currentPairing    = 0
+        _this.currentPairing      = 0
         _this.currentDrivingGear  = 0 // 0:left, 1:right
 
         highlightMirroring(0)
@@ -150,13 +160,26 @@ function UI(){
     } else if(pageMode == 5){
       if(stdSliderValue.openclose == undefined){ //initial values
         _this.currentGearSize     = 2 //default
-        _this.currentPairing    = 0
+        _this.currentPairing      = 0 //fale
 
         highlightMirroring(0)
         highlightGearSize(2) // default gear size  = 2
+      } else {
+        //invoke saved json obj
+        _this.A_slider.value(stdSliderValue.walker.A)
+        _this.B_slider.value(stdSliderValue.walker.B)
+        _this.C_slider.value(stdSliderValue.walker.C)
+        _this.D_slider.value(stdSliderValue.walker.D)
+        _this.E_slider.value(stdSliderValue.walker.E)
+        _this.F_slider.value(stdSliderValue.walker.F)
+
+        _this.G_slider.value(stdSliderValue.walker.G)
+
+        highlightMirroring(stdSliderValue.walker.pair)
+        highlightGearSize(stdSliderValue.walker.gearSize)
+      }
     }
   }
-}
 
   function setGearSize(){
     var gearSize = parseInt(this.elt.innerHTML)
@@ -249,16 +272,6 @@ function UI(){
           _this.mtr_R.style('background-color', blue)
       }
   }
-
-  // function constructPanel(){
-  //   console.log(this.elt.innerHTML) //caller gallery btn
-  //
-  //   if(this.elt.innerHTML == "Flower"){
-  //     button_OpenClose()
-  //   } else if(this.elt.innerHTML == "Flapping"){
-  //     button_Wings()
-  //   }
-  // }
 
   this.findDrawingFunc = function(){
     return _this.mySavedSketch
@@ -462,76 +475,79 @@ function UI(){
     _this.currentModule = 3
 }
 
-this.button_walk = function(num_leg){
-  _this.mirr_apply.show().position(138,315)
-  _this.mirr_cancel.show().position(190,315)
+  this.button_walk = function(num_leg){
+    _this.mirr_apply.show().position(138,315)
+    _this.mirr_cancel.show().position(190,315)
 
-  if(num_leg<3){
-    _this.new_apply.show().position(138,345).style("background-color",white)
+    if(num_leg<3){
+      _this.new_apply.show().position(138,345).style("background-color",white)
 
-  }else{
-    _this.new_apply.hide()
-    console.log("****")
+    }else{
+      _this.new_apply.hide()
+    }
+    fill(0)
+    text("Add New :", 20, 360)
 
+    _this.size_1.show().position(115,375)
+    _this.size_2.show().position(150,375)
+    _this.size_3.show().position(185,375)
+    _this.size_4.show().position(220,375)
+
+    _this.Btn_reset.show().size(150,20).position(60,495)
+    _this.Btn_plt.show().size(150,20).position(60,520)
+    _this.Btn_net.show().size(150,20).position(60,545)
+    _this.Btn_my.show().size(150,20).position(60,590)
+    _this.Btn_home.show().size(150,20).position(60,615)
+
+    _this.Btn_pdf.hide()
+    _this.Btn_back.hide()
+
+    Walker()
+    _this.currentModule = 5
   }
-  fill(0)
-  text("Add New :", 20, 360)
 
-  _this.size_1.show().position(115,375)
-  _this.size_2.show().position(150,375)
-  _this.size_3.show().position(185,375)
-  _this.size_4.show().position(220,375)
+  function button_folding_net(){
 
-  _this.Btn_reset.show().size(150,20).position(60,495)
-  _this.Btn_plt.show().size(150,20).position(60,520)
-  _this.Btn_net.show().size(150,20).position(60,545)
-  _this.Btn_my.show().size(150,20).position(60,590)
-  _this.Btn_home.show().size(150,20).position(60,615)
+    _this.size_1.hide() //bind to same function
+    _this.size_2.hide()
+    _this.size_3.hide()
+    _this.size_4.hide()
+    _this.mtr180.hide()
+    _this.mtr360.hide()
+    _this.mtr_L.hide()
+    _this.mtr_R.hide()
+    _this.Btn_reset.hide()
+    _this.Btn_plt.hide()
+    _this.Btn_net.hide()
+    _this.A_slider.hide()
+    _this.B_slider.hide()
+    _this.C_slider.hide()
+    _this.D_slider.hide()
+    _this.E_slider.hide()
+    _this.F_slider.hide()
+    _this.G_slider.hide()
+    _this.X_slider.hide()
+    _this.Y_slider.hide()
 
-  _this.Btn_pdf.hide()
-  _this.Btn_back.hide()
+    _this.mirr_apply.hide()
+    _this.mirr_cancel.hide()
+    _this.new_apply.hide()
 
-  _this.currentModule = 5
-}
+    _this.Btn_pdf.show().size(150,20).position(60,565)
+    _this.Btn_back.show().size(150,20).position(60,590)
+  }
 
-function button_folding_net(){
+  this.callButton_MY = function(){
+    button_My()
+  }
 
-  _this.size_1.hide() //bind to same function
-  _this.size_2.hide()
-  _this.size_3.hide()
-  _this.size_4.hide()
-  _this.mtr180.hide()
-  _this.mtr360.hide()
-  _this.mtr_L.hide()
-  _this.mtr_R.hide()
-  _this.Btn_reset.hide()
-  _this.Btn_plt.hide()
-  _this.Btn_net.hide()
-  _this.A_slider.hide()
-  _this.B_slider.hide()
-  _this.C_slider.hide()
-  _this.D_slider.hide()
-  _this.E_slider.hide()
-  _this.F_slider.hide()
-  _this.G_slider.hide()
-  _this.mirr_apply.hide()
-  _this.mirr_cancel.hide()
-  _this.new_apply.hide()
+  function button_My(){
 
-  _this.Btn_pdf.show().size(150,20).position(60,565)
-  _this.Btn_back.show().size(150,20).position(60,590)
-}
+    _this.Btn_net.show().size(150,20).position(60,590)
+    _this.Btn_home.show().size(150,20).position(60,615)
 
-this.callButton_MY = function(){
-  button_My()
-}
-function button_My(){
-
-  _this.Btn_net.show().size(150,20).position(60,590)
-  _this.Btn_home.show().size(150,20).position(60,615)
-
-  //button creation - show is called every moment - might be overflowing
-  var index = 0
+    //button creation - show is called every moment - might be overflowing
+    var index = 0
 
     _this.mirr_apply.hide()
     _this.mirr_cancel.hide()
@@ -674,7 +690,9 @@ function button_My(){
   this.UI_Wings_init = function(){
       // set default values
     }
-
+  this.UI_Waling_init = function(){
+      // set default values
+    }
   function OpenClose(){
 
     _this.A_slider.show()
@@ -682,30 +700,23 @@ function button_My(){
     _this.C_slider.show()
     _this.D_slider.show()
     _this.E_slider.show()
+    _this.F_slider.show()
 
     var moduleObj = [{}] //empty json
 
-      moduleObj.A = _this.A_slider.value()
-      moduleObj.B = _this.B_slider.value()
-      moduleObj.C = _this.C_slider.value()
-      moduleObj.D = _this.D_slider.value()
-      moduleObj.E = _this.E_slider.value()
+    moduleObj.A = _this.A_slider.value()
+    moduleObj.B = _this.B_slider.value()
+    moduleObj.C = _this.C_slider.value()
+    moduleObj.D = _this.D_slider.value()
+    moduleObj.E = _this.E_slider.value()
+    moduleObj.F = _this.F_slider.value()
 
-      moduleObj.mirroring = _this.currentPairing
-      moduleObj.gearSize  = _this.currentGearSize
-      moduleObj.servoAngle= _this.currentServoAngle
+    moduleObj.mirroring = _this.currentPairing
+    moduleObj.gearSize  = _this.currentGearSize
+    moduleObj.servoAngle= _this.currentServoAngle
 
-      stdSliderValue.openclose = moduleObj
-      //console.log(stdSliderValue.openclose)
-    // }
+    stdSliderValue.openclose = moduleObj
 
-    _this.A_slider.changed(_this.sliderAUpdate)
-    _this.B_slider.changed(_this.sliderBUpdate)
-    _this.C_slider.changed(_this.sliderCUpdate)
-    _this.D_slider.changed(_this.sliderDUpdate)
-    _this.E_slider.changed(_this.sliderEUpdate)
-
-    //console.log("current Module #:", _this.currentModule)
   }
 
   function Wings(){
@@ -720,6 +731,7 @@ function button_My(){
       _this.E_slider.show()
       _this.F_slider.show()
 
+      _this.G_slider.hide()
       _this.X_slider.hide()
       _this.Y_slider.hide()
 
@@ -738,46 +750,80 @@ function button_My(){
     }
 
      //save current slider information into empty json
-      //for the first time, have to create json obj
-      moduleObj.A = _this.A_slider.value()
-      moduleObj.B = _this.B_slider.value()
-      moduleObj.C = _this.C_slider.value()
-      moduleObj.D = _this.D_slider.value()
-      moduleObj.E = _this.E_slider.value()
-      moduleObj.F = _this.F_slider.value()
-      moduleObj.G = _this.G_slider.value()
+    //for the first time, have to create json obj
+    moduleObj.A = _this.A_slider.value()
+    moduleObj.B = _this.B_slider.value()
+    moduleObj.C = _this.C_slider.value()
+    moduleObj.D = _this.D_slider.value()
+    moduleObj.E = _this.E_slider.value()
+    moduleObj.F = _this.F_slider.value()
 
-      moduleObj.X = _this.X_slider.value()
-      moduleObj.Y = _this.Y_slider.value()
+    moduleObj.X = _this.X_slider.value()
+    moduleObj.Y = _this.Y_slider.value()
 
-      moduleObj.mirring = _this.currentPairing
-      moduleObj.gearSize = _this.currentGearSize
-      moduleObj.servoAngle = _this.currentServoAngle
-      moduleObj.drivingGear = _this.currentDrivingGear
+    moduleObj.mirring = _this.currentPairing
+    moduleObj.gearSize = _this.currentGearSize
+    moduleObj.servoAngle = _this.currentServoAngle
+    moduleObj.drivingGear = _this.currentDrivingGear
 
-      stdSliderValue.wings = moduleObj
-      //console.log(stdSliderValue.wings)
-
-    _this.A_slider.changed(_this.sliderAUpdate) //calling several times since it is adjusted by system
-    _this.B_slider.changed(_this.sliderBUpdate) //how to differetiate user change vs. system update?
-    _this.C_slider.changed(_this.sliderCUpdate)
-    _this.D_slider.changed(_this.sliderDUpdate)
-    _this.E_slider.changed(_this.sliderEUpdate)
-    _this.F_slider.changed(_this.sliderFUpdate)
-    _this.G_slider.changed(_this.sliderGUpdate)
-
-    _this.X_slider.changed(_this.sliderXUpdate)
-    _this.Y_slider.changed(_this.sliderYUpdate)
-
-    //console.log("current Module #:", _this.currentModule)
+    stdSliderValue.wings = moduleObj
   }
+
+  function Walker(){
+    var moduleObj = [{}] //empty json for wing
+
+    if(_this.UI_mode == 1){
+
+      _this.A_slider.show()
+      _this.B_slider.show()
+      _this.C_slider.show()
+      _this.D_slider.show()
+      _this.E_slider.show()
+      _this.F_slider.show()
+      _this.G_slider.show()
+
+      _this.X_slider.hide()
+      _this.Y_slider.hide()
+
+    } else if(_this.UI_mode == 2){
+
+      _this.G_slider.hide()
+
+      _this.A_slider.hide()
+      _this.B_slider.hide()
+      _this.C_slider.hide()
+      _this.D_slider.hide()
+      _this.E_slider.hide()
+      _this.F_slider.hide()
+      _this.X_slider.hide()
+      _this.Y_slider.hide()
+    }
+
+    //save current slider information into empty json
+    //for the first time, have to create json obj
+    moduleObj.A = _this.A_slider.value()
+    moduleObj.B = _this.B_slider.value()
+    moduleObj.C = _this.C_slider.value()
+    moduleObj.D = _this.D_slider.value()
+    moduleObj.E = _this.E_slider.value()
+    moduleObj.F = _this.F_slider.value()
+    moduleObj.G = _this.G_slider.value()
+
+    moduleObj.mirring = _this.currentPairing
+    moduleObj.gearSize = _this.currentGearSize
+    moduleObj.servoAngle = _this.currentServoAngle
+    moduleObj.drivingGear = _this.currentDrivingGear
+
+    stdSliderValue.walker = moduleObj
+  }
+
 
   /* from here: flower sliders */
   this.calcSliderPos2 = function(min, max, value) { // Open & Close
     return map(value,0,250,min,max) //
   }
 
-  this.sliderAUpdate = function() {
+  function sliderAUpdate() {
 
     //update slider min/max range in common
       Bird1.setA(_this.A_slider.value())
@@ -800,7 +846,7 @@ function button_My(){
       }
   }
 
-  this.sliderBUpdate = function() {
+  function sliderBUpdate() {
     Bird1.setB(_this.B_slider.value())
     _this.B_slider.attribute('min', Bird1.dist_bMin)
                   .attribute('max', Bird1.dist_bMax)
@@ -819,7 +865,7 @@ function button_My(){
     }
   }
 
-  this.sliderCUpdate = function() {
+  function sliderCUpdate() {
     Bird1.setC(_this.C_slider.value())
     _this.C_slider.attribute('min', Bird1.dist_cMin)
                   .attribute('max', Bird1.dist_cMax)
@@ -838,7 +884,7 @@ function button_My(){
     }
   }
 
-  this.sliderDUpdate = function() {
+  function sliderDUpdate() {
     Bird1.setD(_this.D_slider.value())
     _this.D_slider.attribute('min', Bird1.dist_dMin)
                   .attribute('max', Bird1.dist_dMax)
@@ -856,7 +902,7 @@ function button_My(){
     }
   }
 
-  this.sliderEUpdate = function() {
+  function sliderEUpdate() {
     Bird1.setE(_this.E_slider.value())
     _this.E_slider.attribute('min', Bird1.dist_eMin)
                   .attribute('max', Bird1.dist_eMax)
@@ -873,27 +919,38 @@ function button_My(){
     }
   }
 
-  this.sliderFUpdate = function() {
+  function sliderFUpdate() {
     // no switch case cuz OP module doesn't have slider F --> might not true now...
     Bird1.setF(_this.F_slider.value())
-
     _this.F_slider.attribute('min', Bird1.dist_fMin)
                   .attribute('max', Bird1.dist_fMax)
-                  .attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+                  //.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+
+    switch (_this.currentModule) {
+      case 1: // OpenClose Flower
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        stdSliderValue.openclose.F = _this.F_slider.value()
+        break
+      case 3: // Flagppig Bird
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        stdSliderValue.wings.F = _this.F_slider.value()
+        break
+      default:
+    }
     stdSliderValue.wings.F = _this.F_slider.value()
   }
 
-  this.sliderGUpdate = function() {
+  function sliderGUpdate() {
     // no switch case cuz other module doesn't have slider G
 
   }
 
-  this.sliderXUpdate = function() {
+  function sliderXUpdate () {
     Bird1.setX(_this.X_slider.value())
     stdSliderValue.wings.X = _this.X_slider.value()
   }
 
-  this.sliderYUpdate = function() {
+  function sliderYUpdate () {
     Bird1.setY(_this.Y_slider.value())
     stdSliderValue.wings.Y = _this.Y_slider.value()
   }
@@ -1017,10 +1074,12 @@ function button_My(){
         selectedParent.changed(mySelectedEvent)
                       .position(100, y+75)
                       .show();
-        
+
         title = "Flying"
       } else if(entity.module == 5){
         title = "Walking"
+      } else {
+        console.log("This should not happens")
       }
 
       fill(255)
@@ -1044,7 +1103,6 @@ function button_My(){
     _this.mySavedSketch[caller].y = 50
     // addLinkedModule(caller, callee)
 
-    console.log("iterating?")
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0)
                         .option('Module ' + callee + ' to ' + caller) //add each other
@@ -1052,14 +1110,5 @@ function button_My(){
                         .option('Module ' + caller + ' to ' + callee)
     }
     _this.linked = true //-->> if delete is called, this should be revoked again
-  }
-
-  function addLinkedModule(caller, callee){
-
-    console.log("iterating?")
-    _this.selectDriver.attribute('id', 0)
-                      .option('Module ' + callee + ' to ' + caller) //add each other
-    _this.selectDriver.attribute('id', 1)
-                      .option('Module ' + caller + ' to ' + callee)
   }
 }
