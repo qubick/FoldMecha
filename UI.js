@@ -917,67 +917,66 @@ function button_My(){
       });
 
       //and then redraw for linked module
-        var title = ''
-            ,y    = 85 + (index-1)*160
+      var title = ''
+          ,y    = 85 + (index-1)*160
 
-        if(entity.linkedTo == undefined) { //either parent or no linker
+      if(entity.linkedTo == undefined) { //either parent or no linker
 
-          fill(50)
-          rect(0,y-50, 270,30) //(x,y,width,height)
+        fill(50)
+        rect(0,y-50, 270,30) //(x,y,width,height)
+        fill(255)
+
+        fill(0)
+        text("Position: ", 25, y)
+        text("Scale: ",    25, y+30)
+        text("Rotation: ", 25, y+60)
+
+        //informations - should be flexible by saved info
+        text("XX YY",       100, y) //position
+        text("100",         100, y+30) //scale
+        text("360",         100, y+60) //rotate
+
+        if (entity.linkedFrom != undefined){ //linked as parent
+          //module specific interface
+          if(entity.module == 1){
+            title = "Flapping "
+          }
+          if(entity.module == 3){
+            title = "Flying "
+          } // no entity.modue == 5, since walker can't be linked
+
+          if(entity.linkedFrom == 1){
+            title += " && Flapping"
+          }
+          if(entity.linkedFrom == 3){
+            title += " && Flying"
+          }
+
+          text("Driver",     25, y+90) //rotate
           fill(255)
+          text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
 
-          fill(0)
-          text("Position: ", 25, y)
-          text("Scale: ",    25, y+30)
-          text("Rotation: ", 25, y+60)
+          _this.selectDriver.position(20, y+100).show()
+          _this.selectDirection.position(150, y+100).show()
 
-          //informations - should be flexible by saved info
-          text("XX YY",       100, y) //position
-          text("100",         100, y+30) //scale
-          text("360",         100, y+60) //rotate
-
-          if (entity.linkedFrom != undefined){ //linked as parent
-            //module specific interface
-            if(entity.module == 1){
-              title = "Flapping "
-            }
-            if(entity.module == 3){
-              title = "Flying "
-            } // no entity.modue == 5, since walker can't be linked
-
-            if(entity.linkedFrom == 1){
-              title += " && Flapping"
-            }
-            if(entity.linkedFrom == 3){
-              title += " && Flying"
-            }
-
-            text("Driver",     25, y+90) //rotate
-            fill(255)
-            text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
-
-            _this.selectDriver.position(20, y+100).show()
-            _this.selectDirection.position(150, y+100).show()
-
-          } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
-            //module specific interface
-            if(entity.module == 1){
-              title = "Flapping"
-            }
-            if(entity.module == 3){
-              title = "Flying"
-            }
-            if(entity.module == 5){
-              title = "Walking"
-            }
-            fill(255)
-            text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
+        } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
+          //module specific interface
+          if(entity.module == 1){
+            title = "Flapping"
+          }
+          if(entity.module == 3){
+            title = "Flying"
+          }
+          if(entity.module == 5){
+            title = "Walking"
+          }
+          fill(255)
+          text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
         }
       } else {  //linked as child, should have been drawn above by parent
         //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) { //entity.linkedFrom == undefined
           return
-      }
-      //}); //end of if (this.linked == true)
+      }  //end of if (this.linked == true)
 
     } else { // if all modules are individual (this.linked == false)
       if(index < 2) //override empty default obejct (index == 0)
@@ -994,7 +993,7 @@ function button_My(){
       text("Position: ",  25, y)
       text("Scale: ",     25, y+30)
       text("Rotation: ",  25, y+60)
-      text("Link: ",    25, y+90) //walker does not need this
+      text("Link: ",      25, y+90) //walker does not need this
 
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
@@ -1006,6 +1005,7 @@ function button_My(){
 
       //module specific interface
       if(entity.module == 1){
+        //remove myself before to show selector
         // _this.selectParent[index].remove(_this.selectParent[index].index)
         _this.selectParent[index].changed(mySelectedEvent)
                           .position(100, y+75).show()
@@ -1033,18 +1033,24 @@ function button_My(){
     var caller = this.elt.id
     var callee = this.elt.value.slice(-1) //"module3" etc. get the last character - linked module
 
-    console.log("linked from: ", caller, " linked to: ", callee)
+    //console.log("linked from: ", caller, " linked to: ", callee)
     _this.mySavedSketch[caller].linkedTo = callee //etc. caller(later) is linked to option
     _this.mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
-    // console.log(mySavedSketch[caller].linkedTo)
-    // console.log(mySavedSketch[callee].linkedFrom)
+    //have to return this
+    _this.mySavedSketch[caller].x = _this.mySavedSketch[callee].x + 30
+    _this.mySavedSketch[caller].y = 50
+    addLinkedModule(caller, callee)
 
+    _this.linked = true //-->> if delete is called, this should be revoked again
+  }
+
+  function addLinkedModule(caller, callee){
+
+    console.log("iterating?")
     _this.selectDriver.attribute('id', 0)
                       .option('Module ' + callee + ' to ' + caller) //add each other
     _this.selectDriver.attribute('id', 1)
                       .option('Module ' + caller + ' to ' + callee)
-
-    _this.linked = true //-->> if delete is called, this should be revoked again
   }
 }
