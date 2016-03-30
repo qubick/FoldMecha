@@ -1136,8 +1136,8 @@ function UI(){
     _this.mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
     //have to return this
-    _this.mySavedSketch[caller].x = 20 //_this.mySavedSketch[callee].x + 30
-    _this.mySavedSketch[caller].y = 50
+    _this.mySavedSketch[caller].x = 80 //this should be parents' gear size
+    _this.mySavedSketch[caller].y = 0 //default is attach right, so only  need 'x' mvmt info
 
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other

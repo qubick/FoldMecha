@@ -11,9 +11,21 @@ const my_sketch = 9
 var bgcolor1, bgcolor2
 var temp_windowWidth = 1200
 var temp_windowHeight = 660
-var pair_petal, gearSize_petal, motorType_petal,petalX,petalY
-var pair_wing, gearType_wing, gearSize_wing, motorType_wing, UI_wing, wingX, wingY
-var pair_leg, add_leg, gearSize_walk
+var pair_petal
+    ,gearSize_petal
+    ,motorType_petal
+    ,petalX = 0
+    ,petalY = 0
+var pair_wing
+    ,gearType_wing
+    ,gearSize_wing
+    ,motorType_wing
+    ,UI_wing
+    ,wingX = 0
+    ,wingY = 0
+var pair_leg
+    ,add_leg
+    ,gearSize_walk
 
 function setup() {
   createCanvas(temp_windowWidth, temp_windowHeight)
@@ -82,8 +94,8 @@ function draw() {
      //Panel.OpenClose()
 
     Flower3.opencloseUI()
-    petalX = 0
-    petalY = 0
+    // petalX = 0
+    // petalY = 0
     Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
 
   }else if (pageMode == open_close_net){ //mode 2
@@ -100,9 +112,9 @@ function draw() {
 
   } else if (pageMode == flapping){ //mode 3
 
-    //this must be change by button trigger --> get return current mirroring status
-    wingX = 0
-    wingY = 0
+    // //this must be change by button trigger --> get return current mirroring status
+     wingX = 0
+     wingY = 0
     Bird1.compBird(wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
@@ -112,7 +124,7 @@ function draw() {
 
     Bird1.flappingUI(UI_wing)
 
-  }else if (pageMode==flapping_net){ //mode 4
+  }else if (pageMode == flapping_net){ //mode 4
     Panel.initUI_net()
     Panel.putText_Flapping_net()
 
@@ -152,32 +164,43 @@ function draw() {
     mySavedModule.forEach(function(entity, i){
       //all case is independent
       if(entity.module == 1){
-        push()
-        //translate(i*-50, i*-50) //move based on my_sketch setting
-        if( entity.x != undefined)
-          translate(entity.x, 0)// entity.y)
-        else
-          translate(i*-50, i*-50)
-        //pair_petal = entity.paring?
+
         gearSize_petal = entity.gearSize
         motorType_petal = entity.servoAngle
-        Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
-        pop()
+
+        if(entity.x != undefined){
+          petalX = entity.x
+        }
+        if(entity.y != undefined){
+          petalY = entity.y
+        }
+        if((entity.x == undefined) && (entity.y == undefined)){
+          petalX = i*-50
+          petalY = i*-50
+        }
+
+        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+
       } else if(entity.module == 3){
         //pass param based on returned savedDesign
-        push()
-        // translate(i*-50, i*-50) //move based on my_sketch setting
-        if(entity.x != undefined)
-          translate(entity.x, 0)//entity.y)
-        else
-          translate(i*-50, i*-50)
 
         pair_wing = entity.mirroring
-        //gearType_wing = entity.
+        gearType_wing = entity.driveGear
         gearSize_wing = entity.gearSize
         motorType_wing = entity.servoAngle
-        Bird1.compBird(pair_wing, gearType_wing, gearSize_wing, motorType_wing)
-        pop()
+
+        if(entity.x != undefined){
+          wingX = entity.x
+        }
+        if(entity.y != undefined){
+          wingY = entity.y
+        }
+        if((entity.x == undefined) && (entity.y == undefined)){
+          wingX = i*-50
+          wingY = i*-50
+        }
+        Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+
       }else if(entity.module == 5){
         //pass param based on returned savedDesign
         push()

@@ -259,7 +259,7 @@ function OpenClose(){
       fixed_up_Y  = 140
       fixed_up_x_adjust = this.radius - this.teethHeight*2
     }else if (radius == 56){
-      fixed_up_Y  = 100
+      fixed_up_Y  = 100+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight
     }else if (radius == 64){
       fixed_up_Y  = 80

@@ -53,7 +53,7 @@ this.UI1_created = false
 
      this.t1 = new Turtle()
 
-     this.wing_axisX = -1*(50+(this.radius+this.teethHeight/2))-20 + (this.xx-15)*side-tempY
+     this.wing_axisX = -1*(50+(this.radius+this.teethHeight/2))-20 + (this.xx-15)*side-tempX
      this.wing_axisY = this.yy-10-tempY
      this.wing_topLengthX = 18
      this.wing_topLengthY = 0
@@ -173,7 +173,7 @@ this.UI1_created = false
 
    }
 
-  this.compBird = function(pair_wing,gear_setting,gear_size,motorType){
+  this.compBird = function(startingX,startingY,pair_wing,gear_setting,gear_size,motorType){
 
     if (gear_setting == 1){
       this.motorA = this.driverM
@@ -202,30 +202,31 @@ this.UI1_created = false
     if(pair_wing == 1){
 
     /* TO DRAW LEFT GEAR */
-    this.centerPositionX=this.centergearX
-    this.centerPositionY=this.centergearY
+    this.centerPositionX=this.centergearX + startingX
+    this.centerPositionY=this.centergearY + startingY
     this.rotationDirection = 1
     this.gear_status = this.motorA
-    this.drawGear(this.radius, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
+    this.drawGear(this.radius, startingX,startingY, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
 
     /* TO DRAW RIGHT GEAR*/
-    this.centerPositionX=this.centergearX+(this.radius*2+this.teethHeight)
+    this.centerPositionX=this.centergearX+(this.radius*2+this.teethHeight) + startingX
     this.rotationDirection = -1
     this.gear_status = this.motorB
-    this.drawGear(this.radius, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
+    this.drawGear(this.radius, startingX,startingY, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
 
    } else if (pair_wing == 0){
      /* TO DRAW CENTER GEAR */
-     this.centerPositionX=this.centergearX
-     this.centerPositionY=this.centergearY
+     this.centerPositionX=this.centergearX + startingX
+     this.centerPositionY=this.centergearY + startingY
+
      this.rotationDirection = 1
      this.gear_status = this.motorA
-     this.drawGear(this.radius, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
+     this.drawGear(this.radius, startingX,startingY, this.centerPositionX, this.centerPositionY, this.rotationDirection,this.gear_status,this.motor_status)
      this.motor_status = motorType
    }
  }
 
-  this.drawGear = function(radius, centerPositionX, centerPositionY,rotationDirection,gear_status,motor_status){
+  this.drawGear = function(radius, startingX,startingY,centerPositionX, centerPositionY,rotationDirection,gear_status,motor_status){
 
     this.teethHeight=0.25*this.radius
     this.numberOfTeeth=radius/4
@@ -306,7 +307,7 @@ this.UI1_created = false
 
     pop()
 
-    this.drawWing(centerPositionX,centerPositionY,rotationDirection)
+    this.drawWing(startingX, startingY, centerPositionX,centerPositionY,rotationDirection)
   }
 
   this.drawGear2 = function(radius, centerPositionX, centerPositionY){
