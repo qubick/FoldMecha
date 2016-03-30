@@ -19,6 +19,9 @@ function UI(){
   this.currentDrivingGear  = 0 // 0:left, 1:right
   this.currentPairing      = 1
 
+  this.linkingModule = 0 //linked module as parent
+  // this.callee = 0 //linked module as child
+
   this.Mech_show  = createButton ('Show Mechanism')
   this.Mech_hide  = createButton ('Hide Mechanism')
   this.Btn_reset  = createButton ('Reset all').mousePressed(resetAll)
@@ -1129,23 +1132,47 @@ function UI(){
 
     //have to return this
     _this.mySavedSketch[caller].x = 67 //this should be parents' gear size
-    _this.mySavedSketch[caller].y = -40 //default is attach right, so only  need 'x' mvmt info
+    _this.mySavedSketch[caller].y = -47 //default is attach right, so only  need 'x' mvmt info
 
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
       _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
     }
-    _this.linked = true //-->> if delete is called, this should be revoked again
+
+    _this.linkingModule = caller
+    _this.linked        = true //-->> if delete is called, this should be revoked again
+  }
+
+  function mySelectedLinkParent(){ //when two modules are linked
+
   }
 
   function mySelectedLinkDirection(){
     var direction = this.elt.value
-    if(direction == 'right'){
+    var id = _this.linkingModule
 
-    } else if(direction == 'left'){
+    if(direction == 'Right'){
+      _this.mySavedSketch[id].x = 67
+      _this.mySavedSketch[id].y = -50 //why not 0??
 
-    } else if(direction == ''){
+    } else if(direction == 'Left'){
+      _this.mySavedSketch[id].x = -167
+      _this.mySavedSketch[id].y = -50
 
+    } else if(direction == 'Up'){
+      _this.mySavedSketch[id].x = -53 //why not 0??
+      _this.mySavedSketch[id].y = -167
+
+    } else if(direction == 'Down'){
+      _this.mySavedSketch[id].x = -36 //why not 0?
+      _this.mySavedSketch[id].y = 67
+
+    } else if(direction == 'Merge'){
+      _this.mySavedSketch[id].x = -50 //should be '0' to overlap gears
+      _this.mySavedSketch[id].y = -50
+
+    } else {
+      console.log("mySelectedLinkDirection(): this should not happen")
     }
   }
 }

@@ -204,8 +204,8 @@ function draw() {
 
       }else if(entity.module == 5){
         //pass param based on returned savedDesign
-        push()
-        translate(i*-50, i*-50) //move based on my_sketch setting
+        // push()
+        // translate(i*-50, i*-50) //move based on my_sketch setting
 
          Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
 
@@ -221,7 +221,7 @@ function draw() {
           Walk3.compWalk(pair_leg,1,gearSize_walk,colorsend_2)
           Walk4.compWalk(pair_leg,1,gearSize_walk,colorsend_3)
         }
-        pop()
+        // pop()
       }
 
       if(i) //only if i is true, index 0 is nominal object
