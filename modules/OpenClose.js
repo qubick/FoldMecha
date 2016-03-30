@@ -483,7 +483,7 @@ function OpenClose(){
 // if dist_e < dist_d, the gap should stay in 20
 
     this.centerwidth = 15  // base length
-/*    this.dist_aMin = 50
+    this.dist_aMin = 50
     this.dist_aMax = 400
     this.dist_bMin = 50
     this.dist_bMax = 400
@@ -493,7 +493,7 @@ function OpenClose(){
     this.dist_dMax = 400
     this.dist_eMin = 50
     this.dist_eMax = 400
-*/
+
     this.step1_BD = sq(this.dist_b) + sq(this.dist_c+this.dist_d) - sq(this.dist_a)
     this.step2_BD = 2*this.dist_b*(this.dist_c+this.dist_d)
     this.angle_cosine_BD = this.step1_BD/this.step2_BD
@@ -605,4 +605,105 @@ function OpenClose(){
       pop()
 
   }
+
+  // get functions
+  this.getA = function(){return this.dist_a;}
+  this.getB = function(){return this.dist_b;}
+  this.getC = function(){return this.dist_c;}
+  this.getD = function(){return this.dist_d;}
+  this.getE = function(){return this.dist_e;}
+  this.getF = function(){return this.dist_f;}
+  this.getX = function(){return this.x;}
+  this.getY = function(){return this.y;}
+
+  // set functions
+  this.setA = function(newA){
+    if (newA > this.dist_aMin && newA < this.dist_aMax){
+      this.dist_a = newA
+      this.updateSim()
+      return true
+    }
+    return false
+  }
+  this.setB = function(newB){
+    if (newB>this.dist_bMin && newB<this.dist_bMax){
+      this.dist_b = newB
+      this.updateSim()
+      return true
+    }
+      return false
+  }
+  this.setC = function(newC){
+    if (newC>this.dist_cMin && newC<this.dist_cMax){
+      this.dist_c = newC
+      this.updateSim()
+      return true
+    }
+      return false
+  }
+  this.setD = function(newD){
+
+    if (newD > this.dist_dMin && newD < this.dist_dMax){
+      this.dist_d = newD
+      this.updateSim()
+
+      return true
+    } //need else anyway - if min and max was well defined, this should not happen
+    return false
+  }
+  this.setE = function(newE){
+    if (newE>this.dist_eMin && newE<this.dist_eMax){
+      this.dist_e = newE
+      this.updateSim()
+      return true
+    }
+      return false
+  }
+  this.setF = function(newF){
+    if (newF>this.dist_fMin && newF<this.dist_fMax){
+      this.dist_f = newF
+      this.updateSim()
+      return true
+    }
+      return false
+  }
+
+  this.setX = function(newX){
+    if (newX>this.xMin && newX<this.xMax){
+      this.xx = newX
+      return true
+    }
+      return false
+  }
+  this.setY = function(newY){
+    if (newY>this.yMin && newY<this.yMax){
+      this.yy = newY
+      return true
+    }
+      return false
+  }
+  this.updateSim = function(){
+    this.dist_aMin = abs(this.dist_b-this.dist_c)+this.lengthGap
+    this.dist_aMax = this.dist_b+this.dist_c-this.lengthGap
+
+    this.dist_bMin = abs(this.dist_a-this.dist_c)+this.lengthGap
+    this.dist_bMax = this.dist_a+this.dist_c-this.lengthGap
+
+    this.dist_cMin = abs(this.dist_a-this.dist_b)+this.lengthGap
+    this.dist_cMax = this.dist_a+this.dist_b-this.lengthGap
+
+    //d must be calculated by E and 'part of' C
+    this.dist_dMin = abs(this.dist_c-this.dist_e)+this.lengthGap
+    this.dist_dMax = this.dist_c+this.dist_e-this.lengthGap
+
+    this.dist_eMin = abs(this.dist_c-this.dist_d)+this.lengthGap
+    this.dist_eMax = this.dist_c+this.dist_d-this.lengthGap
+
+    //f must be independen to any triangles
+    // this.dist_fMin = abs(this.dist_e-this.dist_g)+this.lengthGap
+    // this.dist_fMax = this.dist_e+this.dist_g-this.lengthGap
+
+    return true
+  }
+
 }
