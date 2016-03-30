@@ -179,7 +179,7 @@ function OpenClose(){
     this.centerPositionX_pinion = temp_windowWidth/2+200
 
     tempY = startingY
-    this.drawPinionGear(pair_petal,this.radius, this.centerPositionX_pinion+startingX, this.centerPositionY_rack+startingY,motorType)
+    this.drawPinionGear(pair_petal,this.radius, this.centerPositionX_pinion+startingX, this.centerPositionY_rack,motorType)
 }
 
   this.drawRackGear = function(pair_petal,radius,centerPositionX_rack,centerPositionY_rack,motorType){
@@ -256,16 +256,16 @@ function OpenClose(){
     }
 
     if (radius == 48){
-      fixed_up_Y  = 140
+      fixed_up_Y  = 140+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight*2
     }else if (radius == 56){
       fixed_up_Y  = 100+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight
     }else if (radius == 64){
-      fixed_up_Y  = 80
+      fixed_up_Y  = 80+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight/2
     }else if (radius == 72){
-      fixed_up_Y  = 50
+      fixed_up_Y  = 50+tempY
       fixed_up_x_adjust = this.radius
     }
 /////////////// SET Fixed Pivot (up) & Moving pivot (bottom) & dist_g
@@ -485,16 +485,16 @@ function OpenClose(){
 // if dist_e < dist_d, the gap should stay in 20
 
     this.centerwidth = 15  // base length
-    // this.dist_aMin = 50
-    // this.dist_aMax = 400
-    // this.dist_bMin = 50
-    // this.dist_bMax = 400
-    // this.dist_cMin = 50
-    // this.dist_cMax = 400
-    // this.dist_dMin = 50
-    // this.dist_dMax = 400
-    // this.dist_eMin = 50
-    // this.dist_eMax = 400
+    this.dist_aMin = 50
+    this.dist_aMax = 400
+    this.dist_bMin = 50
+    this.dist_bMax = 400
+    this.dist_cMin = 50
+    this.dist_cMax = 400
+    this.dist_dMin = 50
+    this.dist_dMax = 400
+    this.dist_eMin = 50
+    this.dist_eMax = 400
 
     this.step1_BD = sq(this.dist_b) + sq(this.dist_c+this.dist_d) - sq(this.dist_a)
     this.step2_BD = 2*this.dist_b*(this.dist_c+this.dist_d)
