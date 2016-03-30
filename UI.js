@@ -823,6 +823,7 @@ function UI(){
     return map(value,0,250,min,max) //
   }
 
+//how do Flower3 && Bird1 communicate with variables from sketch.js?
   function sliderAUpdate() {
 
     //update slider min/max range in common
@@ -843,6 +844,8 @@ function UI(){
           break
         case 5: // Walking Centipede
           //what is the slider value relationship?
+          console.log("should updated walker dist_a")
+          console.log(Walk1.setA(_this.A_slider.value()))
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           stdSliderValue.walker.A = _this.A_slider.value()
           break
@@ -867,6 +870,7 @@ function UI(){
         stdSliderValue.wings.B = _this.B_slider.value()
         break
       case 5: // Walking Centipede
+        Walk1.setB(_this.B_slider.value())
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         stdSliderValue.walker.B = _this.B_slider.value()
         break
@@ -890,6 +894,7 @@ function UI(){
         stdSliderValue.wings.C = _this.C_slider.value()
         break
       case 5: // Walking Centipede
+        Walk1.setC(_this.C_slider.value())
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         stdSliderValue.walker.C = _this.C_slider.value()
         break
@@ -913,6 +918,7 @@ function UI(){
         stdSliderValue.wings.D = _this.D_slider.value()
         break
       case 5: // Walking Centipede
+        Walk1.setD(_this.D_slider.value())
         _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.walker.D = _this.D_slider.value()
         break
@@ -935,6 +941,7 @@ function UI(){
         stdSliderValue.wings.E = _this.E_slider.value()
         break
       case 5: // Walking Centipede
+        Walk1.setE(_this.E_slider.value())
         _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.walker.E = _this.E_slider.value()
         break
@@ -949,7 +956,7 @@ function UI(){
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        Flower3.setE(_this.F_slider.value())
+        Flower3.setF(_this.F_slider.value())
         _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getE()))
         stdSliderValue.openclose.F = _this.F_slider.value()
         break
@@ -959,6 +966,7 @@ function UI(){
         stdSliderValue.wings.F = _this.F_slider.value()
         break
       case 5: // Walking Centipede
+        Walk1.setF(_this.F_slider.value())
         _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
         stdSliderValue.walker.F = _this.F_slider.value()
         break
@@ -968,7 +976,7 @@ function UI(){
 
   function sliderGUpdate() {
     // no switch case cuz other module doesn't have slider G
-    Flower3.setG(_this.G_slider.value())
+    Walk1.setG(_this.G_slider.value())
     stdSliderValue.walker.G = _this.G_slider.value()
 
   }

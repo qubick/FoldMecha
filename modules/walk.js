@@ -303,6 +303,100 @@ function Walk(){
       fill(bgcolor2)
       rect(20,338,220,32)
     }
-
  }
+
+ // get functions
+ this.getA = function(){return this.dist_a;}
+ this.getB = function(){return this.dist_b;}
+ this.getC = function(){return this.dist_c;}
+ this.getD = function(){return this.dist_d;}
+ this.getE = function(){return this.dist_e;}
+ this.getF = function(){return this.dist_f;}
+ this.getG = function(){return this.dist_g;}
+
+ // set functions
+ this.setA = function(newA){
+   if (newA > this.dist_aMin && newA < this.dist_aMax){
+     console.log("dist_a for walker is updating")
+     this.dist_a = newA
+     this.updateSim()
+     return true
+   }
+   return false
+ }
+ this.setB = function(newB){
+   if (newB>this.dist_bMin && newB<this.dist_bMax){
+     this.dist_b = newB
+     this.updateSim()
+     return true
+   }
+     return false
+ }
+ this.setC = function(newC){
+   if (newC>this.dist_cMin && newC<this.dist_cMax){
+     this.dist_c = newC
+     this.updateSim()
+     return true
+   }
+     return false
+ }
+ this.setD = function(newD){
+
+   if (newD > this.dist_dMin && newD < this.dist_dMax){
+     this.dist_d = newD
+     this.updateSim()
+
+     return true
+   } //need else anyway - if min and max was well defined, this should not happen
+   return false
+ }
+ this.setE = function(newE){
+   if (newE>this.dist_eMin && newE<this.dist_eMax){
+     this.dist_e = newE
+     this.updateSim()
+     return true
+   }
+     return false
+ }
+ this.setF = function(newF){
+   if (newF>this.dist_fMin && newF<this.dist_fMax){
+     this.dist_f = newF
+     this.updateSim()
+     return true
+   }
+     return false
+ }
+
+ this.setG = function(newX){
+   if (newX>this.gMin && newX<this.gMax){
+     this.xx = newG
+     return true
+   }
+     return false
+ }
+
+ this.updateSim = function(){
+
+   //maybe this should be re-defined
+   this.dist_aMin = abs(this.dist_b-this.dist_c)+this.lengthGap
+   this.dist_aMax = this.dist_b+this.dist_c-this.lengthGap
+
+   this.dist_bMin = abs(this.dist_a-this.dist_c)+this.lengthGap
+   this.dist_bMax = this.dist_a+this.dist_c-this.lengthGap
+
+   this.dist_cMin = abs(this.dist_a-this.dist_b)+this.lengthGap
+   this.dist_cMax = this.dist_a+this.dist_b-this.lengthGap
+
+   this.dist_dMin = abs(this.dist_c-this.dist_e)+this.lengthGap
+   this.dist_dMax = this.dist_c+this.dist_e-this.lengthGap
+
+   this.dist_eMin = abs(this.dist_c-this.dist_d)+this.lengthGap
+   this.dist_eMax = this.dist_c+this.dist_d-this.lengthGap
+
+   this.dist_fMin = abs(this.dist_e-this.dist_g)+this.lengthGap
+   this.dist_fMax = this.dist_e+this.dist_g-this.lengthGap
+
+   return true
+ }
+
 }
