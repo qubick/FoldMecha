@@ -528,8 +528,6 @@ this.UI1_created = false
   }
   this.setD = function(newD){
 
-console.log("d is now being updated, newD: ", newD, "curr D: ", this.dist_d)
-console.log("min d: ", this.dist_dMin, "max d: ", this.dist_eMax)
     if (newD > this.dist_dMin && newD < this.dist_dMax){
       this.dist_d = newD
       this.updateSim()
@@ -582,7 +580,6 @@ console.log("min d: ", this.dist_dMin, "max d: ", this.dist_eMax)
     this.dist_dMin = abs(this.dist_c-this.dist_e)+this.lengthGap
     this.dist_dMax = this.dist_c+this.dist_e-this.lengthGap
 
-console.log("d is updated")
     this.dist_eMin = abs(this.dist_c-this.dist_d)+this.lengthGap
     this.dist_eMax = this.dist_c+this.dist_d-this.lengthGap
 
