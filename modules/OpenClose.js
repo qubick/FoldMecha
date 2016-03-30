@@ -485,16 +485,16 @@ function OpenClose(){
 // if dist_e < dist_d, the gap should stay in 20
 
     this.centerwidth = 15  // base length
-    this.dist_aMin = 50
-    this.dist_aMax = 400
-    this.dist_bMin = 50
-    this.dist_bMax = 400
-    this.dist_cMin = 50
-    this.dist_cMax = 400
-    this.dist_dMin = 50
-    this.dist_dMax = 400
-    this.dist_eMin = 50
-    this.dist_eMax = 400
+    // this.dist_aMin = 50
+    // this.dist_aMax = 400
+    // this.dist_bMin = 50
+    // this.dist_bMax = 400
+    // this.dist_cMin = 50
+    // this.dist_cMax = 400
+    // this.dist_dMin = 50
+    // this.dist_dMax = 400
+    // this.dist_eMin = 50
+    // this.dist_eMax = 400
 
     this.step1_BD = sq(this.dist_b) + sq(this.dist_c+this.dist_d) - sq(this.dist_a)
     this.step2_BD = 2*this.dist_b*(this.dist_c+this.dist_d)

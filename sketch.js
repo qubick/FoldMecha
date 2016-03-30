@@ -167,6 +167,16 @@ function draw() {
 
         gearSize_petal = entity.gearSize
         motorType_petal = entity.servoAngle
+        // push()
+        // //translate(i*-50, i*-50) //move based on my_sketch setting
+        // if( entity.x != undefined)
+        //   translate(entity.x, 0)// entity.y)
+        // else
+        //   translate(i*-50, i*-50)
+        // //pair_petal = entity.paring?
+        //
+        // Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+        // pop()
 
         if(entity.x != undefined){
           petalX = entity.x
@@ -179,7 +189,7 @@ function draw() {
           petalY = i*-50
         }
 
-        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
       } else if(entity.module == 3){
         //pass param based on returned savedDesign
@@ -199,6 +209,7 @@ function draw() {
           wingX = i*-50
           wingY = i*-50
         }
+        console.log('x: ', entity.x, ' y: ', entity.y)
         Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
       }else if(entity.module == 5){
