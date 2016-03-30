@@ -780,14 +780,14 @@ function UI(){
       _this.D_slider.show()
       _this.E_slider.show()
       _this.F_slider.show()
-      _this.G_slider.show()
 
+      _this.G_slider.hide()
       _this.X_slider.hide()
       _this.Y_slider.hide()
 
     } else if(_this.UI_mode == 2){
 
-      _this.G_slider.hide()
+      _this.G_slider.show()
 
       _this.A_slider.hide()
       _this.B_slider.hide()
@@ -795,6 +795,7 @@ function UI(){
       _this.D_slider.hide()
       _this.E_slider.hide()
       _this.F_slider.hide()
+
       _this.X_slider.hide()
       _this.Y_slider.hide()
     }
@@ -1139,10 +1140,8 @@ function UI(){
     _this.mySavedSketch[caller].y = 50
 
     if(!_this.linked){
-      _this.selectDriver.attribute('id', 0)
-                        .option('Module ' + callee + ' to ' + caller) //add each other
-      _this.selectDriver.attribute('id', 1)
-                        .option('Module ' + caller + ' to ' + callee)
+      _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
+      _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
     }
     _this.linked = true //-->> if delete is called, this should be revoked again
   }
