@@ -226,6 +226,7 @@ function mousePressed(){ //map mouse pressed position to function
     }else if (mouseX>750 && mouseX<950 && mouseY>150 && mouseY<350){
     // temp Walking Mode
       pageMode = 5
+      Panel.initCurrentSelection(pageMode)
     }else if (mouseX>250 && mouseX<450 && mouseY>400 && mouseY<430){
     // temp My SKETCHBOOK
       pageMode = 9

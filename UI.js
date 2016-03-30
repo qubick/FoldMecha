@@ -117,7 +117,6 @@ function UI(){
         highlightServoAngle(180) //default angle = 180
       } else {
         //invoke saved json obj
-
         _this.A_slider.value(stdSliderValue.openclose.A)
         _this.B_slider.value(stdSliderValue.openclose.B)
         _this.C_slider.value(stdSliderValue.openclose.C)
@@ -131,6 +130,7 @@ function UI(){
     } else if(pageMode == 3){
       //take a look at stdSliderValue.wings
       if(stdSliderValue.wings == undefined){
+
         _this.currentGearSize     = 2 //default
         _this.currentServoAngle   = 180 // 180 or 360
         _this.currentPairing      = 0
@@ -158,7 +158,8 @@ function UI(){
         highlightDrivingGear(stdSliderValue.wings.drivingGear)
       }
     } else if(pageMode == 5){
-      if(stdSliderValue.openclose == undefined){ //initial values
+      if(stdSliderValue.walker == undefined){ //initial values
+
         _this.currentGearSize     = 2 //default
         _this.currentPairing      = 0 //fale
 
@@ -172,7 +173,6 @@ function UI(){
         _this.D_slider.value(stdSliderValue.walker.D)
         _this.E_slider.value(stdSliderValue.walker.E)
         _this.F_slider.value(stdSliderValue.walker.F)
-
         _this.G_slider.value(stdSliderValue.walker.G)
 
         highlightMirroring(stdSliderValue.walker.pair)
@@ -276,6 +276,7 @@ function UI(){
   this.findDrawingFunc = function(){
     return _this.mySavedSketch
   }
+
   //this is for saving module data which will be available in my sketch
   function saveDesign(){
 
@@ -304,7 +305,6 @@ function UI(){
         temp.driveGear  = _this.currentDrivingGear
         break;
       case 5: //Walking
-      console.log("walking should be saved")
         temp.module = 5
         temp.F = _this.F_slider.value()
         temp.G = _this.G_slider.value()
@@ -841,6 +841,11 @@ function UI(){
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           stdSliderValue.wings.A = _this.A_slider.value()
           break
+        case 5: // Walking Centipede
+          //what is the slider value relationship?
+          _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+          stdSliderValue.walker.A = _this.A_slider.value()
+          break
 
         default:
       }
@@ -860,7 +865,10 @@ function UI(){
         _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         stdSliderValue.wings.B = _this.B_slider.value()
         break
-
+      case 5: // Walking Centipede
+        _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        stdSliderValue.walker.B = _this.B_slider.value()
+        break
       default:
     }
   }
@@ -879,7 +887,10 @@ function UI(){
         _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         stdSliderValue.wings.C = _this.C_slider.value()
         break
-
+      case 5: // Walking Centipede
+        _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        stdSliderValue.walker.C = _this.C_slider.value()
+        break
       default:
     }
   }
@@ -898,6 +909,10 @@ function UI(){
         _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.wings.D = _this.D_slider.value()
         break
+      case 5: // Walking Centipede
+        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        stdSliderValue.walker.D = _this.D_slider.value()
+        break
       default:
     }
   }
@@ -915,6 +930,10 @@ function UI(){
         _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.wings.E = _this.E_slider.value()
         break
+      case 5: // Walking Centipede
+        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        stdSliderValue.walker.E = _this.E_slider.value()
+        break
       default:
     }
   }
@@ -928,20 +947,24 @@ function UI(){
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
-        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getE()))
         stdSliderValue.openclose.F = _this.F_slider.value()
         break
       case 3: // Flagppig Bird
-        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
         stdSliderValue.wings.F = _this.F_slider.value()
+        break
+      case 5: // Walking Centipede
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+        stdSliderValue.walker.F = _this.F_slider.value()
         break
       default:
     }
-    stdSliderValue.wings.F = _this.F_slider.value()
   }
 
   function sliderGUpdate() {
     // no switch case cuz other module doesn't have slider G
+    stdSliderValue.walker.G = _this.G_slider.value()
 
   }
 
