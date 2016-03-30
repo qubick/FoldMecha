@@ -49,12 +49,12 @@ this.UI1_created = false
    this.lengthGap = 10
   }
 
-  this.drawWing = function(centerPositionX,centerPositionY,side){ //x & y are where to start drawing wings
+  this.drawWing = function(tempX, tempY, centerPositionX,centerPositionY,side){ //x & y are where to start drawing wings
 
      this.t1 = new Turtle()
 
-     this.wing_axisX = -1*(50+(this.radius+this.teethHeight/2))-20 + (this.xx-15)*side
-     this.wing_axisY = this.yy-10
+     this.wing_axisX = -1*(50+(this.radius+this.teethHeight/2))-20 + (this.xx-15)*side-tempY
+     this.wing_axisY = this.yy-10-tempY
      this.wing_topLengthX = 18
      this.wing_topLengthY = 0
 

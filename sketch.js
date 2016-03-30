@@ -11,8 +11,8 @@ const my_sketch = 9
 var bgcolor1, bgcolor2
 var temp_windowWidth = 1200
 var temp_windowHeight = 660
-var pair_petal, gearSize_petal, motorType_petal
-var pair_wing, gearType_wing, gearSize_wing, motorType_wing, UI_wing
+var pair_petal, gearSize_petal, motorType_petal,petalX,petalY
+var pair_wing, gearType_wing, gearSize_wing, motorType_wing, UI_wing, wingX, wingY
 var pair_leg, add_leg, gearSize_walk
 
 function setup() {
@@ -82,7 +82,9 @@ function draw() {
      //Panel.OpenClose()
 
     Flower3.opencloseUI()
-    Flower3.compGear(pair_petal, gearSize_petal, motorType_petal)
+    petalX = 0
+    petalY = 0
+    Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
 
   }else if (pageMode == open_close_net){ //mode 2
     Panel.initUI_net()
@@ -90,10 +92,18 @@ function draw() {
 
     Flower3.drawNet( gearSize_petal, motorType_petal)
 
-  }else if (pageMode == flapping){ //mode 3
+  }else if (pageMode == open_close_net){ //mode 2
+    Panel.initUI_net()
+    Panel.putText_OpenClose_net()
+
+    Flower3.drawNet( gearSize_petal, motorType_petal)
+
+  } else if (pageMode == flapping){ //mode 3
 
     //this must be change by button trigger --> get return current mirroring status
-    Bird1.compBird(pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+    wingX = 0
+    wingY = 0
+    Bird1.compBird(wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)

@@ -23,11 +23,12 @@ function OpenClose(){
   var fixed_up_Y = 100  // start with gear size 2
   var fixed_up_x_adjust = this.radius- this.teethHeight
   var lower_Y = 0
+  var tempY = 0
 
-  this.compGear = function(pair_petal,gear_size,motorType){
+  this.compGear = function(startingX, startingY, pair_petal,gear_size,motorType){
     //pinion gear is circular / rack gear is linear gear
     this.motorType = motorType
-
+    lower_Y = startingY
     if(this.motorType ==180){
       if(gear_size ==1){
         this.radius= 48
@@ -177,7 +178,8 @@ function OpenClose(){
     this.centerPositionY_rack = height/2+200+lower_Y
     this.centerPositionX_pinion = temp_windowWidth/2+200
 
-    this.drawPinionGear(pair_petal,this.radius, this.centerPositionX_pinion, this.centerPositionY_rack,motorType)
+    tempY = startingY
+    this.drawPinionGear(pair_petal,this.radius, this.centerPositionX_pinion+startingX, this.centerPositionY_rack+startingY,motorType)
 }
 
   this.drawRackGear = function(pair_petal,radius,centerPositionX_rack,centerPositionY_rack,motorType){
