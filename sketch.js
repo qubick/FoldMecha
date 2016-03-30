@@ -167,16 +167,6 @@ function draw() {
 
         gearSize_petal = entity.gearSize
         motorType_petal = entity.servoAngle
-        // push()
-        // //translate(i*-50, i*-50) //move based on my_sketch setting
-        // if( entity.x != undefined)
-        //   translate(entity.x, 0)// entity.y)
-        // else
-        //   translate(i*-50, i*-50)
-        // //pair_petal = entity.paring?
-        //
-        // Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
-        // pop()
 
         if(entity.x != undefined){
           petalX = entity.x
@@ -234,9 +224,7 @@ function draw() {
         pop()
       }
 
-      //should pass separate json of entity?
-      //can passed 'i' entity which entity?
-      if(i) //only if i is true
+      if(i) //only if i is true, index 0 is nominal object
         Panel.mySketch_ModuleText(entity, i) //-> this override thing
     })
 

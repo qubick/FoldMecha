@@ -43,25 +43,17 @@ function UI(){
   this.mtr180 = createButton('180°').mousePressed(setServoAngle)
   this.mtr360 = createButton('Continuous').mousePressed(setServoAngle)
 
-  this.A_slider = createSlider(0, 400, 60).size(100).position(20, 200)
-                                                    .changed(sliderAUpdate)
-  this.B_slider = createSlider(0, 400, 240).size(100).position(140, 200)
-                                                    .changed(sliderBUpdate)
-  this.C_slider = createSlider(0, 400, 50).size(100).position(20, 235)
-                                                    .changed(sliderCUpdate)
-  this.D_slider = createSlider(0, 400, 150).size(100).position(140, 235)
-                                                    .changed(sliderDUpdate)
-  this.E_slider = createSlider(0, 400, 250).size(100).position(20, 270)
-                                                    .changed(sliderEUpdate)
-  this.F_slider = createSlider(0, 400, 150).size(100).position(140,270)
-                                                    .changed(sliderFUpdate)
-  this.G_slider = createSlider(0, 400, 150).size(100).position(140,270)
-                                                    .changed(sliderGUpdate)
+//maybe we can integrate all slider events into one function as well..
+  this.A_slider = createSlider(0, 400, 60).size(100).position(20, 200).changed(sliderAUpdate)
+  this.B_slider = createSlider(0, 400, 240).size(100).position(140, 200).changed(sliderBUpdate)
+  this.C_slider = createSlider(0, 400, 50).size(100).position(20, 235).changed(sliderCUpdate)
+  this.D_slider = createSlider(0, 400, 150).size(100).position(140, 235).changed(sliderDUpdate)
+  this.E_slider = createSlider(0, 400, 250).size(100).position(20, 270).changed(sliderEUpdate)
+  this.F_slider = createSlider(0, 400, 150).size(100).position(140,270).changed(sliderFUpdate)
+  this.G_slider = createSlider(0, 400, 150).size(100).position(140,270).changed(sliderGUpdate)
 
-  this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200)
-                                                    .changed(sliderXUpdate)
-  this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200)
-                                                    .changed(sliderYUpdate)
+  this.X_slider = createSlider(0, 200, 20).size(100).position(20, 200).changed(sliderXUpdate)
+  this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200).changed(sliderYUpdate)
 
   this.selectParent = [] //array
   this.btn180 = []
@@ -86,10 +78,10 @@ function UI(){
   // for linked module
   this.selectLinked = []
   this.selectDriver    = createSelect().hide()
-  this.selectDirection = createSelect().hide()
+  this.selectDirection = createSelect().hide().changed(mySelectedLinkDirection)
 
-  this.selectDirection.attribute('id',0).option('Left')
-  this.selectDirection.attribute('id',1).option('Right')
+  this.selectDirection.attribute('id',0).option('Right')
+  this.selectDirection.attribute('id',1).option('Left')
   this.selectDirection.attribute('id',2).option('Up')
   this.selectDirection.attribute('id',3).option('Down')
   this.selectDirection.attribute('id',4).option('Merge')
@@ -1144,5 +1136,16 @@ function UI(){
       _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
     }
     _this.linked = true //-->> if delete is called, this should be revoked again
+  }
+
+  function mySelectedLinkDirection(){
+    var direction = this.elt.value
+    if(direction == 'right'){
+
+    } else if(direction == 'left'){
+
+    } else if(direction == ''){
+
+    }
   }
 }
