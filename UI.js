@@ -60,8 +60,9 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200).changed(sliderYUpdate)
 
   this.selectParent = [] //array
-  this.btn180 = []
-  this.btnContd = []
+  // this.btn180 = []
+  // this.btnContd = []
+  this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
   this.linked = false
 
   // for individual module
@@ -70,11 +71,15 @@ function UI(){
     sel.attribute('id', i)
        .option('None') //default
 
-    var btn180 = createButton("180°").hide()
-    var btn360 = createButton("Continuous").hide()
+    // var btn180 = createButton("180°").hide()
+    // var btn360 = createButton("Continuous").hide()
+    var rotationRange = createSlider(0,360,0).hide()
+                                              .attribute('id',i)
+                                              .changed(rotationUpdated)
     this.selectParent.push(sel)
-    this.btn180.push(btn180)
-    this.btnContd.push(btn360)
+    // this.btn180.push(btn180)
+    // this.btnContd.push(btn360)
+    this.sliderRotation.push(rotationRange)
   }
 
   this.button_Delete = createButton("Delete").hide()
@@ -379,15 +384,20 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    this.selectParent.forEach(function(entity){
-      entity.hide()
+    this.selectParent.forEach(function(s){
+      s.hide()
     });
-    this.btn180.forEach(function(entity){
-      entity.hide()
+    // this.btn180.forEach(function(entity){
+    //   entity.hide()
+    // });
+    // this.btnContd.forEach(function(entity){
+    //   entity.hide()
+    // });
+
+    this.sliderRotation.forEach(function(s){
+      s.hide()
     });
-    this.btnContd.forEach(function(entity){
-      entity.hide()
-    });
+
     this.myBtnList.forEach(function(btn){
       btn.hide()
     });
@@ -626,14 +636,14 @@ function UI(){
       text("Y", 145, 230)
     }
   //  button_Wings()
-  }
+} //EOF
 
 
   this.putText_Flapping_net = function(){
 
     fill(255)
     text("FOLDING NET  :  FLAPPING", 37, 540)
-  }
+  } //EOF
 
   this.putText_walk = function(){
     _this.UI_mode_walk = UI_walk
@@ -656,7 +666,7 @@ function UI(){
     }else if(_this.UI_mode_walk == 2){
       text("G", 25, 230)
     }
-  }
+  } //EOF
 
   this.putText_My = function(){
     //this: caller button, _this: UI
@@ -666,7 +676,7 @@ function UI(){
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
     //button_My()
-  }
+  } //EOF
 
   this.Front = function(){
     background(bgcolor2)
@@ -677,7 +687,7 @@ function UI(){
     textSize(15)
     text("design your own mechanical movement and download the folding net to bulid",360,100)
     //button_front()
-  }
+  } //EOF
 
 /*   from here:   slider section */
   this.UI_OpenClose_init = function(){
@@ -713,7 +723,7 @@ function UI(){
 
     stdSliderValue.openclose = moduleObj
 
-  }
+  } //EOF
 
   function Wings(){
     var moduleObj = [{}] //empty json for wing
@@ -745,7 +755,7 @@ function UI(){
       _this.Y_slider.show()
     }
 
-     //save current slider information into empty json
+    //save current slider information into empty json
     //for the first time, have to create json obj
     moduleObj.A = _this.A_slider.value()
     moduleObj.B = _this.B_slider.value()
@@ -763,7 +773,7 @@ function UI(){
     moduleObj.drivingGear = _this.currentDrivingGear
 
     stdSliderValue.wings = moduleObj
-  }
+  }  //EOF
 
   function Walker(){
     var moduleObj = [{}] //empty json for wing
@@ -812,7 +822,7 @@ function UI(){
     moduleObj.drivingGear = _this.currentDrivingGear
 
     stdSliderValue.walker = moduleObj
-  }
+  } //EOF
 
 
   /* from here: flower sliders */
@@ -841,8 +851,6 @@ function UI(){
           break
         case 5: // Walking Centipede
           //what is the slider value relationship?
-          console.log("should updated walker dist_a")
-          console.log(Walk1.setA(_this.A_slider.value()))
           _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           stdSliderValue.walker.A = _this.A_slider.value()
           break
@@ -1000,8 +1008,13 @@ function UI(){
       // console.log("drawing ", index, "th linked module: ", entity)
       // console.log(entity.module, entity.linkedFrom, entity.linkedTo)
 
+      //hide all unnecessary UI widgets
       _this.selectParent.forEach(function(entity){
         entity.hide()
+      });
+
+      _this.sliderRotation.forEach(function(s){
+        s.hide()
       });
 
       //and then redraw for linked module
@@ -1084,7 +1097,8 @@ function UI(){
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
       text("100",         100, y+30) //scale
-      text("360",         100, y+60) //rotate
+      //text("360",         100, y+60) //rotate
+      _this.sliderRotation[index].position(100, y+45).show()
 
       //toggle button hide/show or delete
       // _this.btnDelete.show()
@@ -1153,9 +1167,9 @@ function UI(){
       _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
     }
 
-    _this.master = caller
-    _this.slave = callee
-    _this.linked        = true //-->> if delete is called, this should be revoked again
+    _this.master  = caller
+    _this.slave   = callee
+    _this.linked  = true //-->> if delete is called, this should be revoked again
   }
 
   function mySelectedLinkParent(){ //when two modules are linked
@@ -1238,5 +1252,12 @@ function UI(){
         _this.mySavedSketch[idM].y = -150
       }
     }
+  } //EOF
+
+  function rotationUpdated(){
+    var sender = this.elt.id
+        ,value = _this.sliderRotation[sender].value()
+    _this.mySavedSketch[sender].rotation = value
+    console.log("rotation value: ", value)
   }
 }

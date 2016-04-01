@@ -153,7 +153,7 @@ function draw() {
 
     Walk1.walkUI(UI_walk,add_leg)
 
-  }else if (pageMode == my_sketch){ //mode 9
+  } else if (pageMode == my_sketch){ //mode 9
 
     Panel.initUI()
     Panel.putText_My()
@@ -179,7 +179,17 @@ function draw() {
           petalY = i*-50
         }
 
-         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+        if(entity.rotation != undefined){
+          push()
+          translate(100, 100)
+          rotate(entity.rotation*PI/180)
+          Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+          pop()
+        } else {
+          Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+
+        }
+
 
       } else if(entity.module == 3){
         //pass param based on returned savedDesign
@@ -199,8 +209,16 @@ function draw() {
           wingX = i*-50
           wingY = i*-50
         }
-        console.log('x: ', entity.x, ' y: ', entity.y)
-        Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+
+        if(entity.rotation != undefined){
+          push()
+          rotate(entity.rotation) //rotate the screen
+          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+          pop()
+        } else {
+          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+
+        }
 
       }else if(entity.module == 5){
         //pass param based on returned savedDesign
