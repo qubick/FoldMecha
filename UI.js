@@ -1129,13 +1129,24 @@ function UI(){
     _this.mySavedSketch[caller].linkedTo = callee //etc. caller(later) is linked to option
     _this.mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
+    //match gear size and motorType
+    _this.mySavedSketch[caller].servoAngle = _this.mySavedSketch[callee].servoAngle
+    _this.mySavedSketch[caller].gearSize = _this.mySavedSketch[callee].gearSize
+
     //this is for same modules are attached
-    // _this.mySavedSketch[caller].x = 67 //this should be parents' gear size
-    // _this.mySavedSketch[caller].y = -47 //default is attach right, so only  need 'x' mvmt info
+    if(_this.mySavedSketch[caller].module == _this.mySavedSketch[callee].module){
+      _this.mySavedSketch[caller].x = 67 //this should be parents' gear size
+      _this.mySavedSketch[caller].y = -47 //default is attach right, so only  need 'x' mvmt info
 
     //this is for wing -> flower
-    _this.mySavedSketch[caller].x = 200
-    _this.mySavedSketch[caller].y = 62
+    } else if ((_this.mySavedSketch[caller].module == 3) && (_this.mySavedSketch[callee].module == 1)){
+      _this.mySavedSketch[caller].x = 200
+      _this.mySavedSketch[caller].y = 62
+
+    } else if ((_this.mySavedSketch[caller].module == 1) && (_this.mySavedSketch[callee].module == 3)){
+      _this.mySavedSketch[caller].x = 67
+      _this.mySavedSketch[caller].y = -170
+    }
 
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
@@ -1199,14 +1210,33 @@ function UI(){
 
       } else if(direction == 'Down'){
         _this.mySavedSketch[idM].x = -50 //why not 0?
-        _this.mySavedSketch[idM].y = 180
+        _this.mySavedSketch[idM].y = 190
 
       } else if(direction == 'Merge'){
         _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
         _this.mySavedSketch[idM].y = 70
       }
-    } else if((_this.mySavedSketch[idS] == 3) && (_this.mySavedSketch[idM]) == 1){ //when flower is linked to wing
+    } else if((_this.mySavedSketch[idS].module == 3) && (_this.mySavedSketch[idM].module) == 1){ //when flower is linked to wing
+      if(direction == 'Right'){
+        _this.mySavedSketch[idM].x = 67
+        _this.mySavedSketch[idM].y = -170 //why not 0??
 
+      } else if(direction == 'Left'){
+        _this.mySavedSketch[idM].x = -300
+        _this.mySavedSketch[idM].y = -170
+
+      } else if(direction == 'Up'){
+        _this.mySavedSketch[idM].x = -50 //why not 0??
+        _this.mySavedSketch[idM].y = -300
+
+      } else if(direction == 'Down'){
+        _this.mySavedSketch[idM].x = -50 //why not 0?
+        _this.mySavedSketch[idM].y = -50
+
+      } else if(direction == 'Merge'){
+        _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+        _this.mySavedSketch[idM].y = -150
+      }
     }
   }
 }
