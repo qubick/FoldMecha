@@ -19,7 +19,8 @@ function UI(){
   this.currentDrivingGear  = 0 // 0:left, 1:right
   this.currentPairing      = 1
 
-  this.linkingModule = 0 //linked module as parent
+  this.master = 0 //linked module as parent
+  this.slave  = 0
   // this.callee = 0 //linked module as child
 
   this.Mech_show  = createButton ('Show Mechanism')
@@ -1027,15 +1028,13 @@ function UI(){
           //module specific interface
           if(entity.module == 1){
             title = "Flapping "
-          }
-          if(entity.module == 3){
+          } else if(entity.module == 3){
             title = "Flying "
           } // no entity.modue == 5, since walker can't be linked
 
           if(entity.linkedFrom == 1){
             title += " && Flapping"
-          }
-          if(entity.linkedFrom == 3){
+          } else if(entity.linkedFrom == 3){
             title += " && Flying"
           }
 
@@ -1130,16 +1129,21 @@ function UI(){
     _this.mySavedSketch[caller].linkedTo = callee //etc. caller(later) is linked to option
     _this.mySavedSketch[callee].linkedFrom = caller //caller, linked each other
 
-    //have to return this
-    _this.mySavedSketch[caller].x = 67 //this should be parents' gear size
-    _this.mySavedSketch[caller].y = -47 //default is attach right, so only  need 'x' mvmt info
+    //this is for same modules are attached
+    // _this.mySavedSketch[caller].x = 67 //this should be parents' gear size
+    // _this.mySavedSketch[caller].y = -47 //default is attach right, so only  need 'x' mvmt info
+
+    //this is for wing -> flower
+    _this.mySavedSketch[caller].x = 200
+    _this.mySavedSketch[caller].y = 62
 
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
       _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
     }
 
-    _this.linkingModule = caller
+    _this.master = caller
+    _this.slave = callee
     _this.linked        = true //-->> if delete is called, this should be revoked again
   }
 
@@ -1149,30 +1153,60 @@ function UI(){
 
   function mySelectedLinkDirection(){
     var direction = this.elt.value
-    var id = _this.linkingModule
+        ,idM = _this.master //linking caller's index in save module array
+        ,idS = _this.slave
 
-    if(direction == 'Right'){
-      _this.mySavedSketch[id].x = 67
-      _this.mySavedSketch[id].y = -50 //why not 0??
+    var callerType = _this.mySavedSketch[idM].module
+    console.log('callerType: ', callerType)
 
-    } else if(direction == 'Left'){
-      _this.mySavedSketch[id].x = -167
-      _this.mySavedSketch[id].y = -50
+    //this is when same gears of size2 attached
+    if(_this.mySavedSketch[idM].module == _this.mySavedSketch[idS].module){
+      if(direction == 'Right'){
+        _this.mySavedSketch[idM].x = 67
+        _this.mySavedSketch[idM].y = -50 //why not 0??
 
-    } else if(direction == 'Up'){
-      _this.mySavedSketch[id].x = -53 //why not 0??
-      _this.mySavedSketch[id].y = -167
+      } else if(direction == 'Left'){
+        _this.mySavedSketch[idM].x = -167
+        _this.mySavedSketch[idM].y = -50
 
-    } else if(direction == 'Down'){
-      _this.mySavedSketch[id].x = -36 //why not 0?
-      _this.mySavedSketch[id].y = 67
+      } else if(direction == 'Up'){
+        _this.mySavedSketch[idM].x = -53 //why not 0??
+        _this.mySavedSketch[idM].y = -167
 
-    } else if(direction == 'Merge'){
-      _this.mySavedSketch[id].x = -50 //should be '0' to overlap gears
-      _this.mySavedSketch[id].y = -50
+      } else if(direction == 'Down'){
+        _this.mySavedSketch[idM].x = -36 //why not 0?
+        _this.mySavedSketch[idM].y = 67
 
-    } else {
-      console.log("mySelectedLinkDirection(): this should not happen")
+      } else if(direction == 'Merge'){
+        _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+        _this.mySavedSketch[idM].y = -50
+
+      } else {
+        console.log("mySelectedLinkDirection(): this should not happen")
+      }
+    } else if((_this.mySavedSketch[idS].module == 1) && (_this.mySavedSketch[idM].module == 3)){ //when wing is linked to flower
+      if(direction == 'Right'){
+        _this.mySavedSketch[idM].x = 200
+        _this.mySavedSketch[idM].y = 62 //why not 0??
+
+      } else if(direction == 'Left'){
+        _this.mySavedSketch[idM].x = -167
+        _this.mySavedSketch[idM].y = 62
+
+      } else if(direction == 'Up'){
+        _this.mySavedSketch[idM].x = -50 //why not 0??
+        _this.mySavedSketch[idM].y = -50
+
+      } else if(direction == 'Down'){
+        _this.mySavedSketch[idM].x = -50 //why not 0?
+        _this.mySavedSketch[idM].y = 180
+
+      } else if(direction == 'Merge'){
+        _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+        _this.mySavedSketch[idM].y = 70
+      }
+    } else if((_this.mySavedSketch[idS] == 3) && (_this.mySavedSketch[idM]) == 1){ //when flower is linked to wing
+
     }
   }
 }
