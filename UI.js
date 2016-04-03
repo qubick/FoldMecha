@@ -1091,7 +1091,6 @@ function UI(){
       text("Position: ",  25, y)
       text("Scale: ",     25, y+30)
       text("Rotation: ",  25, y+60)
-      text("Link: ",      25, y+90) //walker does not need this
 
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
@@ -1110,6 +1109,7 @@ function UI(){
         selectedParent.changed(mySelectedEvent)
                       .position(100, y+75)
                       .show();
+        text("Link: ",      25, y+90) //walker does not need this
 
         title = "Flapping"
       } else if(entity.module == 3){
@@ -1118,6 +1118,7 @@ function UI(){
         selectedParent.changed(mySelectedEvent)
                       .position(100, y+75)
                       .show();
+        text("Link: ",      25, y+90) //walker does not need this
 
         title = "Flying"
       } else if(entity.module == 5){
