@@ -1080,7 +1080,7 @@ function UI(){
       if(index < 2) //override empty default obejct (index == 0)
         var y = 85
       else
-        var y = 85 + (index-1)*160
+        var y = 85 + (index-1)*175
 
       var title = ''
       fill(50)
@@ -1100,7 +1100,7 @@ function UI(){
       _this.sliderRotation[index].position(100, y+45).show()
 
       //toggle button hide/show or delete
-      //_this.btnDelete.show()
+      _this.btnDelete[index].position(170, y+100).show()
 
       //module specific interface
       if(entity.module == 1){
