@@ -80,10 +80,10 @@ function UI(){
 
   // for linked module
   this.linked         = false
-  this.selectLinked   = []
+  //this.selectLinked   = [] //for what??
   this.selectDriver    = createSelect().hide()
   this.selectDirection = createSelect().hide().changed(mySelectedLinkDirection)
-  this.cancelLink     = createButton('Cancel This Link').hide() //this maybe array for further linking
+  this.cancelLink     = createButton('Cancel This Link').hide().mousePressed(toggleLinking) //this maybe array for further linking
 
   this.selectDirection.attribute('id',0).option('Right')
   this.selectDirection.attribute('id',1).option('Left')
@@ -1075,6 +1075,11 @@ function UI(){
       }  //end of if (this.linked == true)
 
     } else { // if all modules are individual (this.linked == false)
+      //hide all unrelated UI widgets
+      this.selectDriver.hide()
+      this.selectDirection.hide()
+      this.cancelLink.hide()
+
       if(index < 2) //override empty default obejct (index == 0)
         var y = 85
       else
@@ -1249,10 +1254,17 @@ function UI(){
     }
   } //EOF
 
-  function rotationUpdated(){
+  function rotationUpdated(){ //rotation degree is updated by slider(or button)
     var sender = this.elt.id
         ,value = _this.sliderRotation[sender].value()
     _this.mySavedSketch[sender].rotation = value
     console.log("rotation value: ", value)
   }
+
+  function toggleLinking(){
+    console.log("cancel link")
+    _this.linked = false
+    //this.mySketch_ModuleText()
+  }
+
 }
