@@ -1264,7 +1264,11 @@ function UI(){
   function toggleLinking(){
     console.log("cancel link")
     _this.linked = false
-    //this.mySketch_ModuleText()
+    //revoke drawing positions of individual modules
+    _this.mySavedSketch.forEach(function(m){
+      delete m.x //this is checked by if (module.x != undefined) from sketch.js
+      delete m.y
+    })
   }
 
 }
