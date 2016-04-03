@@ -21,7 +21,6 @@ function UI(){
 
   this.master = 0 //linked module as parent
   this.slave  = 0
-  // this.callee = 0 //linked module as child
 
   this.Mech_show  = createButton ('Show Mechanism')
   this.Mech_hide  = createButton ('Hide Mechanism')
@@ -60,10 +59,8 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200).changed(sliderYUpdate)
 
   this.selectParent = [] //array
-  // this.btn180 = []
-  // this.btnContd = []
   this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
-  this.linked = false
+  this.btnDelete = []
 
   // for individual module
   for(var i=0; i<5; i++){ //up to # of saved models or saving limit (now 4)
@@ -71,23 +68,22 @@ function UI(){
     sel.attribute('id', i)
        .option('None') //default
 
-    // var btn180 = createButton("180°").hide()
-    // var btn360 = createButton("Continuous").hide()
     var rotationRange = createSlider(0,360,0).hide()
                                               .attribute('id',i)
                                               .changed(rotationUpdated)
+    var btnDel        = createButton('Delete').hide()
+
     this.selectParent.push(sel)
-    // this.btn180.push(btn180)
-    // this.btnContd.push(btn360)
     this.sliderRotation.push(rotationRange)
+    this.btnDelete.push(btnDel)
   }
 
-  this.button_Delete = createButton("Delete").hide()
-
   // for linked module
-  this.selectLinked = []
+  this.linked         = false
+  this.selectLinked   = []
   this.selectDriver    = createSelect().hide()
   this.selectDirection = createSelect().hide().changed(mySelectedLinkDirection)
+  this.cancelLink     = createButton('Cancel This Link').hide() //this maybe array for further linking
 
   this.selectDirection.attribute('id',0).option('Right')
   this.selectDirection.attribute('id',1).option('Left')
@@ -833,50 +829,52 @@ function UI(){
 //how do Flower3 && Bird1 communicate with variables from sketch.js?
   function sliderAUpdate() {
 
-    //update slider min/max range in common
-      _this.A_slider.attribute('min', Bird1.dist_aMin)
-                    .attribute('max', Bird1.dist_aMax)
-
       switch (_this.currentModule) {
         case 1: // OpenClose Flower
           Flower3.setA(_this.A_slider.value())
           //we assume this is only possible when there is already json obj created
-          _this.A_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+          _this.A_slider.attribute('value', _this.calcSliderPos2(Flower3.dist_aMin, Flower3.dist_aMax, Flower3.getA()))
           stdSliderValue.openclose.A = _this.A_slider.value()
           break
         case 3: // Flagppig Bird
           Bird1.setA(_this.A_slider.value())
-          _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+          // this will update b & c
+          // then it has to update min/max b&c as well
+          _this.A_slider.attribute('min', Bird1.dist_aMin)
+                        .attribute('max', Bird1.dist_aMax)
+                        .attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+
           stdSliderValue.wings.A = _this.A_slider.value()
           break
         case 5: // Walking Centipede
           //what is the slider value relationship?
-          _this.A_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
+          _this.A_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_aMin, Bird1.dist_aMax, Bird1.getA()))
           stdSliderValue.walker.A = _this.A_slider.value()
           break
-
         default:
       }
+      //where saved slider value saved to my saved design?
   }
 
   function sliderBUpdate() {
-    _this.B_slider.attribute('min', Bird1.dist_bMin)
-                  .attribute('max', Bird1.dist_bMax)
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         Flower3.setB(_this.B_slider.value())
-        _this.B_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        _this.B_slider.attribute('value', _this.calcSliderPos2(Flower3.dist_bMin, Flower3.dist_bMax, Flower3.getB()))
         stdSliderValue.openclose.B = _this.B_slider.value()
         break
       case 3: // Flagppig Bird
         Bird1.setB(_this.B_slider.value())
-        _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        _this.B_slider.attribute('min', Bird1.dist_bMin)
+                      .attribute('max', Bird1.dist_bMax)
+                      .attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+
         stdSliderValue.wings.B = _this.B_slider.value()
         break
       case 5: // Walking Centipede
         Walk1.setB(_this.B_slider.value())
-        _this.B_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
+        _this.B_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_bMin, Bird1.dist_bMax, Bird1.getB()))
         stdSliderValue.walker.B = _this.B_slider.value()
         break
       default:
@@ -884,23 +882,24 @@ function UI(){
   }
 
   function sliderCUpdate() {
-    _this.C_slider.attribute('min', Bird1.dist_cMin)
-                  .attribute('max', Bird1.dist_cMax)
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         Flower3.setC(_this.C_slider.value())
-        _this.C_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        _this.C_slider.attribute('value', _this.calcSliderPos2(Flower3.dist_cMin, Flower3.dist_cMax, Flower3.getC()))
         stdSliderValue.openclose.C = _this.C_slider.value()
         break
       case 3: // Flagppig Bird
         Bird1.setC(_this.C_slider.value())
-        _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        _this.C_slider.attribute('min', Bird1.dist_cMin)
+                      .attribute('max', Bird1.dist_cMax)
+                      .attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+
         stdSliderValue.wings.C = _this.C_slider.value()
         break
       case 5: // Walking Centipede
         Walk1.setC(_this.C_slider.value())
-        _this.C_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
+        _this.C_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_cMin, Bird1.dist_cMax, Bird1.getC()))
         stdSliderValue.walker.C = _this.C_slider.value()
         break
       default:
@@ -908,23 +907,24 @@ function UI(){
   }
 
   function sliderDUpdate() {
-    _this.D_slider.attribute('min', Bird1.dist_dMin)
-                  .attribute('max', Bird1.dist_dMax)
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         Flower3.setD(_this.D_slider.value())
-        _this.D_slider.attribute('value', _this.calcSliderPos2(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        _this.D_slider.attribute('value', _this.calcSliderPos2(Flower3.dist_dMin, Flower3.dist_dMax, Flower3.getD()))
         stdSliderValue.openclose.D = _this.D_slider.value()
         break
       case 3: // Flagppig Bird
         Bird1.setD(_this.D_slider.value())
-        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        _this.D_slider.attribute('min', Bird1.dist_dMin)
+                      .attribute('max', Bird1.dist_dMax)
+                      .attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+
         stdSliderValue.wings.D = _this.D_slider.value()
         break
       case 5: // Walking Centipede
         Walk1.setD(_this.D_slider.value())
-        _this.D_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
+        _this.D_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_dMin, Bird1.dist_dMax, Bird1.getD()))
         stdSliderValue.walker.D = _this.D_slider.value()
         break
       default:
@@ -932,22 +932,23 @@ function UI(){
   }
 
   function sliderEUpdate() {
-    _this.E_slider.attribute('min', Bird1.dist_eMin)
-                  .attribute('max', Bird1.dist_eMax)
+
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         Flower3.setE(_this.E_slider.value())
-        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.E_slider.attribute('value', _this.calcSliderPos3(Flower3.dist_eMin, Flower3.dist_eMax, Flower3.getE()))
         stdSliderValue.openclose.E = _this.E_slider.value()
         break
       case 3: // Flagppig Bird
         Bird1.setE(_this.E_slider.value())
-        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.E_slider.attribute('min', Bird1.dist_eMin)
+                      .attribute('max', Bird1.dist_eMax)
+                      .attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.wings.E = _this.E_slider.value()
         break
       case 5: // Walking Centipede
         Walk1.setE(_this.E_slider.value())
-        _this.E_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
+        _this.E_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_eMin, Bird1.dist_eMax, Bird1.getE()))
         stdSliderValue.walker.E = _this.E_slider.value()
         break
       default:
@@ -955,24 +956,23 @@ function UI(){
   }
 
   function sliderFUpdate() {
-    _this.F_slider.attribute('min', Bird1.dist_fMin)
-                  .attribute('max', Bird1.dist_fMax)
-                  //.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
 
     switch (_this.currentModule) {
       case 1: // OpenClose Flower
         Flower3.setF(_this.F_slider.value())
-        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getE()))
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Flower3.dist_fMin, Flower3.dist_fMax, Flower3.getE()))
         stdSliderValue.openclose.F = _this.F_slider.value()
         break
       case 3: // Flagppig Bird
         Bird1.setF(_this.F_slider.value())
-        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+        _this.F_slider.attribute('min', Bird1.dist_fMin)
+                      .attribute('max', Bird1.dist_fMax)
+                      .attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
         stdSliderValue.wings.F = _this.F_slider.value()
         break
       case 5: // Walking Centipede
         Walk1.setF(_this.F_slider.value())
-        _this.F_slider.attribute('value', _this.calcSliderPos3(Bird1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
+        _this.F_slider.attribute('value', _this.calcSliderPos3(Walk1.dist_fMin, Bird1.dist_fMax, Bird1.getF()))
         stdSliderValue.walker.F = _this.F_slider.value()
         break
       default:
@@ -1005,8 +1005,6 @@ function UI(){
   this.mySketch_ModuleText = function(entity, index){
 
     if(_this.linked){
-      // console.log("drawing ", index, "th linked module: ", entity)
-      // console.log(entity.module, entity.linkedFrom, entity.linkedTo)
 
       //hide all unnecessary UI widgets
       _this.selectParent.forEach(function(entity){
@@ -1057,6 +1055,7 @@ function UI(){
 
           _this.selectDriver.position(20, y+100).show()
           _this.selectDirection.position(150, y+100).show()
+          _this.cancelLink.position(20, y+140).show()
 
         } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
           //module specific interface
@@ -1101,7 +1100,7 @@ function UI(){
       _this.sliderRotation[index].position(100, y+45).show()
 
       //toggle button hide/show or delete
-      // _this.btnDelete.show()
+      //_this.btnDelete.show()
 
       //module specific interface
       if(entity.module == 1){
@@ -1173,7 +1172,7 @@ function UI(){
   }
 
   function mySelectedLinkParent(){ //when two modules are linked
-
+    //toggle linking parents and child
   }
 
   function mySelectedLinkDirection(){

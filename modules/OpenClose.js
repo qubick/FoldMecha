@@ -621,6 +621,7 @@ function OpenClose(){
   // set functions
   this.setA = function(newA){
     if (newA > this.dist_aMin && newA < this.dist_aMax){
+
       this.dist_a = newA
       this.updateSim()
       return true

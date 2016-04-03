@@ -181,15 +181,13 @@ function draw() {
 
         if(entity.rotation != undefined){
           push()
-          translate(100, 100)
-          rotate(entity.rotation*PI/180)
-          Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+            translate(-1200/2+200, -600/2+200) //where is the center?
+            rotate(entity.rotation*PI/180) //rotate in radian
+            Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
           pop()
         } else {
           Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
-
         }
-
 
       } else if(entity.module == 3){
         //pass param based on returned savedDesign
@@ -225,7 +223,7 @@ function draw() {
         // push()
         // translate(i*-50, i*-50) //move based on my_sketch setting
 
-         Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
+        Walk1.compWalk(pair_leg,0,gearSize_walk,tempC)
 
         if(add_leg == 1){
           Walk2.compWalk(pair_leg,1,gearSize_walk,colorsend_1)

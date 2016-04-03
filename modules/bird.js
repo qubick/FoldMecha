@@ -303,8 +303,6 @@ this.UI1_created = false
       }
     }
 
-
-
     pop()
 
     this.drawWing(startingX, startingY, centerPositionX,centerPositionY,rotationDirection)
@@ -505,6 +503,7 @@ this.UI1_created = false
   // set functions
   this.setA = function(newA){
     if (newA > this.dist_aMin && newA < this.dist_aMax){
+      console.log(this.dist_a, newA)
       this.dist_a = newA
       this.updateSim()
       return true
