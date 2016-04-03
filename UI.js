@@ -383,19 +383,14 @@ function UI(){
     this.selectParent.forEach(function(s){
       s.hide()
     });
-    // this.btn180.forEach(function(entity){
-    //   entity.hide()
-    // });
-    // this.btnContd.forEach(function(entity){
-    //   entity.hide()
-    // });
-
     this.sliderRotation.forEach(function(s){
       s.hide()
     });
-
     this.myBtnList.forEach(function(btn){
-      btn.hide()
+      //btn.hide()
+    });
+    _this.btnDelete.forEach(function(b){
+      b.hide()
     });
 
     this.currentModule = 0
@@ -1005,14 +1000,15 @@ function UI(){
   this.mySketch_ModuleText = function(entity, index){
 
     if(_this.linked){
-
       //hide all unnecessary UI widgets
-      _this.selectParent.forEach(function(entity){
-        entity.hide()
+      _this.selectParent.forEach(function(s){
+        s.hide()
       });
-
       _this.sliderRotation.forEach(function(s){
         s.hide()
+      });
+      _this.btnDelete.forEach(function(b){
+        b.hide()
       });
 
       //and then redraw for linked module
@@ -1070,6 +1066,8 @@ function UI(){
           }
           fill(255)
           text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
+          _this.btnDelete[index].position(170, y+100).show()
+
         }
       } else {  //linked as child, should have been drawn above by parent
         //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) { //entity.linkedFrom == undefined
@@ -1095,10 +1093,7 @@ function UI(){
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
       text("100",         100, y+30) //scale
-      //text("360",         100, y+60) //rotate
       _this.sliderRotation[index].position(100, y+45).show()
-
-      //toggle button hide/show or delete
       _this.btnDelete[index].position(170, y+100).show()
 
       //module specific interface
