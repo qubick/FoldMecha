@@ -72,6 +72,8 @@ function UI(){
                                               .attribute('id',i)
                                               .changed(rotationUpdated)
     var btnDel        = createButton('Delete').hide()
+                                              .attribute('id', 'del'+i)
+                                              .mousePressed(deleteModule)
 
     this.selectParent.push(sel)
     this.sliderRotation.push(rotationRange)
@@ -1001,15 +1003,9 @@ function UI(){
 
     if(_this.linked){
       //hide all unnecessary UI widgets
-      _this.selectParent.forEach(function(s){
-        s.hide()
-      });
-      _this.sliderRotation.forEach(function(s){
-        s.hide()
-      });
-      _this.btnDelete.forEach(function(b){
-        b.hide()
-      });
+      _this.selectParent.forEach(function(s){ s.hide() });
+      _this.sliderRotation.forEach(function(s){ s.hide() });
+      _this.btnDelete.forEach(function(b){ b.hide() });
 
       //and then redraw for linked module
       var title = ''
@@ -1075,7 +1071,11 @@ function UI(){
       }  //end of if (this.linked == true)
 
     } else { // if all modules are individual (this.linked == false)
-      //hide all unrelated UI widgets
+      //clear all unrelated UI widgets
+      // this.selectParent.forEach(function(s){ s.hide() });
+      // this.sliderRotation.forEach(function(s){ s.hide() });
+      // this.btnDelete.forEach(function(b){ b.hide() });
+
       this.selectDriver.hide()
       this.selectDirection.hide()
       this.cancelLink.hide()
@@ -1132,6 +1132,12 @@ function UI(){
     }
   }
 
+function deleteModule(){
+  var id = this.elt.id.slice(-1) //event sending module element in arr
+  delete _this.mySavedSketch[id] //remove from saved btn
+}
+
+//**************** event handlers for linking actio
   function mySelectedEvent(){ //anonymous function to deal with selection event
 
     // this.elt.id: caller selector(link from)
