@@ -1006,6 +1006,8 @@ function UI(){
       _this.selectParent.forEach(function(s){ s.hide() });
       // _this.sliderRotation.forEach(function(s){ s.hide() });
       _this.btnDelete.forEach(function(b){ b.hide() });
+      _this.btnRotateCW.forEach(function(b){ b.hide() });
+      _this.btnRotateCCW.forEach(function(b){ b.hide() });
 
       //and then redraw for linked module
       var title = ''
@@ -1189,33 +1191,59 @@ function deleteModule(){
         ,idM = _this.master //linking caller's index in save module array
         ,idS = _this.slave
 
-    var callerType = _this.mySavedSketch[idM].module
+        ,callerType = _this.mySavedSketch[idM].module
+        ,angle      = _this.mySavedSketch[idS].rotation
     console.log('callerType: ', callerType)
 
     //this is when same gears of size2 attached
     if(_this.mySavedSketch[idM].module == _this.mySavedSketch[idS].module){
-      if(direction == 'Right'){
-        _this.mySavedSketch[idM].x = 67
-        _this.mySavedSketch[idM].y = -50 //why not 0??
+      if((angle == 180) || (angle == 360)){ //this is stupid now, but..
+        if(direction == 'Right'){
 
-      } else if(direction == 'Left'){
-        _this.mySavedSketch[idM].x = -167
-        _this.mySavedSketch[idM].y = -50
 
-      } else if(direction == 'Up'){
-        _this.mySavedSketch[idM].x = -53 //why not 0??
-        _this.mySavedSketch[idM].y = -167
+        } else if(direction == 'Left'){
+          _this.mySavedSketch[idM].x = -167
+          _this.mySavedSketch[idM].y = -50
 
-      } else if(direction == 'Down'){
-        _this.mySavedSketch[idM].x = -36 //why not 0?
-        _this.mySavedSketch[idM].y = 67
+        } else if(direction == 'Up'){
+          _this.mySavedSketch[idM].x = -53 //why not 0??
+          _this.mySavedSketch[idM].y = -167
 
-      } else if(direction == 'Merge'){
-        _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
-        _this.mySavedSketch[idM].y = -50
+        } else if(direction == 'Down'){
+          _this.mySavedSketch[idM].x = 67
+          _this.mySavedSketch[idM].y = -50 //why not 0??
 
-      } else {
-        console.log("mySelectedLinkDirection(): this should not happen")
+
+          _this.mySavedSketch[idM].x = -36 //why not 0?
+          _this.mySavedSketch[idM].y = 67
+
+        } else if(direction == 'Merge'){
+          _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+          _this.mySavedSketch[idM].y = -50
+
+        } else {
+          console.log("mySelectedLinkDirection(): this should not happen")
+        }
+      } else if ((angle == 90) || (angle == 270)) {
+        if(direction == 'Right'){
+            _this.mySavedSketch[idM].x = -53 //why not 0??
+            _this.mySavedSketch[idM].y = -167
+        } else if(direction == 'Left'){
+            _this.mySavedSketch[idM].x = -36 //why not 0?
+            _this.mySavedSketch[idM].y = 67
+        } else if(direction == 'Up'){
+            _this.mySavedSketch[idM].x = -167
+            _this.mySavedSketch[idM].y = -50
+        } else if(direction == 'Down'){
+          _this.mySavedSketch[idM].x = 67
+          _this.mySavedSketch[idM].y = -50 //why not 0??
+        } else if(direction == 'Merge'){
+          _this.mySavedSketch[idM].x = -34 //should be '0' to overlap gears
+          _this.mySavedSketch[idM].y = -44
+
+        } else {
+          console.log("mySelectedLinkDirection(): this should not happen")
+        }
       }
     } else if((_this.mySavedSketch[idS].module == 1) && (_this.mySavedSketch[idM].module == 3)){ //when wing is linked to flower
       if(direction == 'Right'){
