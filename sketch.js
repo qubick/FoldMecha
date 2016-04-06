@@ -181,11 +181,16 @@ function draw() {
 
         if(entity.rotation != undefined){
           push()
-            if(entity.rotation == 180)
-              translate(1600, 900) //where is the center?
             if(entity.rotation == 90)
-              translate(1800, 1200)
+              translate(1200+20, 900 - 900/2 - 720)
+            if(entity.rotation == 180)
+              translate(1600-100, 900+60) //where is the center?
+
+            if (entity.rotation == 270){
+              translate(260, 1240)
             // translate(width/2+200, height/2+200)
+            // petalX = 100, petalY = 100
+          }
             rotate(entity.rotation*PI/180) //rotate in radian
             Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
           pop()
