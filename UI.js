@@ -1004,7 +1004,7 @@ function UI(){
     if(_this.linked){
       //hide all unnecessary UI widgets
       _this.selectParent.forEach(function(s){ s.hide() });
-      _this.sliderRotation.forEach(function(s){ s.hide() });
+      // _this.sliderRotation.forEach(function(s){ s.hide() });
       _this.btnDelete.forEach(function(b){ b.hide() });
 
       //and then redraw for linked module

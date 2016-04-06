@@ -466,7 +466,6 @@ function OpenClose(){
 
     this.centerPositionX_rack = centerPositionX - this.radius*2 - this.teethHeight
     this.drawRackGear(pair_petal,radius,this.centerPositionX_rack,centerPositionY-50, motorType)
-
   }
 
   this.init = function(){
