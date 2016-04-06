@@ -11,7 +11,6 @@ function UI(){
                         // 3 Wings
                         // 5 Walker
                         // 9 MySketch
-  this.myBtnList = [] //button array for my sketch
   this.mySavedSketch = [{}]
 
   this.currentGearSize     = 2 //default
@@ -59,7 +58,9 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200).changed(sliderYUpdate)
 
   this.selectParent = [] //array
-  this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
+  // this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
+  this.btnRotateCW = []
+  this.btnRotateCCW = []
   this.btnDelete = []
 
   // for individual module
@@ -68,15 +69,22 @@ function UI(){
     sel.attribute('id', i)
        .option('None') //default
 
-    var rotationRange = createSlider(0,360,0).hide()
-                                              .attribute('id',i)
-                                              .changed(rotationUpdated)
+    // var rotationRange = createSlider(0,360,0).hide()
+    //                                           .attribute('id',i)
+    //                                           .changed(rotationUpdated)
     var btnDel        = createButton('Delete').hide()
                                               .attribute('id', 'del'+i)
                                               .mousePressed(deleteModule)
-
+       ,btnRotCW      = createButton('CW').hide()
+                                          .attribute('id', 'rotate'+i)
+                                          .mousePressed(rotationUpdated)
+        ,btnRotCCW      = createButton('CCW').hide()
+                                           .attribute('id', 'rotateC'+i+5)
+                                           .mousePressed(rotationUpdated)
     this.selectParent.push(sel)
-    this.sliderRotation.push(rotationRange)
+    // this.sliderRotation.push(rotationRange)
+    this.btnRotateCW.push(btnRotCW)
+    this.btnRotateCCW.push(btnRotCCW)
     this.btnDelete.push(btnDel)
   }
 
@@ -382,18 +390,10 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
-    this.selectParent.forEach(function(s){
-      s.hide()
-    });
-    this.sliderRotation.forEach(function(s){
-      s.hide()
-    });
-    this.myBtnList.forEach(function(btn){
-      //btn.hide()
-    });
-    _this.btnDelete.forEach(function(b){
-      b.hide()
-    });
+    this.selectParent.forEach(function(s){ s.hide() });
+    // this.sliderRotation.forEach(function(s){ s.hide() });
+    this.btnRotateCW.forEach(function(b){ b.hide() });
+    this.btnDelete.forEach(function(b){ b.hide() });
 
     this.currentModule = 0
 
@@ -1098,7 +1098,9 @@ function UI(){
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
       text("100",         100, y+30) //scale
-      _this.sliderRotation[index].position(100, y+45).show()
+      // _this.sliderRotation[index].position(100, y+45).show()
+      _this.btnRotateCW[index].position(100, y+45).show()
+      _this.btnRotateCCW[index].position(150, y+45).show()
       _this.btnDelete[index].position(170, y+100).show()
 
       //module specific interface
@@ -1261,10 +1263,19 @@ function deleteModule(){
   } //EOF
 
   function rotationUpdated(){ //rotation degree is updated by slider(or button)
-    var sender = this.elt.id
-        ,value = _this.sliderRotation[sender].value()
-    _this.mySavedSketch[sender].rotation = value
-    console.log("rotation value: ", value)
+    var sender = this.elt.id.slice(-1)
+        ,value = _this.mySavedSketch[sender].rotation
+    //     ,value = _this.sliderRotation[sender].value()
+
+    if(value != undefined)
+      _this.mySavedSketch[sender].rotation += 90
+    else
+      _this.mySavedSketch[sender].rotation = 90
+
+    if (_this.mySavedSketch[sender].rotation > 360)
+        _this.mySavedSketch[sender].rotation -= 360
+
+    console.log("rotation value: ", _this.mySavedSketch[sender].rotation)
   }
 
   function toggleLinking(){
