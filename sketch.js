@@ -37,6 +37,9 @@ function setup() {
   colorsend_1 = color(255,0,0)
   colorsend_2 = color(200,0,255)
   colorsend_3 = color(50,200,200)
+
+  colorSet = [tempC, blue, colorsend_1, colorsend_2, colorsend_3] //first is nominal
+
   Flower3 = new OpenClose()
   Flower3.init()
   Bird1 = new Bird()
@@ -162,6 +165,7 @@ function draw() {
     var mySavedModule = Panel.findDrawingFunc()
 
     mySavedModule.forEach(function(entity, i){
+      tempC = colorSet[i] //change model colors per saved module
       //all case is independent
       if(entity.module == 1){
 
