@@ -1313,6 +1313,7 @@ function deleteModule(){
     _this.mySavedSketch.forEach(function(m){
       delete m.x //this is checked by if (module.x != undefined) from sketch.js
       delete m.y
+      delete m.rotation
     })
   }
 
