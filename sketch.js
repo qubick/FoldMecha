@@ -210,8 +210,9 @@ function draw() {
           scale(-1,1)
 
         }
+        //scale(0.2)
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
-      
+
         pop()
 
       } else if(entity.module == 3){

@@ -59,6 +59,8 @@ function UI(){
 
   this.selectParent = [] //array
   // this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
+  this.btnPlus      = []
+  this.btnMinus     = []
   this.btnRotateCW  = []
   this.btnRotateCCW = []
   this.btnFlip      = []
@@ -76,17 +78,25 @@ function UI(){
     var btnDel        = createButton('Delete').hide()
                                               .attribute('id', 'del'+i)
                                               .mousePressed(deleteModule)
+       ,btnP          = createButton('+').hide()
+                                         .attribute('id', 'plus'+i)
+                                         .mousePressed(scaleUpdate)
+       ,btnM          = createButton('-').hide()
+                                         .attribute('id', 'minus'+i)
+                                         .mousePressed(scaleUpdate)
        ,btnRotCW      = createButton('CW').hide()
                                           .attribute('id', 'rotate'+i)
                                           .mousePressed(rotationUpdated)
-        ,btnRotCCW    = createButton('CCW').hide()
+       ,btnRotCCW    = createButton('CCW').hide()
                                            .attribute('id', 'rotate'+i+5)
                                            .mousePressed(rotationUpdated)
-        ,btnFl        = createButton('Flip').hide()
+       ,btnFl        = createButton('Flip').hide()
                                             .attribute('id', 'flip'+i)
                                             .mousePressed(flipModule)
     this.selectParent.push(sel)
     // this.sliderRotation.push(rotationRange)
+    this.btnPlus.push(btnP)
+    this.btnMinus.push(btnM)
     this.btnRotateCW.push(btnRotCW)
     this.btnRotateCCW.push(btnRotCCW)
     this.btnFlip.push(btnFl)
@@ -96,8 +106,10 @@ function UI(){
   // for linked module
   this.linked         = false
   //this.selectLinked   = [] //for what??
-  this.selectDriver    = createSelect().hide()
-  this.selectDirection = createSelect().hide().changed(mySelectedLinkDirection)
+  this.btnEnlarge     = createButton('+').hide().mousePressed(scaleUpdate)
+  this.btnEnsmall     = createButton('-').hide().mousePressed(scaleUpdate)
+  this.selectDriver   = createSelect().hide()
+  this.selectDirection= createSelect().hide().changed(mySelectedLinkDirection)
   this.cancelLink     = createButton('Cancel This Link').hide().mousePressed(toggleLinking) //this maybe array for further linking
 
   this.selectDirection.attribute('id',0).option('Right')
@@ -1011,6 +1023,8 @@ function UI(){
       _this.selectParent.forEach(function(s){ s.hide() });
       // _this.sliderRotation.forEach(function(s){ s.hide() });
       _this.btnDelete.forEach(function(b){ b.hide() });
+      _this.btnPlus.forEach(function(b){ b.hide() });
+      _this.btnMinus.forEach(function(b){ b.hide() });
       _this.btnRotateCW.forEach(function(b){ b.hide() });
       _this.btnRotateCCW.forEach(function(b){ b.hide() });
       _this.btnFlip.forEach(function(b){ b.hide() });
@@ -1032,7 +1046,9 @@ function UI(){
 
         //informations - should be flexible by saved info
         text("XX YY",       100, y) //position
-        text("100",         100, y+30) //scale
+        text("100",         130, y+30) //scale
+        _this.btnEnlarge.position(100, y+15).show() //let's save manually
+        _this.btnEnsmall.position(160, y+15).show()
         text("360",         100, y+60) //rotate
 
         if (entity.linkedFrom != undefined){ //linked as parent
@@ -1101,7 +1117,10 @@ function UI(){
 
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
-      text("100",         100, y+30) //scale
+      text("100",         130, y+30) //scale
+      _this.btnPlus[index].position(100, y+15).show()
+      _this.btnMinus[index].position(160, y+15).show()
+
       // _this.sliderRotation[index].position(100, y+45).show()
       _this.btnRotateCW[index].position(100, y+45).show()
       _this.btnRotateCCW[index].position(150, y+45).show()
@@ -1314,6 +1333,9 @@ function deleteModule(){
     console.log("flip")
   }
 
+  function scaleUpdate(){
+
+  }
   function toggleLinking(){
     console.log("cancel link")
     _this.linked = false
