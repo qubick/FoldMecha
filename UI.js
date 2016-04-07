@@ -59,9 +59,10 @@ function UI(){
 
   this.selectParent = [] //array
   // this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
-  this.btnRotateCW = []
+  this.btnRotateCW  = []
   this.btnRotateCCW = []
-  this.btnDelete = []
+  this.btnFlip      = []
+  this.btnDelete    = []
 
   // for individual module
   for(var i=0; i<5; i++){ //up to # of saved models or saving limit (now 4)
@@ -78,13 +79,17 @@ function UI(){
        ,btnRotCW      = createButton('CW').hide()
                                           .attribute('id', 'rotate'+i)
                                           .mousePressed(rotationUpdated)
-        ,btnRotCCW      = createButton('CCW').hide()
-                                           .attribute('id', 'rotateC'+i+5)
+        ,btnRotCCW    = createButton('CCW').hide()
+                                           .attribute('id', 'rotate'+i+5)
                                            .mousePressed(rotationUpdated)
+        ,btnFl        = createButton('Flip').hide()
+                                            .attribute('id', 'flip'+i)
+                                            .mousePressed(flipModule)
     this.selectParent.push(sel)
     // this.sliderRotation.push(rotationRange)
     this.btnRotateCW.push(btnRotCW)
     this.btnRotateCCW.push(btnRotCCW)
+    this.btnFlip.push(btnFl)
     this.btnDelete.push(btnDel)
   }
 
@@ -394,7 +399,7 @@ function UI(){
     // this.sliderRotation.forEach(function(s){ s.hide() });
     this.btnRotateCW.forEach(function(b){ b.hide() });
     this.btnDelete.forEach(function(b){ b.hide() });
-
+    this.btnFlip.forEach(function(b){ b.hide() });
     this.currentModule = 0
 
   }// end of function btn_front
@@ -1008,6 +1013,7 @@ function UI(){
       _this.btnDelete.forEach(function(b){ b.hide() });
       _this.btnRotateCW.forEach(function(b){ b.hide() });
       _this.btnRotateCCW.forEach(function(b){ b.hide() });
+      _this.btnFlip.forEach(function(b){ b.hide() });
 
       //and then redraw for linked module
       var title = ''
@@ -1103,6 +1109,8 @@ function UI(){
       // _this.sliderRotation[index].position(100, y+45).show()
       _this.btnRotateCW[index].position(100, y+45).show()
       _this.btnRotateCCW[index].position(150, y+45).show()
+      _this.btnFlip[index].position(210, y+45).show()
+
       _this.btnDelete[index].position(170, y+100).show()
 
       //module specific interface
@@ -1199,7 +1207,8 @@ function deleteModule(){
     if(_this.mySavedSketch[idM].module == _this.mySavedSketch[idS].module){
       if((angle == 180) || (angle == 360)){ //this is stupid now, but..
         if(direction == 'Right'){
-
+          _this.mySavedSketch[idM].x = -36 //why not 0?
+          _this.mySavedSketch[idM].y = 67
 
         } else if(direction == 'Left'){
           _this.mySavedSketch[idM].x = -167
@@ -1212,10 +1221,6 @@ function deleteModule(){
         } else if(direction == 'Down'){
           _this.mySavedSketch[idM].x = 67
           _this.mySavedSketch[idM].y = -50 //why not 0??
-
-
-          _this.mySavedSketch[idM].x = -36 //why not 0?
-          _this.mySavedSketch[idM].y = 67
 
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
@@ -1306,6 +1311,13 @@ function deleteModule(){
     console.log("rotation value: ", _this.mySavedSketch[sender].rotation)
   }
 
+  function flipModule() {
+    var sender = this.elt.id.slice(-1)
+
+    _this.mySavedSketch[sender].flip = true
+    console.log("flip")
+  }
+
   function toggleLinking(){
     console.log("cancel link")
     _this.linked = false
@@ -1314,7 +1326,7 @@ function deleteModule(){
       delete m.x //this is checked by if (module.x != undefined) from sketch.js
       delete m.y
       delete m.rotation
-    })
+    });
   }
 
 }

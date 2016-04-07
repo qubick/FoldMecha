@@ -194,8 +194,12 @@ function draw() {
               translate(260, 1240)
             // translate(width/2+200, height/2+200)
             // petalX = 100, petalY = 100
-          }
+            }
+
             rotate(entity.rotation*PI/180) //rotate in radian
+
+            if(entity.flip)
+              scale(-1,1)
             Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
           pop()
         } else {
