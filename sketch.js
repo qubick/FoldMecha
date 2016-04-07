@@ -182,9 +182,10 @@ function draw() {
           petalX = i*-50
           petalY = i*-50
         }
-
-        if(entity.rotation != undefined){
           push()
+
+          if(entity.rotation != undefined){
+
             if(entity.rotation == 90)
               translate(1200+20, 900 - 900/2 - 720)
             if(entity.rotation == 180)
@@ -196,15 +197,22 @@ function draw() {
             // petalX = 100, petalY = 100
             }
 
-            rotate(entity.rotation*PI/180) //rotate in radian
 
-            if(entity.flip)
-              scale(-1,1)
-            Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
-          pop()
-        } else {
-          Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
         }
+        // else {
+        //   Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+        // }
+        rotate(entity.rotation*PI/180) //rotate in radian
+
+        if(entity.flip){
+          translate(1200,0);
+          console.log("in sketch.js flip module")
+          scale(-1,1)
+
+        }
+        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+      
+        pop()
 
       } else if(entity.module == 3){
         //pass param based on returned savedDesign
@@ -232,7 +240,6 @@ function draw() {
           pop()
         } else {
           Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
-
         }
 
       }else if(entity.module == 5){

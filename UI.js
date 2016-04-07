@@ -1080,10 +1080,6 @@ function UI(){
 
     } else { // if all modules are individual (this.linked == false)
       //clear all unrelated UI widgets
-      // this.selectParent.forEach(function(s){ s.hide() });
-      // this.sliderRotation.forEach(function(s){ s.hide() });
-      // this.btnDelete.forEach(function(b){ b.hide() });
-
       this.selectDriver.hide()
       this.selectDirection.hide()
       this.cancelLink.hide()
@@ -1121,7 +1117,7 @@ function UI(){
         selectedParent.changed(mySelectedEvent)
                       .position(100, y+75)
                       .show();
-        text("Link: ",      25, y+90) //walker does not need this
+        text("Link: ",     25, y+90) //walker does not need this
 
         title = "Flapping"
       } else if(entity.module == 3){
