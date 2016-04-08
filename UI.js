@@ -112,16 +112,21 @@ function UI(){
 
   // for linked module
   this.linked         = false
-  //this.selectLinked   = [] //for what??
+
+  //for linked module position adjustment
   this.posX = 0
   this.posY = 0
-  this.btnXplus = createButton('+').mousePressed(function(){
-    _this.posX += 10
-    console.log(_this.posX)
+  this.btnXplus = createButton('◄').mousePressed(function(){
+    _this.posX -= 20
   });
-  this.btnXminus = createButton('-').mousePressed(function(){
-    _this.posX -= 10
-    console.log(_this.posX)
+  this.btnXminus = createButton('►').mousePressed(function(){
+    _this.posX += 20
+  });
+  this.btnYplus = createButton('▲').mousePressed(function(){
+    _this.posY -= 20
+  });
+  this.btnYminus = createButton('▼').mousePressed(function(){
+    _this.posY += 20
   });
 
   this.btnEnlarge     = createButton('+').hide()
@@ -1078,9 +1083,11 @@ function UI(){
         text("Rotation: ", 25, y+60)
 
         //informations - should be flexible by saved info
-        text("XX YY",       100, y) //position
-        _this.btnXplus.position(80, y).show()
-        _this.btnXminus.position(120, y).show()
+        //text("    XX      YY",       100, y) //position
+        _this.btnXplus.position(100, y-15).show()
+        _this.btnXminus.position(140, y-15).show()
+        _this.btnYplus.position(190, y-15).show()
+        _this.btnYminus.position(230, y-15).show()
 
         text("100",         130, y+30) //scale
         _this.btnEnlarge.position(100, y+15).show() //let's save manually
@@ -1132,6 +1139,10 @@ function UI(){
 
     } else { // if all modules are individual (this.linked == false)
       //clear all unrelated UI widgets
+      this.btnXplus.hide()
+      this.btnXminus.hide()
+      this.btnYplus.hide()
+      this.btnYminus.hide()
       this.selectDriver.hide()
       this.selectDirection.hide()
       this.cancelLink.hide()
@@ -1374,7 +1385,12 @@ function deleteModule(){
   }
 
   this.getScaling = function(){
-      return _this.scale
+    return _this.scale
   }
-
+  this.getPosX = function(){
+    return _this.posX
+  }
+  this.getPosY = function(){
+    return _this.posY
+  }
 }

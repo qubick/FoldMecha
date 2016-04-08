@@ -196,7 +196,6 @@ function draw() {
 
         if(entity.flip){
           translate(1200,0);
-          console.log("in sketch.js flip module")
           scale(-1,1)
 
         }
@@ -210,6 +209,8 @@ function draw() {
           petalX = i*-50
           petalY = i*-50
         }
+        petalX += Panel.getPosX()
+        petalY += Panel.getPosY()
 
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
