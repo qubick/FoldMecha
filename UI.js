@@ -21,6 +21,8 @@ function UI(){
   this.master = 0 //linked module as parent
   this.slave  = 0
 
+  this.scale = 0
+
   this.Mech_show  = createButton ('Show Mechanism')
   this.Mech_hide  = createButton ('Hide Mechanism')
   this.Btn_reset  = createButton ('Reset all').mousePressed(resetAll)
@@ -106,8 +108,12 @@ function UI(){
   // for linked module
   this.linked         = false
   //this.selectLinked   = [] //for what??
-  this.btnEnlarge     = createButton('+').hide().mousePressed(scaleUpdate)
-  this.btnEnsmall     = createButton('-').hide().mousePressed(scaleUpdate)
+  this.btnEnlarge     = createButton('+').hide()
+                                        .mousePressed(scaleUpdate)
+                                        .attribute('id','+')
+  this.btnEnsmall     = createButton('-').hide()
+                                        .mousePressed(scaleUpdate)
+                                        .attribute('id','-')
   this.selectDriver   = createSelect().hide()
   this.selectDirection= createSelect().hide().changed(mySelectedLinkDirection)
   this.cancelLink     = createButton('Cancel This Link').hide().mousePressed(toggleLinking) //this maybe array for further linking
@@ -1334,8 +1340,19 @@ function deleteModule(){
   }
 
   function scaleUpdate(){
+    var firstChar = this.elt.id//.charAt(0)
+    console.log(firstChar)
 
+    if(firstChar == '+')
+      _this.scale += 1
+    else if(firstChar == '-')
+      _this.scale -= 1
   }
+
+  this.getScaling = function(){
+      return _this.scale
+  }
+
   function toggleLinking(){
     console.log("cancel link")
     _this.linked = false

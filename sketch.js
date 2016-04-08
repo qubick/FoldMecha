@@ -210,7 +210,8 @@ function draw() {
           scale(-1,1)
 
         }
-        //scale(0.2)
+        // var rate = Panel.getScaling()
+        scale(1 + Panel.getScaling()*0.1)
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()
