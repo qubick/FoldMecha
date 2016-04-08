@@ -19,7 +19,7 @@ function UI(){
   this.currentPairing      = 1
 
   this.master = 0 //linked module as parent
-  this.slave  = 0
+  this.slave  = 0 //linked module as child
 
   this.scale = 0
 
@@ -92,9 +92,14 @@ function UI(){
        ,btnRotCCW    = createButton('CCW').hide()
                                            .attribute('id', 'rotate'+i+5)
                                            .mousePressed(rotationUpdated)
-       ,btnFl        = createButton('Flip').hide()
-                                            .attribute('id', 'flip'+i)
-                                            .mousePressed(flipModule)
+       ,btnFl        = createButton('Flip')
+                        .hide()
+                        .attribute('id', 'flip'+i)
+                        .mousePressed(function() {
+                          var sender = this.elt.id.slice(-1)
+
+                          _this.mySavedSketch[sender].flip = true
+                        });
     this.selectParent.push(sel)
     // this.sliderRotation.push(rotationRange)
     this.btnPlus.push(btnP)
@@ -108,6 +113,17 @@ function UI(){
   // for linked module
   this.linked         = false
   //this.selectLinked   = [] //for what??
+  this.posX = 0
+  this.posY = 0
+  this.btnXplus = createButton('+').mousePressed(function(){
+    _this.posX += 10
+    console.log(_this.posX)
+  });
+  this.btnXminus = createButton('-').mousePressed(function(){
+    _this.posX -= 10
+    console.log(_this.posX)
+  });
+
   this.btnEnlarge     = createButton('+').hide()
                                         .mousePressed(scaleUpdate)
                                         .attribute('id','+')
@@ -115,8 +131,19 @@ function UI(){
                                         .mousePressed(scaleUpdate)
                                         .attribute('id','-')
   this.selectDriver   = createSelect().hide()
-  this.selectDirection= createSelect().hide().changed(mySelectedLinkDirection)
-  this.cancelLink     = createButton('Cancel This Link').hide().mousePressed(toggleLinking) //this maybe array for further linking
+  this.selectDirection= createSelect().hide()
+                                      .changed(mySelectedLinkDirection)
+  this.cancelLink = createButton('Cancel This Link')
+                    .hide()
+                    .mousePressed(function(){
+                      _this.linked = false
+                      //revoke drawing positions of individual modules
+                      _this.mySavedSketch.forEach(function(m){
+                        delete m.x //this is checked by if (module.x != undefined) from sketch.js
+                        delete m.y
+                        delete m.rotation
+                      });
+                    }) //this maybe array for further linking
 
   this.selectDirection.attribute('id',0).option('Right')
   this.selectDirection.attribute('id',1).option('Left')
@@ -294,13 +321,13 @@ function UI(){
   }
 
   function highlightDrivingGear(drivingGear){ // 0: left, 1:right
-      if(drivingGear == 0){
-          _this.mtr_L.style('background-color', blue)
-          _this.mtr_R.style('background-color', white)
-      } else { // 1
-          _this.mtr_L.style('background-color', white)
-          _this.mtr_R.style('background-color', blue)
-      }
+    if(drivingGear == 0){
+        _this.mtr_L.style('background-color', blue)
+        _this.mtr_R.style('background-color', white)
+    } else { // 1
+        _this.mtr_L.style('background-color', white)
+        _this.mtr_R.style('background-color', blue)
+    }
   }
 
   this.findDrawingFunc = function(){
@@ -1052,6 +1079,9 @@ function UI(){
 
         //informations - should be flexible by saved info
         text("XX YY",       100, y) //position
+        _this.btnXplus.position(80, y).show()
+        _this.btnXminus.position(120, y).show()
+
         text("100",         130, y+30) //scale
         _this.btnEnlarge.position(100, y+15).show() //let's save manually
         _this.btnEnsmall.position(160, y+15).show()
@@ -1123,6 +1153,7 @@ function UI(){
 
       //informations - should be flexible by saved info
       text("XX YY",       100, y) //position
+
       text("100",         130, y+30) //scale
       _this.btnPlus[index].position(100, y+15).show()
       _this.btnMinus[index].position(160, y+15).show()
@@ -1332,13 +1363,6 @@ function deleteModule(){
     console.log("rotation value: ", _this.mySavedSketch[sender].rotation)
   }
 
-  function flipModule() {
-    var sender = this.elt.id.slice(-1)
-
-    _this.mySavedSketch[sender].flip = true
-    console.log("flip")
-  }
-
   function scaleUpdate(){
     var firstChar = this.elt.id//.charAt(0)
     console.log(firstChar)
@@ -1351,17 +1375,6 @@ function deleteModule(){
 
   this.getScaling = function(){
       return _this.scale
-  }
-
-  function toggleLinking(){
-    console.log("cancel link")
-    _this.linked = false
-    //revoke drawing positions of individual modules
-    _this.mySavedSketch.forEach(function(m){
-      delete m.x //this is checked by if (module.x != undefined) from sketch.js
-      delete m.y
-      delete m.rotation
-    });
   }
 
 }
