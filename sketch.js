@@ -167,23 +167,15 @@ function draw() {
     mySavedModule.forEach(function(entity, i){
       tempC = colorSet[i] //change model colors per saved module
       //all case is independent
+      gearSize_petal = entity.gearSize
+      motorType_petal = entity.servoAngle
+
+      push()
+      scale(1 + Panel.getScaling()*0.1) //response to +/- scaling
+
       if(entity.module == 1){
 
-        gearSize_petal = entity.gearSize
-        motorType_petal = entity.servoAngle
-
-        if(entity.x != undefined){
-          petalX = entity.x
-        }
-        if(entity.y != undefined){
-          petalY = entity.y
-        }
-        if((entity.x == undefined) && (entity.y == undefined)){
-          petalX = i*-50
-          petalY = i*-50
-        }
           push()
-
           if(entity.rotation != undefined){
 
             if(entity.rotation == 90)
@@ -196,8 +188,6 @@ function draw() {
             // translate(width/2+200, height/2+200)
             // petalX = 100, petalY = 100
             }
-
-
         }
         // else {
         //   Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
@@ -210,8 +200,17 @@ function draw() {
           scale(-1,1)
 
         }
-        // var rate = Panel.getScaling()
-        scale(1 + Panel.getScaling()*0.1)
+        if(entity.x != undefined){
+          petalX = entity.x
+        }
+        if(entity.y != undefined){
+          petalY = entity.y
+        }
+        if((entity.x == undefined) && (entity.y == undefined)){
+          petalX = i*-50
+          petalY = i*-50
+        }
+
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()
@@ -266,9 +265,11 @@ function draw() {
         // pop()
       }
 
+      pop()
       if(i) //only if i is true, index 0 is nominal object
         Panel.mySketch_ModuleText(entity, i) //-> this override thing
-    })
+
+    }); //EOForEach
 
   }
 }
