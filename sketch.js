@@ -171,6 +171,8 @@ function draw() {
       motorType_petal = entity.servoAngle
 
       push()
+
+      translate(Panel.getPosX(), Panel.getPosY())
       scale(1 + Panel.getScaling()*0.1) //response to +/- scaling
 
       if(entity.module == 1){
@@ -209,9 +211,10 @@ function draw() {
           petalX = i*-50
           petalY = i*-50
         }
-        petalX += Panel.getPosX()
-        petalY += Panel.getPosY()
 
+        //this should be differentiated by rotation status
+        //petalX += Panel.getPosX()
+        //petalY += Panel.getPosY()
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()

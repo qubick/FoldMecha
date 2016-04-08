@@ -1083,7 +1083,7 @@ function UI(){
         text("Rotation: ", 25, y+60)
 
         //informations - should be flexible by saved info
-        //text("    XX      YY",       100, y) //position
+        text("      XX      YY",       100, y) //position
         _this.btnXplus.position(100, y-15).show()
         _this.btnXminus.position(140, y-15).show()
         _this.btnYplus.position(190, y-15).show()
@@ -1163,7 +1163,7 @@ function UI(){
       text("Rotation: ",  25, y+60)
 
       //informations - should be flexible by saved info
-      text("XX YY",       100, y) //position
+      text("XX  YY",       100, y) //position
 
       text("100",         130, y+30) //scale
       _this.btnPlus[index].position(100, y+15).show()
@@ -1179,7 +1179,6 @@ function UI(){
       //module specific interface
       if(entity.module == 1){
         //remove myself before to show selector
-        // _this.selectParent[index].remove(_this.selectParent[index].index)
         var selectedParent = _this.selectParent[index];
         selectedParent.changed(mySelectedEvent)
                       .position(100, y+75)
