@@ -116,25 +116,35 @@ function UI(){
   //for linked module position adjustment
   this.posX = 0
   this.posY = 0
-  this.btnXplus = createButton('◄').mousePressed(function(){
-    _this.posX -= 20
-  });
-  this.btnXminus = createButton('►').mousePressed(function(){
-    _this.posX += 20
-  });
-  this.btnYplus = createButton('▲').mousePressed(function(){
-    _this.posY -= 20
-  });
-  this.btnYminus = createButton('▼').mousePressed(function(){
-    _this.posY += 20
-  });
+  this.btnXplus = createButton('◄')
+                  .hide()
+                  .mousePressed(function(){
+                    _this.posX -= 20
+                  });
+  this.btnXminus = createButton('►')
+                  .hide()
+                  .mousePressed(function(){
+                    _this.posX += 20
+                  });
+  this.btnYplus = createButton('▲')
+                  .hide()
+                  .mousePressed(function(){
+                    _this.posY -= 20
+                  });
+  this.btnYminus = createButton('▼')
+                  .hide()
+                  .mousePressed(function(){
+                    _this.posY += 20
+                  });
 
-  this.btnEnlarge     = createButton('+').hide()
-                                        .mousePressed(scaleUpdate)
-                                        .attribute('id','+')
-  this.btnEnsmall     = createButton('-').hide()
-                                        .mousePressed(scaleUpdate)
-                                        .attribute('id','-')
+  this.btnEnlarge     = createButton('+')
+                        .hide()
+                        .mousePressed(scaleUpdate)
+                        .attribute('id','+')
+  this.btnEnsmall     = createButton('-')
+                        .hide()
+                        .mousePressed(scaleUpdate)
+                        .attribute('id','-')
   this.selectDriver   = createSelect().hide()
   this.selectDirection= createSelect().hide()
                                       .changed(mySelectedLinkDirection)
@@ -445,9 +455,20 @@ function UI(){
     this.X_slider.hide()
     this.Y_slider.hide()
 
+    this.btnXplus.hide()
+    this.btnXminus.hide()
+    this.btnYplus.hide()
+    this.btnYminus.hide()
+
+    this.btnEnlarge.hide()
+    this.btnEnsmall.hide()
+
     this.selectParent.forEach(function(s){ s.hide() });
     // this.sliderRotation.forEach(function(s){ s.hide() });
+    this.btnPlus.forEach(function(b){ b.hide() });
+    this.btnMinus.forEach(function(b) { b.hide()});
     this.btnRotateCW.forEach(function(b){ b.hide() });
+    this.btnRotateCCW.forEach(function(b){ b.hide() });
     this.btnDelete.forEach(function(b){ b.hide() });
     this.btnFlip.forEach(function(b){ b.hide() });
     this.currentModule = 0

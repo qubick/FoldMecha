@@ -9,21 +9,21 @@ const walking_net = 6
 const my_sketch = 9
 
 var bgcolor1, bgcolor2
-var temp_windowWidth = 1200
-var temp_windowHeight = 660
-var pair_petal
+    ,temp_windowWidth = 1200
+    ,temp_windowHeight = 660
+    ,pair_petal
     ,gearSize_petal
     ,motorType_petal
     ,petalX = 0
     ,petalY = 0
-var pair_wing
+    ,pair_wing
     ,gearType_wing
     ,gearSize_wing
     ,motorType_wing
     ,UI_wing
     ,wingX = 0
     ,wingY = 0
-var pair_leg
+    ,pair_leg
     ,add_leg
     ,gearSize_walk
 
