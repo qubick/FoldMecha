@@ -1202,8 +1202,6 @@ function UI(){
       _this.btnRotateCCW[index].position(150, y+45).show()
       _this.btnFlip[index].position(210, y+45).show()
 
-      _this.btnDelete[index].position(170, y+100).show()
-
       //module specific interface
       if(entity.module == 1){
         //remove myself before to show selector
@@ -1231,6 +1229,7 @@ function UI(){
 
       fill(255)
       text("Module "+ index + ": "+ title, 25, y-30)
+      _this.btnDelete[index].position(    170, y-25).show()
     }
   }
 

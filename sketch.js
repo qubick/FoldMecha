@@ -158,10 +158,6 @@ function draw() {
 
   } else if (pageMode == my_sketch){ //mode 9
 
-    Panel.initUI()
-    Panel.putText_My()
-    Panel.callButton_MY()
-
     var mySavedModule = Panel.findDrawingFunc()
 
     mySavedModule.forEach(function(entity, i){
@@ -275,6 +271,9 @@ function draw() {
 
     }); //EOForEach
 
+    Panel.initUI()
+    Panel.putText_My()
+    Panel.callButton_MY()
   }
 }
 
