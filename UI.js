@@ -1184,9 +1184,16 @@ function UI(){
       text("Rotation: ",  25, y+60)
 
       //informations - should be flexible by saved info
-      text("XX  YY",       100, y) //position
+      var drawingX = (entity.x == undefined) ? 0 : entity.x
+      var drawingY = (entity.y == undefined) ? 0 : entity.y
+      text(drawingX,        125, y) //position
+      _this.btnXplus.position(  100, y-15).show()
+      _this.btnXminus.position( 145, y-15).show()
+      text(drawingY,          220, y)
+      _this.btnYplus.position(  190, y-15).show()
+      _this.btnYminus.position( 235, y-15).show()
 
-      text("100",         130, y+30) //scale
+      text(100+_this.scale*10,         130, y+30) //scale
       _this.btnPlus[index].position(100, y+15).show()
       _this.btnMinus[index].position(160, y+15).show()
 
