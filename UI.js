@@ -615,7 +615,7 @@ function UI(){
     button_My()
   }
 
-  function button_My(){
+  function button_My(){ //anonymous function for mouse event call + external call
 
     _this.Btn_net.show().size(150,20).position(60,590)
     _this.Btn_home.show().size(150,20).position(60,615)
@@ -738,12 +738,15 @@ function UI(){
 
   this.putText_My = function(){
     //this: caller button, _this: UI
+
     fill(_this.bgcolor2)
-    rect(0,35,270, _this.temp_windowHeight-160)
     noStroke()
+    rect(0,35,270, _this.temp_windowHeight)
+    fill(0)
+    //rect(0,575,270,125)
+    rect(0,0,270,35)
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
-    //button_My()
   } //EOF
 
   this.Front = function(){
@@ -1079,7 +1082,6 @@ function UI(){
     if(_this.linked){
       //hide all unnecessary UI widgets
       _this.selectParent.forEach(function(s){ s.hide() });
-      // _this.sliderRotation.forEach(function(s){ s.hide() });
       _this.btnDelete.forEach(function(b){ b.hide() });
       _this.btnPlus.forEach(function(b){ b.hide() });
       _this.btnMinus.forEach(function(b){ b.hide() });
@@ -1091,29 +1093,10 @@ function UI(){
       var title = ''
           ,y    = 85 + (index-1)*160
 
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height) for module layer
+
       if(entity.linkedTo == undefined) { //either parent or no linker
-
-        fill(50)
-        rect(0,y-50, 270,30) //(x,y,width,height)
-        fill(255)
-
-        fill(0)
-        text("Position: ", 25, y)
-        text("Scale: ",    25, y+30)
-        text("Rotation: ", 25, y+60)
-
-        //informations - should be flexible by saved info
-        text(_this.posX,        125, y) //position
-        _this.btnXplus.position(  100, y-15).show()
-        _this.btnXminus.position( 145, y-15).show()
-        text(_this.posY,          220, y)
-        _this.btnYplus.position(  190, y-15).show()
-        _this.btnYminus.position( 235, y-15).show()
-
-        text(100+_this.scale*10,         130, y+30) //scale
-        _this.btnEnlarge.position(100, y+15).show() //let's save manually
-        _this.btnEnsmall.position(160, y+15).show()
-        text("360",         100, y+60) //rotate
 
         if (entity.linkedFrom != undefined){ //linked as parent
           //module specific interface
@@ -1124,20 +1107,13 @@ function UI(){
           } // no entity.modue == 5, since walker can't be linked
 
           if(entity.linkedFrom == 1){
+            console.log("this should work")
             title += " && Flapping"
           } else if(entity.linkedFrom == 3){
             title += " && Flying"
           }
 
-          text("Driver",     25, y+90) //rotate
-          fill(255)
-          text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
-
-          _this.selectDriver.position(20, y+100).show()
-          _this.selectDirection.position(150, y+100).show()
-          _this.cancelLink.position(20, y+140).show()
-
-        } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is child
+        } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is individual module
           //module specific interface
           if(entity.module == 1){
             title = "Flapping"
@@ -1148,17 +1124,45 @@ function UI(){
           if(entity.module == 5){
             title = "Walking"
           }
+
           fill(255)
           text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
-          _this.btnDelete[index].position(170, y+100).show()
+          _this.btnDelete[index].position(170, y-20).show()
 
         }
+
+        fill(255)
+        text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
+
+        fill(0)
+        text("Position: ", 25, y)
+        text(_this.posX,          125, y) //position
+        _this.btnXplus.position(  100, y-15).show()
+        _this.btnXminus.position( 145, y-15).show()
+        text(_this.posY,          220, y)
+        _this.btnYplus.position(  190, y-15).show()
+        _this.btnYminus.position( 235, y-15).show()
+
+        text("Scale: ",    25, y+30)
+        text(100+_this.scale*10,         130, y+30) //scale
+        _this.btnEnlarge.position(100, y+15).show() //let's save manually
+        _this.btnEnsmall.position(160, y+15).show()
+
+        text("Rotation: ", 25, y+60)
+        text("360",         100, y+60) //rotate
+
+        text("Driver",     25, y+90) //rotate
+        _this.selectDriver.position(20, y+100).show()
+
+        _this.selectDirection.position(150, y+100).show()
+        _this.cancelLink.position(20, y+140).show()
+
       } else {  //linked as child, should have been drawn above by parent
-        //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) { //entity.linkedFrom == undefined
+        //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) --> entity.linkedFrom == undefined
           return
       }  //end of if (this.linked == true)
 
-    } else { // if all modules are individual (this.linked == false)
+    } else if (!_this.linked) { // if all modules are individual (this.linked == false)
       //clear all unrelated UI widgets
       this.btnXplus.hide()
       this.btnXminus.hide()
@@ -1167,6 +1171,14 @@ function UI(){
       this.selectDriver.hide()
       this.selectDirection.hide()
       this.cancelLink.hide()
+      //
+      fill(50)
+      rect(0,y-50, 270,30) //(x,y,width,height) for module layer
+      fill(0)
+      // text("Position: ", 25, y)
+      // text("Scale: ",    25, y+30)
+      // text("Rotation: ", 25, y+60)
+      // text("Driver",     25, y+90) //rotate
 
       if(index < 2) //override empty default obejct (index == 0)
         var y = 85
@@ -1175,32 +1187,7 @@ function UI(){
 
       var title = ''
       fill(50)
-      rect(0,y-50, 270,30) //(x,y,width,height)
-      fill(255)
-
-      fill(0)
-      text("Position: ",  25, y)
-      text("Scale: ",     25, y+30)
-      text("Rotation: ",  25, y+60)
-
-      //informations - should be flexible by saved info
-      var drawingX = (entity.x == undefined) ? 0 : entity.x
-      var drawingY = (entity.y == undefined) ? 0 : entity.y
-      text(drawingX,        125, y) //position
-      _this.btnXplus.position(  100, y-15).show()
-      _this.btnXminus.position( 145, y-15).show()
-      text(drawingY,          220, y)
-      _this.btnYplus.position(  190, y-15).show()
-      _this.btnYminus.position( 235, y-15).show()
-
-      text(100+_this.scale*10,         130, y+30) //scale
-      _this.btnPlus[index].position(100, y+15).show()
-      _this.btnMinus[index].position(160, y+15).show()
-
-      // _this.sliderRotation[index].position(100, y+45).show()
-      _this.btnRotateCW[index].position(100, y+45).show()
-      _this.btnRotateCCW[index].position(150, y+45).show()
-      _this.btnFlip[index].position(210, y+45).show()
+      rect(0,y-50, 270,30) //(x,y,width,height) layer title
 
       //module specific interface
       if(entity.module == 1){
@@ -1226,10 +1213,35 @@ function UI(){
       } else {
         console.log("This should not happens")
       }
-
       fill(255)
       text("Module "+ index + ": "+ title, 25, y-30)
-      _this.btnDelete[index].position(    170, y-25).show()
+
+      fill(0)
+      text("Position: ",  25, y)
+      var drawingX = (entity.x == undefined) ? 0 : entity.x
+      var drawingY = (entity.y == undefined) ? 0 : entity.y
+      text(drawingX,           125, y) //position
+      _this.btnXplus.position( 100, y-15).show()
+      _this.btnXminus.position(145, y-15).show()
+      text(drawingY,           220, y)
+      _this.btnYplus.position( 190, y-15).show()
+      _this.btnYminus.position(235, y-15).show()
+
+      text("Scale: ",     25, y+30)
+      text(100+_this.scale*10,         130, y+30) //scale
+      _this.btnPlus[index].position(100, y+15).show()
+      _this.btnMinus[index].position(160, y+15).show()
+
+
+      text("Rotation: ",  25, y+60)
+      _this.btnRotateCW[index].position(100, y+45).show()
+      _this.btnRotateCCW[index].position(150, y+45).show()
+      _this.btnFlip[index].position(210, y+45).show()
+
+      fill(tempC)
+      rect(180,y-43,15,15)
+      _this.btnDelete[index].position(    210, y-45).show()
+
     }
   }
 

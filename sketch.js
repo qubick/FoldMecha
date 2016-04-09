@@ -91,15 +91,15 @@ function draw() {
   }
 
   else if (pageMode == open_close){ //mode 1
-    Panel.initUI()
-    Panel.putText_OpenClose()
-    Panel.button_OpenClose()
-     //Panel.OpenClose()
-
-    Flower3.opencloseUI()
     // petalX = 0
     // petalY = 0
     Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
+
+    Panel.initUI()
+    Flower3.opencloseUI()
+
+    Panel.putText_OpenClose()
+    Panel.button_OpenClose()
 
   }else if (pageMode == open_close_net){ //mode 2
     Panel.initUI_net()
@@ -116,8 +116,8 @@ function draw() {
   } else if (pageMode == flapping){ //mode 3
 
     // //this must be change by button trigger --> get return current mirroring status
-     wingX = 0
-     wingY = 0
+    wingX = 0
+    wingY = 0
     Bird1.compBird(wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
@@ -158,6 +158,8 @@ function draw() {
 
   } else if (pageMode == my_sketch){ //mode 9
 
+    Panel.putText_My()
+    //Panel.callButton_MY()
     var mySavedModule = Panel.findDrawingFunc()
 
     mySavedModule.forEach(function(entity, i){
@@ -172,20 +174,19 @@ function draw() {
       scale(1 + Panel.getScaling()*0.1) //response to +/- scaling
 
       if(entity.module == 1){
+        push()
+        if(entity.rotation != undefined){
 
-          push()
-          if(entity.rotation != undefined){
+          if(entity.rotation == 90)
+            translate(1200+20, 900 - 900/2 - 720)
+          if(entity.rotation == 180)
+            translate(1600-100, 900+60) //where is the center?
 
-            if(entity.rotation == 90)
-              translate(1200+20, 900 - 900/2 - 720)
-            if(entity.rotation == 180)
-              translate(1600-100, 900+60) //where is the center?
-
-            if (entity.rotation == 270){
-              translate(260, 1240)
-            // translate(width/2+200, height/2+200)
-            // petalX = 100, petalY = 100
-            }
+          if (entity.rotation == 270){
+            translate(260, 1240)
+          // translate(width/2+200, height/2+200)
+          // petalX = 100, petalY = 100
+          }
         }
         // else {
         //   Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
@@ -204,8 +205,8 @@ function draw() {
           petalY = entity.y
         }
         if((entity.x == undefined) && (entity.y == undefined)){
-          petalX = i*-50
-          petalY = i*-50
+          petalX = i*20
+          petalY = i*20
         }
 
         //this should be differentiated by rotation status
@@ -230,8 +231,8 @@ function draw() {
           wingY = entity.y
         }
         if((entity.x == undefined) && (entity.y == undefined)){
-          wingX = i*-50
-          wingY = i*-50
+          wingX = i*20
+          wingY = i*20
         }
 
         if(entity.rotation != undefined){
@@ -266,14 +267,13 @@ function draw() {
       }
 
       pop()
+      //Panel.initUI()
+      // Panel.putText_My()
+      // Panel.callButton_MY()
       if(i) //only if i is true, index 0 is nominal object
         Panel.mySketch_ModuleText(entity, i) //-> this override thing
 
     }); //EOForEach
-
-    Panel.initUI()
-    Panel.putText_My()
-    Panel.callButton_MY()
   }
 }
 
