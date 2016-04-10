@@ -1299,6 +1299,7 @@ function deleteModule(){
       _this.mySavedSketch[caller].x = 67
       _this.mySavedSketch[caller].y = -170
     }
+    //this is for wing -> flower
 
     if(!_this.linked){
       _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
@@ -1324,7 +1325,7 @@ function deleteModule(){
     console.log('callerType: ', callerType)
 
     //this is when same gears of size2 attached
-    if(_this.mySavedSketch[idM].module == _this.mySavedSketch[idS].module){
+    if((_this.mySavedSketch[idM].module == 1)&& (_this.mySavedSketch[idS].module ==1)){
       if((angle == 180) || (angle == 360)){ //this is stupid now, but..
         if(direction == 'Right'){
           _this.mySavedSketch[idM].x = -36 //why not 0?
@@ -1413,6 +1414,34 @@ function deleteModule(){
         _this.mySavedSketch[idM].y = -150
       }
     }
+    // this is too manual, need refactoring..
+    else if((_this.mySavedSketch[idM].module == 3)&& (_this.mySavedSketch[idS].module ==3)){
+      if((angle == 180) || (angle == 360)){
+        if(direction == 'Right'){
+          _this.mySavedSketch[idM].x = -36 //why not 0?
+          _this.mySavedSketch[idM].y = -47
+
+        } else if(direction == 'Left'){
+          _this.mySavedSketch[idM].x = -167
+          _this.mySavedSketch[idM].y = -50
+
+        } else if(direction == 'Up'){
+          _this.mySavedSketch[idM].x = -53 //why not 0??
+          _this.mySavedSketch[idM].y = -167
+
+        } else if(direction == 'Down'){
+          _this.mySavedSketch[idM].x = 75
+          _this.mySavedSketch[idM].y = 60 //why not 0??
+
+        } else if(direction == 'Merge'){
+          _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+          _this.mySavedSketch[idM].y = -50
+
+        } else {
+          console.log("mySelectedLinkDirection(): this should not happen")
+        }
+      }
+    } //EOIF
   } //EOF
 
   function rotationUpdated(){ //rotation degree is updated by slider(or button)
