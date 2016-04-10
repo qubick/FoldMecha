@@ -60,7 +60,12 @@ function UI(){
   this.Y_slider = createSlider(0, 200, 40).size(100).position(140,200).changed(sliderYUpdate)
 
   this.selectParent = [] //array
-  // this.sliderRotation = [] //= createSlider(0, 360, 0).hide()
+  // position for individual module
+  this.btnMoveLeft     = []
+  this.btnMoveRight    = []
+  this.btnMoveUp     = []
+  this.btnMoveDown    = []
+
   this.btnPlus      = []
   this.btnMinus     = []
   this.btnRotateCW  = []
@@ -80,6 +85,14 @@ function UI(){
     var btnDel        = createButton('Delete').hide()
                                               .attribute('id', 'del'+i)
                                               .mousePressed(deleteModule)
+      //this is for position
+      ,btnPosXMinus        = createButton('◄').hide()
+                                          .attribute('id', 'del'+i)
+                                        //.mousePressed(deleteModule)
+      ,btnPosXPlus       = createButton('►').hide()
+      ,btnPosYMinus      = createButton('▲').hide()
+      ,btnPosYPlus       = createButton('▼').hide()
+      //this is for scale
        ,btnP          = createButton('+').hide()
                                          .attribute('id', 'plus'+i)
                                          .mousePressed(scaleUpdate)
@@ -102,6 +115,11 @@ function UI(){
                         });
     this.selectParent.push(sel)
     // this.sliderRotation.push(rotationRange)
+    this.btnMoveLeft.push(btnPosXMinus)
+    this.btnMoveRight.push(btnPosXPlus)
+    this.btnMoveUp.push(btnPosYMinus)
+    this.btnMoveDown.push(btnPosYPlus)
+
     this.btnPlus.push(btnP)
     this.btnMinus.push(btnM)
     this.btnRotateCW.push(btnRotCW)
@@ -402,7 +420,7 @@ function UI(){
     fill(_this.bgcolor2)
     rect(0,0,270,_this.temp_windowHeight)
     fill(0)
-    rect(0,575,270,125)
+    rect(0,575,270,125) //bottom home/my sketchbook
     rect(0,0,270,35)
     //checkbox
     fill(255)
@@ -743,7 +761,7 @@ function UI(){
     noStroke()
     rect(0,35,270, _this.temp_windowHeight)
     fill(0)
-    //rect(0,575,270,125)
+    rect(0,575,270,125)
     rect(0,0,270,35)
     fill(255)
     text("MY SKETCHBOOK", 70, 25)
@@ -1088,15 +1106,18 @@ function UI(){
       _this.btnRotateCW.forEach(function(b){ b.hide() });
       _this.btnRotateCCW.forEach(function(b){ b.hide() });
       _this.btnFlip.forEach(function(b){ b.hide() });
+      _this.btnMoveLeft.forEach(function(b){ b.hide() });
+      _this.btnMoveRight.forEach(function(b){ b.hide() });
+      _this.btnMoveUp.forEach(function(b){ b.hide() });
+      _this.btnMoveDown.forEach(function(b){ b.hide() });
 
       //and then redraw for linked module
       var title = ''
           ,y    = 85 + (index-1)*160
 
-      fill(50)
-      rect(0,y-50, 270,30) //(x,y,width,height) for module layer
-
-      if(entity.linkedTo == undefined) { //either parent or no linker
+      if(entity.linkedTo == undefined) { //either parent or noy linked
+        fill(50)
+        rect(0,y-50, 270,30) //(x,y,width,height) for module layer
 
         if (entity.linkedFrom != undefined){ //linked as parent
           //module specific interface
@@ -1107,7 +1128,6 @@ function UI(){
           } // no entity.modue == 5, since walker can't be linked
 
           if(entity.linkedFrom == 1){
-            console.log("this should work")
             title += " && Flapping"
           } else if(entity.linkedFrom == 3){
             title += " && Flying"
@@ -1138,9 +1158,9 @@ function UI(){
         text("Position: ", 25, y)
         text(_this.posX,          125, y) //position
         _this.btnXplus.position(  100, y-15).show()
-        _this.btnXminus.position( 145, y-15).show()
-        text(_this.posY,          220, y)
-        _this.btnYplus.position(  190, y-15).show()
+        _this.btnXminus.position( 150, y-15).show()
+        text(_this.posY,          215, y)
+        _this.btnYplus.position(  180, y-15).show()
         _this.btnYminus.position( 235, y-15).show()
 
         text("Scale: ",    25, y+30)
@@ -1149,13 +1169,13 @@ function UI(){
         _this.btnEnsmall.position(160, y+15).show()
 
         text("Rotation: ", 25, y+60)
-        text("360",         100, y+60) //rotate
+        text("360",        100, y+60) //rotate
 
-        text("Driver",     25, y+90) //rotate
+        text("Linking: ",    25, y+90) //rotate
         _this.selectDriver.position(20, y+100).show()
 
         _this.selectDirection.position(150, y+100).show()
-        _this.cancelLink.position(20, y+140).show()
+        _this.cancelLink.position(150, y+150).show()
 
       } else {  //linked as child, should have been drawn above by parent
         //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) --> entity.linkedFrom == undefined
@@ -1175,15 +1195,8 @@ function UI(){
       fill(50)
       rect(0,y-50, 270,30) //(x,y,width,height) for module layer
       fill(0)
-      // text("Position: ", 25, y)
-      // text("Scale: ",    25, y+30)
-      // text("Rotation: ", 25, y+60)
-      // text("Driver",     25, y+90) //rotate
 
-      if(index < 2) //override empty default obejct (index == 0)
-        var y = 85
-      else
-        var y = 85 + (index-1)*175
+      var y = (index < 2) ? 85 : 85 + (index-1)*175//override empty default obejct (index == 0)
 
       var title = ''
       fill(50)
@@ -1221,11 +1234,11 @@ function UI(){
       var drawingX = (entity.x == undefined) ? 0 : entity.x
       var drawingY = (entity.y == undefined) ? 0 : entity.y
       text(drawingX,           125, y) //position
-      _this.btnXplus.position( 100, y-15).show()
-      _this.btnXminus.position(145, y-15).show()
+      _this.btnMoveLeft[index].position( 100, y-15).show()
+      _this.btnMoveRight[index].position(145, y-15).show()
       text(drawingY,           220, y)
-      _this.btnYplus.position( 190, y-15).show()
-      _this.btnYminus.position(235, y-15).show()
+      _this.btnMoveUp[index].position( 190, y-15).show()
+      _this.btnMoveDown[index].position(235, y-15).show()
 
       text("Scale: ",     25, y+30)
       text(100+_this.scale*10,         130, y+30) //scale

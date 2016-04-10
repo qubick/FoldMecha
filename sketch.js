@@ -205,8 +205,8 @@ function draw() {
           petalY = entity.y
         }
         if((entity.x == undefined) && (entity.y == undefined)){
-          petalX = i*20
-          petalY = i*20
+          petalX = i*-50
+          petalY = i*-50
         }
 
         //this should be differentiated by rotation status
