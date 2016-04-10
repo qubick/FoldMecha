@@ -169,7 +169,7 @@ function draw() {
       motorType_petal = entity.servoAngle
 
       push()
-
+      //transalte(20, 20) //force to move all
       translate(Panel.getPosX(), Panel.getPosY())
       scale(1 + Panel.getScaling()*0.1) //response to +/- scaling
 
@@ -184,8 +184,6 @@ function draw() {
 
           if (entity.rotation == 270){
             translate(260, 1240)
-          // translate(width/2+200, height/2+200)
-          // petalX = 100, petalY = 100
           }
         }
         // else {
@@ -210,8 +208,6 @@ function draw() {
         }
 
         //this should be differentiated by rotation status
-        //petalX += Panel.getPosX()
-        //petalY += Panel.getPosY()
         Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()
@@ -231,13 +227,22 @@ function draw() {
           wingY = entity.y
         }
         if((entity.x == undefined) && (entity.y == undefined)){
-          wingX = i*20
-          wingY = i*20
+          wingX = i*-50
+          wingY = i*-50
         }
 
         if(entity.rotation != undefined){
           push()
-          rotate(entity.rotation) //rotate the screen
+          if(entity.rotation == 90)
+            translate(1200+20, 900 - 900/2 - 720)
+          else if (entity.rotation == 180)
+            translate(1600-100, 900+60)  //where is the center?
+
+          else if (entity.rotation == 270){
+            translate(260, 1240)
+          }
+
+          rotate(entity.rotation*PI/180) //rotate the screen
           Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
           pop()
         } else {

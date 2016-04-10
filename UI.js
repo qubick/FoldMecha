@@ -488,6 +488,12 @@ function UI(){
     this.btnRotateCCW.forEach(function(b){ b.hide() });
     this.btnDelete.forEach(function(b){ b.hide() });
     this.btnFlip.forEach(function(b){ b.hide() });
+
+    this.btnMoveLeft.forEach(function(b){ b.hide() });
+    this.btnMoveRight.forEach(function(b){ b.hide() });
+    this.btnMoveUp.forEach(function(b){ b.hide() });
+    this.btnMoveDown.forEach(function(b){ b.hide() });
+
     this.currentModule = 0
 
   }// end of function btn_front
