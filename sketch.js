@@ -119,7 +119,7 @@ function draw() {
     // //this must be change by button trigger --> get return current mirroring status
     wingX = 0
     wingY = 0
-    Bird1.compBird(0, wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+    Bird1.compBird(wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)
@@ -244,10 +244,10 @@ function draw() {
 
           rotate(entity.rotation*PI/180) //rotate the screen
           //var x = (entity.linked == true) ? true : false
-          Bird1.compBird(i, wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
           pop()
         } else {
-          Bird1.compBird(i, wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
         }
 
       }else if(entity.module == 5){

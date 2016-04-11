@@ -173,8 +173,7 @@ this.noDraw = 0
 
    }
 
-  this.compBird = function(x, startingX,startingY,pair_wing,gear_setting,gear_size,motorType){
-    this.noDraw = x
+  this.compBird = function(startingX,startingY,pair_wing,gear_setting,gear_size,motorType){
     if (gear_setting == 1){
       this.motorA = this.driverM
       this.motorB = this.drivenM
@@ -285,31 +284,31 @@ this.noDraw = 0
 
     if (pair_wing == 0){
       stroke(color(tempC))
-      if(this.noDraw < 2){
+      // if(this.noDraw < 2){
         strokeWeight(5)
         fill(0)
         ellipse(0,0,20,20)
-      }else{
-        noStroke()
-
-        fill(0)
-        ellipse(0,0,15,15)
-      }
+      // }else{
+      //   noStroke()
+      //
+      //   fill(0)
+      //   ellipse(0,0,15,15)
+      // }
     }else if (pair_wing == 1){
       if(gear_status == this.driverM){ //left gear center
         stroke(color(tempC))
 
-        stroke(color(tempC))
-        if(this.noDraw < 2){
+        // stroke(color(tempC))
+        // if(this.noDraw < 2){
           strokeWeight(5)
           fill(0)
           ellipse(0,0,20,20)
-        }else{
-          noStroke()
-
-          fill(0)
-          ellipse(0,0,15,15)
-        }
+        // }else{
+        //   noStroke()
+        //
+        //   fill(0)
+        //   ellipse(0,0,15,15)
+        // }
 
       }else if(gear_status == this.drivenM){ //right gear center
         noStroke()
