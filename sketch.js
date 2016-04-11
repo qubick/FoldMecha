@@ -16,6 +16,7 @@ var bgcolor1, bgcolor2
     ,motorType_petal
     ,petalX = 0
     ,petalY = 0
+    ,startAngle = 0
     ,pair_wing
     ,gearType_wing
     ,gearSize_wing
@@ -26,6 +27,7 @@ var bgcolor1, bgcolor2
     ,pair_leg
     ,add_leg
     ,gearSize_walk
+    ,moduleLinked = false
 
 function setup() {
   createCanvas(temp_windowWidth, temp_windowHeight)
@@ -93,7 +95,7 @@ function draw() {
   else if (pageMode == open_close){ //mode 1
     // petalX = 0
     // petalY = 0
-    Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
+    Flower3.compGear(0, petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
 
     Panel.initUI()
     Flower3.opencloseUI()
@@ -169,7 +171,6 @@ function draw() {
       motorType_petal = entity.servoAngle
 
       push()
-      //transalte(20, 20) //force to move all
       translate(Panel.getPosX(), Panel.getPosY())
       scale(1 + Panel.getScaling()*0.1) //response to +/- scaling
 
@@ -194,7 +195,6 @@ function draw() {
         if(entity.flip){
           translate(1200,0);
           scale(-1,1)
-
         }
         if(entity.x != undefined){
           petalX = entity.x
@@ -206,9 +206,10 @@ function draw() {
           petalX = i*-50
           petalY = i*-50
         }
-
+        startAngle = i*45
         //this should be differentiated by rotation status
-        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+        var x = (entity.linked == true) ? true : false
+        Flower3.compGear(x, petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()
 
@@ -358,7 +359,6 @@ function mousePressed(){ //map mouse pressed position to function
        pageMode = 2
        console.log(" FOLDING NET ENTERED")
     }
-
   }
 
   if (pageMode == 3) { //flapping

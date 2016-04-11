@@ -25,8 +25,12 @@ function OpenClose(){
   var lower_Y = 0
   var tempY = 0
 
-  this.compGear = function(startingX, startingY, pair_petal,gear_size,motorType){
+
+  //this is only for manual task
+  this.noDraw = false
+  this.compGear = function(x, startingX, startingY, pair_petal,gear_size,motorType){
     //pinion gear is circular / rack gear is linear gear
+    this.noDraw = x
     this.motorType = motorType
     lower_Y = startingY
     if(this.motorType ==180){
@@ -397,24 +401,43 @@ function OpenClose(){
     this.teethAngle=TWO_PI/this.numberOfTeeth
     this.teethWidth=sin(this.teethAngle/2)*radius
     this.lineY=cos(this.teethAngle/2)*radius+this.teethHeight
-
     push()
+
+    // if(startAngle == 90)
+    //   scale(-1,1)
+
     translate(centerPositionX, centerPositionY)
+    // this.rotationAngle += startAngle*PI/180
+    console.log(startAngle)
     rotate(this.rotationAngle)
 
     if (motorType == 180){
       this.TN = 1
-      if (this.rotationAngle >PI){
-        this.rotationAngle = PI
-      }
-      if (this.rotationAngle <0){
-        this.rotationAngle = 0
-      }
-
-      if(this.rotationAngle==PI || this.rotationAngle==0){
-        this.angle_increase = this.angle_increase*-1
-        this.change_direction = this.change_direction*-1
-      }
+      // console.log(this.rotationAngle)
+      // if(startAngle == 45){ //this is only for walking azuma, should be revoked or refactored
+        if (this.rotationAngle >PI){
+          this.rotationAngle = PI
+        }
+        if (this.rotationAngle <0){
+          this.rotationAngle = 0
+        }
+        if(this.rotationAngle==PI || this.rotationAngle==0){
+          this.angle_increase = this.angle_increase*-1
+          this.change_direction = this.change_direction*-1
+        }
+      // }
+      // if (startAngle == 90){
+      //   if (this.rotationAngle >270*PI/180){
+      //     this.rotationAngle = 270*PI/180
+      //   }
+      //   if (this.rotationAngle <90*PI/180){
+      //     this.rotationAngle = 90*PI/180
+      //   }
+      //   if(this.rotationAngle==270*PI/180 || this.rotationAngle==90*PI/180){
+      //     this.angle_increase = this.angle_increase*-1
+      //     this.change_direction = this.change_direction*-1
+      //   }
+      // }
     } else if (motorType == 360){
       this.TN = 2/3
       this.angle_increase = .0051
@@ -444,6 +467,8 @@ function OpenClose(){
      fill(150)
      stroke(255)
     // this.numberOfTeeth = 2
+
+    if(this.noDraw == false){
     for (var i=0; i<this.numberOfTeeth*this.TN; i++)
     {
       rotate(this.teethAngle)
@@ -456,12 +481,13 @@ function OpenClose(){
       line(-this.teethWidth/2, -this.lineY, this.teethWidth/2, -this.lineY+this.teethHeight)
     }
 
+    //gearbody
     ellipse(0,0, 2*(-this.lineY+this.teethHeight), 2*(-this.lineY+this.teethHeight))
     stroke(color(tempC))
     strokeWeight(5)
     fill(0)
     ellipse(0,0,20,20)
-
+}
     pop()
 
     this.centerPositionX_rack = centerPositionX - this.radius*2 - this.teethHeight

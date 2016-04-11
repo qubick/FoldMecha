@@ -137,22 +137,22 @@ function UI(){
   this.btnXplus = createButton('◄')
                   .hide()
                   .mousePressed(function(){
-                    _this.posX -= 20
+                    _this.posX -= 50
                   });
   this.btnXminus = createButton('►')
                   .hide()
                   .mousePressed(function(){
-                    _this.posX += 20
+                    _this.posX += 50
                   });
   this.btnYplus = createButton('▲')
                   .hide()
                   .mousePressed(function(){
-                    _this.posY -= 20
+                    _this.posY -= 50
                   });
   this.btnYminus = createButton('▼')
                   .hide()
                   .mousePressed(function(){
-                    _this.posY += 20
+                    _this.posY += 50
                   });
   this.btnEnlarge     = createButton('+')
                         .hide()
@@ -1162,12 +1162,12 @@ function UI(){
 
         fill(0)
         text("Position: ", 25, y)
-        text(_this.posX,          125, y) //position
+        text(_this.posX+50,          125, y) //position
         _this.btnXplus.position(  100, y-15).show()
         _this.btnXminus.position( 150, y-15).show()
-        text(_this.posY,          215, y)
+        text(_this.posY+50,          210, y)
         _this.btnYplus.position(  180, y-15).show()
-        _this.btnYminus.position( 235, y-15).show()
+        _this.btnYminus.position( 240, y-15).show()
 
         text("Scale: ",    25, y+30)
         text(100+_this.scale*10,         130, y+30) //scale
@@ -1302,8 +1302,8 @@ function deleteModule(){
     //this is for wing -> flower
 
     if(!_this.linked){
-      _this.selectDriver.attribute('id', 0).option('Module '+callee +' to '+caller) //add each other
-      _this.selectDriver.attribute('id', 1).option('Module '+caller+' to '+callee)
+      _this.selectDriver.attribute('id', 0).option('Module '+caller +' to '+callee) //add each other
+      _this.selectDriver.attribute('id', 1).option('Module '+callee+' to '+caller)
     }
 
     _this.master  = caller
@@ -1346,6 +1346,7 @@ function deleteModule(){
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
           _this.mySavedSketch[idM].y = -50
+          _this.mySavedSketch[idS].linked = true
 
         } else {
           console.log("mySelectedLinkDirection(): this should not happen")
@@ -1366,6 +1367,8 @@ function deleteModule(){
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -34 //should be '0' to overlap gears
           _this.mySavedSketch[idM].y = -44
+
+          _this.mySavedSketch[idM].linked = true
 
         } else {
           console.log("mySelectedLinkDirection(): this should not happen")
