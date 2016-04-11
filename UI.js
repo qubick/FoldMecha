@@ -1346,7 +1346,6 @@ function deleteModule(){
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
           _this.mySavedSketch[idM].y = -50
-          _this.mySavedSketch[idS].linked = true
 
         } else {
           console.log("mySelectedLinkDirection(): this should not happen")
@@ -1367,8 +1366,6 @@ function deleteModule(){
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -34 //should be '0' to overlap gears
           _this.mySavedSketch[idM].y = -44
-
-          _this.mySavedSketch[idM].linked = true
 
         } else {
           console.log("mySelectedLinkDirection(): this should not happen")

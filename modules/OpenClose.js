@@ -26,11 +26,8 @@ function OpenClose(){
   var tempY = 0
 
 
-  //this is only for manual task
-  this.noDraw = false
-  this.compGear = function(x, startingX, startingY, pair_petal,gear_size,motorType){
+  this.compGear = function(startingX, startingY, pair_petal,gear_size,motorType){
     //pinion gear is circular / rack gear is linear gear
-    this.noDraw = x
     this.motorType = motorType
     lower_Y = startingY
     if(this.motorType ==180){
@@ -468,7 +465,7 @@ function OpenClose(){
      stroke(255)
     // this.numberOfTeeth = 2
 
-    if(this.noDraw == false){
+    //if(this.noDraw == false){
     for (var i=0; i<this.numberOfTeeth*this.TN; i++)
     {
       rotate(this.teethAngle)
@@ -487,7 +484,7 @@ function OpenClose(){
     strokeWeight(5)
     fill(0)
     ellipse(0,0,20,20)
-}
+    //}
     pop()
 
     this.centerPositionX_rack = centerPositionX - this.radius*2 - this.teethHeight

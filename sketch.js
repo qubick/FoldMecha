@@ -27,7 +27,6 @@ var bgcolor1, bgcolor2
     ,pair_leg
     ,add_leg
     ,gearSize_walk
-    ,moduleLinked = false
 
 function setup() {
   createCanvas(temp_windowWidth, temp_windowHeight)
@@ -95,7 +94,7 @@ function draw() {
   else if (pageMode == open_close){ //mode 1
     // petalX = 0
     // petalY = 0
-    Flower3.compGear(0, petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
+    Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
 
     Panel.initUI()
     Flower3.opencloseUI()
@@ -120,7 +119,7 @@ function draw() {
     // //this must be change by button trigger --> get return current mirroring status
     wingX = 0
     wingY = 0
-    Bird1.compBird(wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+    Bird1.compBird(0, wingX,wingY,pair_wing, gearType_wing, gearSize_wing, motorType_wing)
 
     Panel.initUI()
     Panel.putText_Wings(UI_wing)
@@ -208,8 +207,8 @@ function draw() {
         }
         startAngle = i*45
         //this should be differentiated by rotation status
-        var x = (entity.linked == true) ? true : false
-        Flower3.compGear(x, petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+        //var x = (entity.linked == true) ? true : false
+        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
 
         pop()
 
@@ -244,10 +243,11 @@ function draw() {
           }
 
           rotate(entity.rotation*PI/180) //rotate the screen
-          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+          //var x = (entity.linked == true) ? true : false
+          Bird1.compBird(i, wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
           pop()
         } else {
-          Bird1.compBird(wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
+          Bird1.compBird(i, wingX, wingY, pair_wing, gearType_wing, gearSize_wing, motorType_wing)
         }
 
       }else if(entity.module == 5){
