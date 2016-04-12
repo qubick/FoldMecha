@@ -235,7 +235,7 @@ function OpenClose(){
         }else{
           this.rack_change_apply = abs(this.rack_increase_change)*.99
         }
-      }else if (radius == 56){
+      }else if (radius == 56){ //gearzie 2
         if(this.change_direction == 1){
           this.rack_change_apply = abs(this.rack_increase_change)*-3
         }else{

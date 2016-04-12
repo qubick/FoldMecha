@@ -174,6 +174,7 @@ this.noDraw = 0
    }
 
   this.compBird = function(startingX,startingY,pair_wing,gear_setting,gear_size,motorType){
+    //this.noDraw = x
     if (gear_setting == 1){
       this.motorA = this.driverM
       this.motorB = this.drivenM
@@ -298,7 +299,6 @@ this.noDraw = 0
       if(gear_status == this.driverM){ //left gear center
         stroke(color(tempC))
 
-        // stroke(color(tempC))
         // if(this.noDraw < 2){
           strokeWeight(5)
           fill(0)

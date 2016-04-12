@@ -1106,22 +1106,22 @@ function UI(){
     if(_this.linked){
       //hide all unnecessary UI widgets
       _this.selectParent.forEach(function(s){ s.hide() });
-      _this.btnDelete.forEach(function(b){ b.hide() });
-      _this.btnPlus.forEach(function(b){ b.hide() });
-      _this.btnMinus.forEach(function(b){ b.hide() });
-      _this.btnRotateCW.forEach(function(b){ b.hide() });
-      _this.btnRotateCCW.forEach(function(b){ b.hide() });
-      _this.btnFlip.forEach(function(b){ b.hide() });
-      _this.btnMoveLeft.forEach(function(b){ b.hide() });
-      _this.btnMoveRight.forEach(function(b){ b.hide() });
-      _this.btnMoveUp.forEach(function(b){ b.hide() });
-      _this.btnMoveDown.forEach(function(b){ b.hide() });
+      _this.btnDelete.forEach(function(b,i){ b.hide() });
+      _this.btnPlus.forEach(function(b,i){ b.hide() });
+      _this.btnMinus.forEach(function(b,i){ b.hide() });
+      _this.btnRotateCW.forEach(function(b,i){ b.hide() });
+      _this.btnRotateCCW.forEach(function(b,i){ b.hide() });
+      _this.btnFlip.forEach(function(b,i){ b.hide() });
+      _this.btnMoveLeft.forEach(function(b,i){ b.hide() });
+      _this.btnMoveRight.forEach(function(b,i){ b.hide() });
+      _this.btnMoveUp.forEach(function(b,i){ b.hide() });
+      _this.btnMoveDown.forEach(function(b,i){ b.hide() });
 
       //and then redraw for linked module
       var title = ''
           ,y    = 85 + (index-1)*160
 
-      if(entity.linkedTo == undefined) { //either parent or noy linked
+      if(entity.linkedTo == undefined) { //either parent or not linked
         fill(50)
         rect(0,y-50, 270,30) //(x,y,width,height) for module layer
 
@@ -1139,6 +1139,29 @@ function UI(){
             title += " && Flying"
           }
 
+          fill(0)
+          text("Position: ", 25, y)
+          text(_this.posX+50,          125, y) //position
+          _this.btnXplus.position(  100, y-15).show()
+          _this.btnXminus.position( 150, y-15).show()
+          text(_this.posY+50,          210, y)
+          _this.btnYplus.position(  180, y-15).show()
+          _this.btnYminus.position( 240, y-15).show()
+
+          text("Scale: ",    25, y+30)
+          text(100+_this.scale*10,         130, y+30) //scale
+          _this.btnEnlarge.position(100, y+15).show() //let's save manually
+          _this.btnEnsmall.position(160, y+15).show()
+
+          text("Rotation: ", 25, y+60)
+          text("360",        100, y+60) //rotate
+
+          text("Linking: ",    25, y+90) //rotate
+          _this.selectDriver.position(20, y+100).show()
+
+          _this.selectDirection.position(150, y+100).show()
+          _this.cancelLink.position(150, y+150).show()
+
         } else if(entity.linkedTo == undefined) { //entity.linkedFrom != undefined && linkedTo != undefined, this is individual module
           //module specific interface
           if(entity.module == 1){
@@ -1155,33 +1178,36 @@ function UI(){
           text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
           _this.btnDelete[index].position(170, y-20).show()
 
+          fill(0)
+          text("Position: ",  25, y)
+          var drawingX = (entity.x == undefined) ? 0 : entity.x
+          var drawingY = (entity.y == undefined) ? 0 : entity.y
+          text(drawingX,           125, y) //position
+          _this.btnMoveLeft[index].position( 100, y-15).show()
+          _this.btnMoveRight[index].position(145, y-15).show()
+          text(drawingY,           220, y)
+          _this.btnMoveUp[index].position( 190, y-15).show()
+          _this.btnMoveDown[index].position(235, y-15).show()
+
+          text("Scale: ",     25, y+30)
+          text(100+_this.scale*10,         130, y+30) //scale
+          _this.btnPlus[index].position(100, y+15).show()
+          _this.btnMinus[index].position(160, y+15).show()
+
+
+          text("Rotation: ",  25, y+60)
+          _this.btnRotateCW[index].position(100, y+45).show()
+          _this.btnRotateCCW[index].position(150, y+45).show()
+          _this.btnFlip[index].position(210, y+45).show()
+
+          fill(tempC)
+          rect(180,y-43,15,15)
+          _this.btnDelete[index].position(    210, y-45).show()
+
         }
 
         fill(255)
         text("Module "+ index + ": "+ title, 25, y-30) //index should be done in different way
-
-        fill(0)
-        text("Position: ", 25, y)
-        text(_this.posX+50,          125, y) //position
-        _this.btnXplus.position(  100, y-15).show()
-        _this.btnXminus.position( 150, y-15).show()
-        text(_this.posY+50,          210, y)
-        _this.btnYplus.position(  180, y-15).show()
-        _this.btnYminus.position( 240, y-15).show()
-
-        text("Scale: ",    25, y+30)
-        text(100+_this.scale*10,         130, y+30) //scale
-        _this.btnEnlarge.position(100, y+15).show() //let's save manually
-        _this.btnEnsmall.position(160, y+15).show()
-
-        text("Rotation: ", 25, y+60)
-        text("360",        100, y+60) //rotate
-
-        text("Linking: ",    25, y+90) //rotate
-        _this.selectDriver.position(20, y+100).show()
-
-        _this.selectDirection.position(150, y+100).show()
-        _this.cancelLink.position(150, y+150).show()
 
       } else {  //linked as child, should have been drawn above by parent
         //if((entity.linkedFrom == undefined) && (entity.linkedTo != undefined)) --> entity.linkedFrom == undefined
@@ -1431,7 +1457,7 @@ function deleteModule(){
 
         } else if(direction == 'Down'){
           _this.mySavedSketch[idM].x = 75
-          _this.mySavedSketch[idM].y = 60 //why not 0??
+          _this.mySavedSketch[idM].y = 40 //why not 0??
 
         } else if(direction == 'Merge'){
           _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
