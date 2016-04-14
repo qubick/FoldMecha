@@ -1370,8 +1370,9 @@ function deleteModule(){
           _this.mySavedSketch[idM].y = -50 //why not 0??
 
         } else if(direction == 'Merge'){
-          _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+          _this.mySavedSketch[idM].x = -350 //should be '0' to overlap gears
           _this.mySavedSketch[idM].y = -50
+          // _this.mySavedSketch[idS].linked = true
 
         } else {
           console.log("mySelectedLinkDirection(): this should not happen")
@@ -1415,7 +1416,7 @@ function deleteModule(){
         _this.mySavedSketch[idM].y = 190
 
       } else if(direction == 'Merge'){
-        _this.mySavedSketch[idM].x = -50 //should be '0' to overlap gears
+        _this.mySavedSketch[idM].x = -340 //should be '0' to overlap gears
         _this.mySavedSketch[idM].y = 70
       }
     } else if((_this.mySavedSketch[idS].module == 3) && (_this.mySavedSketch[idM].module) == 1){ //when flower is linked to wing

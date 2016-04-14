@@ -41,6 +41,8 @@ function setup() {
 
   colorSet = [tempC, blue, colorsend_1, colorsend_2, colorsend_3] //first is nominal
 
+  Flower1 = new OpenClose()
+  Flower1.init()
   Flower3 = new OpenClose()
   Flower3.init()
   Bird1 = new Bird()
@@ -94,7 +96,7 @@ function draw() {
   else if (pageMode == open_close){ //mode 1
     // petalX = 0
     // petalY = 0
-    Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal)
+    Flower3.compGear(petalX,petalY,pair_petal, gearSize_petal, motorType_petal, 0)
 
     Panel.initUI()
     Flower3.opencloseUI()
@@ -186,9 +188,6 @@ function draw() {
             translate(260, 1240)
           }
         }
-        // else {
-        //   Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
-        // }
         rotate(entity.rotation*PI/180) //rotate in radian
 
         if(entity.flip){
@@ -208,7 +207,17 @@ function draw() {
         startAngle = i*45
         //this should be differentiated by rotation status
         //var x = (entity.linked == true) ? true : false
-        Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal)
+
+        //this is for walker in different angle rotation
+        // if(i == 1)
+        //   Flower1.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal,0)
+        // if(i == 2)
+          Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal,3)
+
+          //***** this is for speed match with paired wing
+          //rotationR = 1.33 for match rack && paired wing
+          // Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal,1.33)
+          // Flower3.compGear(petalX, petalY, pair_petal, gearSize_petal, motorType_petal,1.33)
 
         pop()
 
@@ -229,6 +238,9 @@ function draw() {
         if((entity.x == undefined) && (entity.y == undefined)){
           wingX = i*-50
           wingY = i*-50
+          //this is for angel creation
+          // wingX = 0
+          // wingY = -340
         }
 
         if(entity.rotation != undefined){
