@@ -3,7 +3,7 @@ function OpenClose(){
   this.minNumberOfTeeth=3
   this.maxNumberOfTeeth=30
   this.rotationAngle=3
-  this.rotationDirection = 1
+  this.rotationDirection = 1 //this doesn't do anything
   this.lengthGap = 10
 
   this.rack_Y = height/2-42
@@ -17,6 +17,7 @@ function OpenClose(){
   this.rack_Y_reset8 = false
 
   this.change_direction = -1
+  this.noDraw = false
 
   this.angle_increase = 0.01 //  to rotate pinion (circular) gear
 
@@ -26,8 +27,12 @@ function OpenClose(){
   var tempY = 0
 
 
-  this.compGear = function(startingX, startingY, pair_petal,gear_size,motorType){
+  this.compGear = function(startingX, startingY, pair_petal,gear_size,motorType,angle){
     //pinion gear is circular / rack gear is linear gear
+    // this.rotationAngle = angle
+
+    //console.log(this.rotationDirection)
+
     this.motorType = motorType
     lower_Y = startingY
     if(this.motorType ==180){
@@ -56,7 +61,7 @@ function OpenClose(){
 
         if (this.rack_Y_reset2 == false){
             this.rack_Y = height/2-16+lower_Y
-            this.rotationAngle = 3
+            this.rotationAngle = 3 + angle
             this.angle_increase = 0.01
             this.change_direction = -1
             this.rack_Y_reset2 = true
@@ -228,6 +233,11 @@ function OpenClose(){
       }else{
         this.rack_change_apply = abs(this.rack_increase_change)
       }
+
+      // if(this.rotationDirection == -1)
+      //   this.rack_change_apply *= -1
+      //
+      // console.log(this.rack_change_apply)
     }else if (motorType == 360){
       if (radius == 48){
         if(this.change_direction == 1){
@@ -259,7 +269,7 @@ function OpenClose(){
     if (radius == 48){
       fixed_up_Y  = 140+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight*2
-    }else if (radius == 56){
+    }else if (radius == 56){ //gear size 2
       fixed_up_Y  = 100+tempY
       fixed_up_x_adjust = this.radius - this.teethHeight
     }else if (radius == 64){
@@ -361,8 +371,8 @@ function OpenClose(){
 
     // start draw opening and closing
     stroke(color(tempC))
-    line(this.fixed_X-this.bottom_w,this.fixed_Y,this.DE_X-this.bottom_w,this.DE_Y) // side D
-    line(this.DE_X-this.bottom_w,this.DE_Y,this.centerP_X-this.bottom_w,this.movingP_Y) // side E
+    //line(this.fixed_X-this.bottom_w,this.fixed_Y,this.DE_X-this.bottom_w,this.DE_Y) // side D
+    line(this.DE_X-this.bottom_w,this.DE_Y,this.centerP_X-this.bottom_w,this.movingP_Y-5) // side E
     line(this.centerP_X,this.movingP_Y,this.centerP_X,this.movingP_Y+this.dist_f) // side F
 
     //draw petal for L
@@ -379,8 +389,8 @@ function OpenClose(){
       fill(color(tempC))
       triangle(this.fixed_X+this.bottom_w,this.fixed_Y,this.AB_X2,this.AB_Y,this.AC_X2,this.AC_Y)
       stroke(color(tempC))
-      line(this.centerP_X+this.bottom_w,this.movingP_Y,this.DE_X2,this.DE_Y) // side E for R
-      line(this.fixed_X+this.bottom_w,this.fixed_Y,this.DE_X2,this.DE_Y) // side D for R
+      line(this.centerP_X+this.bottom_w,this.movingP_Y,this.DE_X2,this.DE_Y-5) // side E for R
+      //line(this.fixed_X+this.bottom_w,this.fixed_Y,this.DE_X2,this.DE_Y) // side D for R
 
       noStroke()
       fill(0)
@@ -403,34 +413,35 @@ function OpenClose(){
     // if(startAngle == 90)
     //   scale(-1,1)
 
+if(this.rotationDirection == -1) this.rotationAngle = 0
+console.log(this.rotationAngle)
+
     translate(centerPositionX, centerPositionY)
-    // this.rotationAngle += startAngle*PI/180
-    console.log(startAngle)
     rotate(this.rotationAngle)
 
     if (motorType == 180){
       this.TN = 1
-      // console.log(this.rotationAngle)
-      // if(startAngle == 45){ //this is only for walking azuma, should be revoked or refactored
+    //  if(this.rotationDirection == 1){ //this is only for walking azuma, should be revoked or refactored
         if (this.rotationAngle >PI){
           this.rotationAngle = PI
         }
         if (this.rotationAngle <0){
           this.rotationAngle = 0
         }
+
         if(this.rotationAngle==PI || this.rotationAngle==0){
           this.angle_increase = this.angle_increase*-1
           this.change_direction = this.change_direction*-1
         }
-      // }
-      // if (startAngle == 90){
-      //   if (this.rotationAngle >270*PI/180){
-      //     this.rotationAngle = 270*PI/180
+      // } else if (this.rotationDirection == -1){
+      //   if (this.rotationAngle >PI){
+      //     this.rotationAngle = 0
       //   }
-      //   if (this.rotationAngle <90*PI/180){
-      //     this.rotationAngle = 90*PI/180
+      //   if (this.rotationAngle <0){
+      //     this.rotationAngle = PI
       //   }
-      //   if(this.rotationAngle==270*PI/180 || this.rotationAngle==90*PI/180){
+      //
+      //   if(this.rotationAngle==PI || this.rotationAngle==0){
       //     this.angle_increase = this.angle_increase*-1
       //     this.change_direction = this.change_direction*-1
       //   }
@@ -446,13 +457,13 @@ function OpenClose(){
       }
 /////FIX IT : gear 2 0~PI*3/2
       if (radius == 48 || radius == 56){
-        if(this.rotationAngle>=PI*3/2){
+        if(this.rotationAngle>=PI*3/2){ //270
           this.change_direction = 1
         }else{
           this.change_direction = -1
         }
       }else if(radius == 64 || radius == 72){
-        if(this.rotationAngle>=PI*8/5){
+        if(this.rotationAngle>=PI*8/5){ //
           this.change_direction = 1
         }else{
           this.change_direction = -1
@@ -461,11 +472,12 @@ function OpenClose(){
     }
     this.rotationAngle = this.rotationAngle + this.angle_increase
 
+
      fill(150)
      stroke(255)
     // this.numberOfTeeth = 2
 
-    //if(this.noDraw == false){
+    // if(this.noDraw == false){
     for (var i=0; i<this.numberOfTeeth*this.TN; i++)
     {
       rotate(this.teethAngle)
@@ -484,7 +496,7 @@ function OpenClose(){
     strokeWeight(5)
     fill(0)
     ellipse(0,0,20,20)
-    //}
+    // }
     pop()
 
     this.centerPositionX_rack = centerPositionX - this.radius*2 - this.teethHeight
