@@ -9,6 +9,11 @@ this.in_gear = this.radius-27 //temp
 
 this.rotationAngle=0
 
+//*********
+this.a = 0
+this.b = 0
+//*********
+
 this.angle_increase = 0.015
 this.minNumberOfTeeth=3
 this.maxNumberOfTeeth=30
@@ -427,6 +432,14 @@ this.noDraw = 0
   }
 
   this.drawNet = function(pair_wing,gearSize_wing){
+    this.a = pair_wing
+    this.b = gearSize_wing
+
+    // document.getElementById('defaultCanvas0') &&
+        // document.getElementById('defaultCanvas0').remove();
+    // console.log(document.getElementById('defaultCanvas0'));
+    // createCanvas(600, 200, SVG)// --> this should be converted from current canvas
+    // Bird1.drawNet()
 
     var radiusN = 8*(5+gearSize_wing)
 
@@ -493,15 +506,16 @@ this.noDraw = 0
     }
       ellipse(0, 0, 20, 20) //Right gear center
       pop()
-
     }
   }
-  this.drawPDF = function(){
 
-      console.log("PDF DOWNLADED")// test here
-
-
-  }
+  // this.drawPDF = function(){
+  //     var canvas = createCanvas(600, 200, SVG)
+  //
+  //     console.log("PDF DOWNLADED: ")// test here
+  //     pdf.save()
+  //
+  // }
 
 
   // get functions

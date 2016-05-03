@@ -5252,7 +5252,7 @@ exports.sizeOf = sizeOf;
 
     function timedOut() {
       self._timedOut = true
-      self.request.abort()      
+      self.request.abort()
     }
 
     function error(resp, msg, t) {
@@ -14509,6 +14509,7 @@ p5.Renderer2D.prototype.ellipse = function(x, y, w, h) {
 };
 
 p5.Renderer2D.prototype.line = function(x1, y1, x2, y2) {
+
   var ctx = this.drawingContext;
   if (!this._doStroke) {
     return this;
@@ -15359,6 +15360,7 @@ p5.prototype.createCanvas = function(w, h, renderer) {
     }
     c = document.createElement('canvas');
     c.id = defaultId;
+
   }
   else {
     if (isDefault) {
@@ -15382,8 +15384,13 @@ p5.prototype.createCanvas = function(w, h, renderer) {
 
   if (this._userNode) { // user input node case
     this._userNode.appendChild(c);
+
   } else {
-    document.body.appendChild(c);
+    // if(typeof(c) == Node){
+      document.body.appendChild(c);
+    // } else {
+    //   console.log("this is not a type of Node")
+    // }
   }
 
 

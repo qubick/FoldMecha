@@ -26,7 +26,7 @@ function UI(){
   this.Mech_show  = createButton ('Show Mechanism')
   this.Mech_hide  = createButton ('Hide Mechanism')
   this.Btn_reset  = createButton ('Reset all').mousePressed(resetAll)
-  this.Btn_pdf    = createButton ('Download PDF')
+  this.Btn_pdf    = createButton ('Download PDF').mousePressed(drawPDF)
   this.Btn_back   = createButton ('Back to Simulation')
   this.Btn_plt    = createButton ('Save in My Palette').mousePressed(saveDesign)
   this.Btn_net    = createButton ('View the Folding Net').mousePressed(button_folding_net)
@@ -602,6 +602,14 @@ function UI(){
 
     Walker()
     _this.currentModule = 5
+  }
+
+  function drawPDF(){
+      createCanvas(600, 100, SVG)// --> recreate canvas
+
+      console.log("PDF DOWNLADED ")// test here
+      pdf.save()
+
   }
 
   function button_folding_net(){

@@ -8,6 +8,8 @@ const walking = 5
 const walking_net = 6
 const my_sketch = 9
 
+var pdf;
+
 var bgcolor1, bgcolor2
     ,temp_windowWidth = 1200
     ,temp_windowHeight = 660
@@ -29,7 +31,11 @@ var bgcolor1, bgcolor2
     ,gearSize_walk
 
 function setup() {
-  createCanvas(temp_windowWidth, temp_windowHeight)
+
+  createCanvas(temp_windowWidth, temp_windowHeight)//.attribute('id','defaultCanvas')
+  pdf = createPDF()
+  pdf.beginRecord()
+
   bgcolor1 = color(255)
   bgcolor2 = color(200)
   tempC = color(0,120,230)
@@ -114,7 +120,7 @@ function draw() {
     Panel.initUI_net()
     Panel.putText_OpenClose_net()
 
-    Flower3.drawNet( gearSize_petal, motorType_petal)
+    Flower3.drawNet(gearSize_petal, motorType_petal)
 
   } else if (pageMode == flapping){ //mode 3
 
@@ -514,8 +520,8 @@ function mousePressed(){ //map mouse pressed position to function
 
   if (pageMode == 4){
     if (mouseX>60 && mouseX<210 && mouseY>565 && mouseY<585){
-//      console.log(" DOWNLOAD PDF")
-      Bird1.drawPDF()
+      console.log(" DOWNLOAD PDF")
+      // Bird1.drawPDF()
     }
     if (mouseX>60 && mouseX<210 && mouseY>590 && mouseY<610){
     // back to the simulation

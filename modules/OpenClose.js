@@ -573,6 +573,7 @@ console.log(this.rotationAngle)
 
   this.drawNet = function(gearSize,motor_status){
 
+    // pdf.beginRecord()
     var radiusN = 8*(5+gearSize)
 
     this.teethHeight=0.25*radiusN
@@ -639,6 +640,8 @@ console.log(this.rotationAngle)
       line(rack_body_Lx1+this.rack_Y_size+this.teethWidth,rack_body_Ly1+this.rack_X_size,this.teethWidth+rack_body_Lx1+this.rack_Y_size,rack_body_Ly1)
 
       pop()
+
+      // pdf.save()
 
   }
 
